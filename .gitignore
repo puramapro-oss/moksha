@@ -1,0 +1,14 @@
+node_modules
+.next
+.env*
+!.env.example
+.vercel
+*.log
+task_plan.md
+findings.md
+progress.md
+CLAUDE.md
+MOKSHA-BRIEF.md
+test-results
+playwright-report
+.DS_Store
