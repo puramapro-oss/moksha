@@ -71,7 +71,8 @@ export default function WizardAssociation() {
       })
       if (!res.ok) throw new Error('Création impossible')
       const { id } = await res.json()
-      toast.success('Dossier créé')
+      toast.success('Dossier créé — génération en cours')
+      fetch(`/api/demarches/${id}/deposer`, { method: 'POST' }).catch(() => {})
       router.push(`/dashboard/demarches/${id}`)
     } catch (e) {
       toast.error(e instanceof Error ? e.message : 'Erreur')

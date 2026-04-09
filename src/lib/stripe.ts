@@ -1,9 +1,22 @@
 import Stripe from 'stripe'
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-09-30.clover',
-  typescript: true,
-  appInfo: { name: 'MOKSHA', version: '1.0.0' },
+let _stripe: Stripe | null = null
+export function getStripe(): Stripe {
+  if (!_stripe) {
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_missing', {
+      apiVersion: '2025-09-30.clover',
+      typescript: true,
+      appInfo: { name: 'MOKSHA', version: '1.0.0' },
+    })
+  }
+  return _stripe
+}
+/** @deprecated use getStripe() */
+export const stripe = new Proxy({} as Stripe, {
+  get(_t, prop) {
+    // @ts-expect-error dynamic access
+    return getStripe()[prop]
+  },
 })
 
 export const STRIPE_PLANS = {

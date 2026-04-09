@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "Liberati.",
+    "subtagline": "Costruisci il tuo impero in 10 minuti.",
+    "skip": "Salta"
+  },
+  "nav": {
+    "features": "Funzionalità",
+    "how": "Come funziona",
+    "pricing": "Prezzi",
+    "faq": "FAQ",
+    "login": "Accedi",
+    "start": "Inizia",
+    "language": "Lingua"
+  },
+  "hero": {
+    "badge": "Concorrente diretto di LegalPlace — 50% più economico",
+    "title_1": "Liberati.",
+    "title_highlight": "Costruisci il tuo impero",
+    "title_2": "in 10 minuti.",
+    "subtitle": "MOKSHA spezza le catene burocratiche. Agente IA legale, deposito INPI automatico, cassaforte sicura.",
+    "subtitle_emphasis": "Zero burocrazia. Zero attrito.",
+    "cta_primary": "Liberarsi ora",
+    "cta_secondary": "Vedi come funziona",
+    "trust_1": "Garanzia Zero Rifiuti",
+    "trust_2": "Express 24h disponibile",
+    "trust_3": "Prova gratuita di 14 giorni"
+  },
+  "footer": {
+    "description": "Liberati. Costruisci il tuo impero in 10 minuti. Agente IA legale, cassaforte sicura, deposito INPI automatico.",
+    "product": "Prodotto",
+    "create_company": "Crea un'impresa",
+    "create_association": "Crea un'associazione",
+    "pricing": "Prezzi",
+    "faq": "FAQ",
+    "resources": "Risorse",
+    "help_center": "Centro assistenza",
+    "jurisia": "JurisIA",
+    "legal": "Legale",
+    "legal_notice": "Note legali",
+    "privacy": "Privacy",
+    "terms_sale": "Condizioni di vendita",
+    "terms_use": "Termini d'uso",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — IVA non applicabile (art. 293B CGI)",
+    "made_in": "Fatto con 🔥 in Francia — 10% del fatturato donato all'associazione Purama"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "Libère-toi.",
+    "subtagline": "Crée ton empire en 10 minutes.",
+    "skip": "Passer"
+  },
+  "nav": {
+    "features": "Fonctionnalités",
+    "how": "Comment ça marche",
+    "pricing": "Tarifs",
+    "faq": "FAQ",
+    "login": "Se connecter",
+    "start": "Démarrer",
+    "language": "Langue"
+  },
+  "hero": {
+    "badge": "Concurrent direct de LegalPlace — 50% moins cher",
+    "title_1": "Libère-toi.",
+    "title_highlight": "Crée ton empire",
+    "title_2": "en 10 minutes.",
+    "subtitle": "MOKSHA brise les chaînes administratives. Agent IA juridique, dépôt INPI automatique, coffre-fort sécurisé.",
+    "subtitle_emphasis": "Zéro paperasse. Zéro friction.",
+    "cta_primary": "Se libérer maintenant",
+    "cta_secondary": "Voir comment ça marche",
+    "trust_1": "Garantie Zéro Refus",
+    "trust_2": "Express 24h disponible",
+    "trust_3": "Essai gratuit 14 jours"
+  },
+  "footer": {
+    "description": "Libère-toi. Crée ton empire en 10 minutes. Agent IA juridique, coffre-fort sécurisé, dépôt INPI automatique.",
+    "product": "Produit",
+    "create_company": "Créer entreprise",
+    "create_association": "Créer association",
+    "pricing": "Tarifs",
+    "faq": "FAQ",
+    "resources": "Ressources",
+    "help_center": "Centre d'aide",
+    "jurisia": "JurisIA",
+    "legal": "Légal",
+    "legal_notice": "Mentions légales",
+    "privacy": "Confidentialité",
+    "terms_sale": "CGV",
+    "terms_use": "CGU",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — TVA non applicable (art. 293B CGI)",
+    "made_in": "Fait avec 🔥 en France — 10 % du CA reversé à l'asso Purama"
+  }
+}

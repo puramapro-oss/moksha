@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { ShieldAlert, Users, FileText, DollarSign, Trophy, LayoutDashboard } from 'lucide-react'
+import { ShieldAlert, Users, FileText, DollarSign, Trophy, LayoutDashboard, MessageSquare, Star, Mail } from 'lucide-react'
 import Logo from '@/components/shared/Logo'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -14,6 +14,9 @@ const links = [
   { href: '/admin/parrainages', label: 'Parrainages', icon: Users },
   { href: '/admin/wallet', label: 'Wallet', icon: DollarSign },
   { href: '/admin/concours', label: 'Concours', icon: Trophy },
+  { href: '/admin/feedback', label: 'Feedback', icon: MessageSquare },
+  { href: '/admin/points', label: 'Points', icon: Star },
+  { href: '/admin/contact', label: 'Messages', icon: Mail },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

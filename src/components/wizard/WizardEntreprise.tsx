@@ -96,7 +96,9 @@ export default function WizardEntreprise() {
       })
       if (!res.ok) throw new Error('Création impossible')
       const { id } = await res.json()
-      toast.success('Dossier créé — génération en cours')
+      toast.success('Dossier créé — génération des documents en cours')
+      // Lance la génération + signature en arrière-plan
+      fetch(`/api/demarches/${id}/deposer`, { method: 'POST' }).catch(() => {})
       router.push(`/dashboard/demarches/${id}`)
     } catch (e) {
       toast.error(e instanceof Error ? e.message : 'Erreur')

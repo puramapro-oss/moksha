@@ -1,8 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { HelpCircle, Plus, Minus, Mail, Bot } from 'lucide-react'
+import { useState, useRef, useEffect, type FormEvent } from 'react'
+import { HelpCircle, Plus, Minus, Mail, Bot, Sparkles, Send, Search, X } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { useAuth } from '@/hooks/useAuth'
+import { createClient } from '@/lib/supabase'
 
 const faqs = [
   { q: "Comment créer ma première entreprise avec MOKSHA ?", r: "Clique sur « Démarrer » en haut à droite, choisis « Créer mon entreprise », renseigne les informations demandées puis valide le récapitulatif. MOKSHA génère, signe, dépose et te livre ton Kbis." },
@@ -24,6 +28,29 @@ const faqs = [
 
 export default function Aide() {
   const [open, setOpen] = useState<number | null>(0)
+  const [search, setSearch] = useState('')
+  const [chatOpen, setChatOpen] = useState(false)
+  const { profile, refetch } = useAuth()
+  const router = useRouter()
+  const supabase = createClient()
+
+  const filtered = search.trim()
+    ? faqs.filter((f) =>
+        f.q.toLowerCase().includes(search.toLowerCase()) ||
+        f.r.toLowerCase().includes(search.toLowerCase())
+      )
+    : faqs
+
+  async function relaunchTutorial() {
+    if (profile?.id) {
+      await supabase.from('moksha_profiles').update({ tutorial_completed: false }).eq('id', profile.id)
+      await refetch()
+    }
+    if (typeof window !== 'undefined') localStorage.setItem('moksha-relaunch-tutorial', '1')
+    toast.success('Tuto relancé')
+    router.push('/dashboard')
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -33,7 +60,23 @@ export default function Aide() {
         <p className="mt-1 text-sm text-white/60">Réponses aux questions les plus fréquentes.</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      {/* Search */}
+      <div className="relative">
+        <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Rechercher dans la FAQ..."
+          className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-11 pr-4 text-sm outline-none focus:border-[#FF6B35]/60"
+        />
+        {search && (
+          <button onClick={() => setSearch('')} className="absolute right-4 top-1/2 -translate-y-1/2">
+            <X className="h-4 w-4 text-white/40" />
+          </button>
+        )}
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
         <Link href="/dashboard/jurisia" className="glass glass-hover flex items-center gap-4 p-5">
           <Bot className="h-7 w-7 text-[#FF6B35]" />
           <div>
@@ -48,22 +91,144 @@ export default function Aide() {
             <p className="text-xs text-white/50">matiss.frasne@gmail.com</p>
           </div>
         </a>
+        <button onClick={relaunchTutorial} className="glass glass-hover flex items-center gap-4 p-5 text-left">
+          <Sparkles className="h-7 w-7 text-[#5DCAA5]" />
+          <div>
+            <h3 className="font-semibold">Relancer le tuto</h3>
+            <p className="text-xs text-white/50">6 étapes guidées</p>
+          </div>
+        </button>
       </div>
 
       <div className="space-y-3">
-        {faqs.map((f, i) => (
-          <div key={i} className="glass overflow-hidden">
+        {filtered.length === 0 ? (
+          <div className="glass flex flex-col items-center gap-3 py-8 text-center">
+            <p className="text-sm text-white/50">Aucun résultat pour &quot;{search}&quot;</p>
             <button
-              onClick={() => setOpen(open === i ? null : i)}
-              className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left"
+              onClick={() => setChatOpen(true)}
+              className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-2 text-xs font-bold text-[#070B18]"
             >
-              <span className="text-sm font-semibold">{f.q}</span>
-              {open === i ? <Minus className="h-4 w-4 text-[#FF6B35]" /> : <Plus className="h-4 w-4 text-white/50" />}
+              Poser ma question au chatbot
             </button>
-            {open === i && <div className="border-t border-white/5 px-6 py-4 text-sm text-white/70">{f.r}</div>}
+          </div>
+        ) : (
+          filtered.map((f, i) => (
+            <div key={i} className="glass overflow-hidden">
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left"
+              >
+                <span className="text-sm font-semibold">{f.q}</span>
+                {open === i ? <Minus className="h-4 w-4 text-[#FF6B35]" /> : <Plus className="h-4 w-4 text-white/50" />}
+              </button>
+              {open === i && <div className="border-t border-white/5 px-6 py-4 text-sm text-white/70">{f.r}</div>}
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Chatbot FAB */}
+      {!chatOpen && (
+        <button
+          onClick={() => setChatOpen(true)}
+          className="fixed bottom-24 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] shadow-lg shadow-[#FF6B35]/20 md:bottom-8"
+        >
+          <Bot className="h-6 w-6 text-[#070B18]" />
+        </button>
+      )}
+
+      {chatOpen && <AideChatbot onClose={() => setChatOpen(false)} />}
+    </div>
+  )
+}
+
+function AideChatbot({ onClose }: { onClose: () => void }) {
+  const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([])
+  const [input, setInput] = useState('')
+  const [sending, setSending] = useState(false)
+  const bottomRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  async function send(e: FormEvent) {
+    e.preventDefault()
+    if (!input.trim() || sending) return
+    const msg = input.trim()
+    setInput('')
+    setMessages((prev) => [...prev, { role: 'user', content: msg }])
+    setSending(true)
+    try {
+      const r = await fetch('/api/aide/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg }),
+      })
+      const d = await r.json()
+      setMessages((prev) => [...prev, { role: 'assistant', content: d.reply || d.error || 'Erreur' }])
+    } catch {
+      setMessages((prev) => [...prev, { role: 'assistant', content: 'Erreur réseau. Réessaie.' }])
+    } finally {
+      setSending(false)
+    }
+  }
+
+  return (
+    <div className="fixed bottom-24 right-6 z-50 flex h-[28rem] w-[22rem] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0D1225]/95 shadow-2xl backdrop-blur-xl md:bottom-8">
+      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+        <div className="flex items-center gap-2">
+          <Bot className="h-5 w-5 text-[#FF6B35]" />
+          <span className="text-sm font-semibold">Assistant MOKSHA</span>
+        </div>
+        <button onClick={onClose} className="rounded-lg p-1 hover:bg-white/10">
+          <X className="h-4 w-4 text-white/50" />
+        </button>
+      </div>
+
+      <div className="flex-1 space-y-3 overflow-y-auto p-4">
+        {messages.length === 0 && (
+          <p className="text-center text-xs text-white/40">Pose-moi une question sur MOKSHA.</p>
+        )}
+        {messages.map((m, i) => (
+          <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm ${
+              m.role === 'user'
+                ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18]'
+                : 'bg-white/10 text-white/80'
+            }`}>
+              {m.content}
+            </div>
           </div>
         ))}
+        {sending && (
+          <div className="flex justify-start">
+            <div className="rounded-2xl bg-white/10 px-4 py-2 text-sm text-white/40">
+              Réflexion...
+            </div>
+          </div>
+        )}
+        <div ref={bottomRef} />
       </div>
+
+      <form onSubmit={send} className="border-t border-white/10 p-3">
+        <div className="flex gap-2">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ta question..."
+            maxLength={1000}
+            className="flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF6B35]/60"
+          />
+          <button
+            type="submit"
+            disabled={sending || !input.trim()}
+            className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] p-2 disabled:opacity-50"
+          >
+            <Send className="h-4 w-4 text-[#070B18]" />
+          </button>
+        </div>
+      </form>
     </div>
   )
 }

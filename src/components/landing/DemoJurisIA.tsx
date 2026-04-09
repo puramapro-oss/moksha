@@ -37,8 +37,8 @@ export default function DemoJurisIA() {
           </ul>
         </div>
         <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="glass p-6 shadow-[0_0_50px_-15px_rgba(255,107,53,0.4)]"

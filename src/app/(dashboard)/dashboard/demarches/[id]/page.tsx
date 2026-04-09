@@ -3,31 +3,41 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
-import { ChevronLeft, FileText, Clock, CheckCircle2, Loader2 } from 'lucide-react'
+import { ChevronLeft, FileText, Clock, CheckCircle2, Loader2, PenTool } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
-import type { Demarche } from '@/types'
+import type { Demarche, MokshaDocument } from '@/types'
 
 export default function DemarcheDetail() {
   const params = useParams<{ id: string }>()
   const { profile } = useAuth()
   const [demarche, setDemarche] = useState<Demarche | null>(null)
+  const [documents, setDocuments] = useState<MokshaDocument[]>([])
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
 
   useEffect(() => {
     if (!profile?.id || !params?.id) return
+    let stop = false
     const load = async () => {
-      const { data } = await supabase
-        .from('moksha_demarches')
-        .select('*')
-        .eq('id', params.id)
-        .eq('user_id', profile.id)
-        .single()
-      setDemarche(data as Demarche | null)
+      const [{ data: d }, { data: docs }] = await Promise.all([
+        supabase.from('moksha_demarches').select('*').eq('id', params.id).eq('user_id', profile.id).single(),
+        supabase.from('moksha_documents').select('*').eq('demarche_id', params.id).order('created_at', { ascending: true }),
+      ])
+      if (stop) return
+      setDemarche(d as Demarche | null)
+      setDocuments((docs as MokshaDocument[]) || [])
       setLoading(false)
     }
     load()
+    // Poll toutes les 5s tant que la démarche est en cours de génération/traitement
+    const interval = setInterval(() => {
+      load()
+    }, 5000)
+    return () => {
+      stop = true
+      clearInterval(interval)
+    }
   }, [profile?.id, params?.id, supabase])
 
   if (loading) return <div className="skeleton h-48 rounded-2xl" />
@@ -99,10 +109,57 @@ export default function DemarcheDetail() {
         </div>
       </div>
 
+      {demarche.statut === 'documents_generes' && (
+        <Link
+          href={`/signer/${demarche.id}`}
+          className="glass glass-hover flex items-center justify-between gap-4 p-6"
+        >
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD700]">
+              <PenTool className="h-5 w-5 text-[#070B18]" />
+            </div>
+            <div>
+              <h3 className="font-semibold">Signer mon dossier</h3>
+              <p className="text-xs text-white/50">Dernière étape avant le dépôt INPI</p>
+            </div>
+          </div>
+          <span className="text-sm font-bold text-[#FFD700]">Signer →</span>
+        </Link>
+      )}
+
+      {documents.length > 0 && (
+        <div>
+          <h2 className="mb-3 font-semibold">Documents ({documents.length})</h2>
+          <div className="space-y-2">
+            {documents.map((d) => (
+              <a
+                key={d.id}
+                href={d.file_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass glass-hover flex items-center justify-between p-4 text-sm"
+              >
+                <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-[#FFD700]" />
+                  <span>{d.nom}</span>
+                </div>
+                <span className="text-xs text-white/50">Ouvrir ↗</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
       {demarche.inpi_reference && (
         <div className="glass p-5 text-sm">
           <p className="text-white/50">Référence INPI</p>
           <p className="mt-1 font-mono text-[#FFD700]">{demarche.inpi_reference}</p>
+        </div>
+      )}
+
+      {demarche.notes && (
+        <div className="glass border border-amber-500/30 bg-amber-500/5 p-5 text-sm">
+          <p className="text-amber-300">⚠ {demarche.notes}</p>
         </div>
       )}
     </div>

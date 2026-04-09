@@ -1,0 +1,22 @@
+{
+  "name": "MOKSHA — Crée ton empire",
+  "short_name": "MOKSHA",
+  "description": "Crée ton entreprise ou ton association en 10 minutes. Agent IA juridique, coffre-fort sécurisé, dépôt INPI automatique.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#070B18",
+  "theme_color": "#FF6B35",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "finance", "productivity"],
+  "lang": "fr",
+  "dir": "ltr"
+}

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Bot, FileText, Lock, Plus, TrendingUp, Users, Wallet as WalletIcon, Flame } from 'lucide-react'
+import { Bot, FileText, Lock, Plus, TrendingUp, Users, Wallet as WalletIcon, Flame, Star, Trophy } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
 
@@ -21,20 +21,17 @@ export default function Dashboard() {
   useEffect(() => {
     if (!profile?.id) return
     const load = async () => {
-      const [d, s, doc] = await Promise.all([
+      const [d, s, doc, conf] = await Promise.all([
         supabase.from('moksha_demarches').select('id', { count: 'exact', head: true }).eq('user_id', profile.id),
         supabase.from('moksha_structures').select('id', { count: 'exact', head: true }).eq('user_id', profile.id),
         supabase.from('moksha_documents').select('id', { count: 'exact', head: true }).eq('user_id', profile.id),
+        fetch('/api/conformity/me').then((r) => (r.ok ? r.json() : { score: 0 })),
       ])
-      const score = Math.min(
-        100,
-        40 + (s.count ?? 0) * 15 + (doc.count ?? 0) * 3 + (d.count ?? 0) * 10
-      )
       setStats({
         demarches: d.count ?? 0,
         structures: s.count ?? 0,
         documents: doc.count ?? 0,
-        score,
+        score: conf?.score ?? 0,
       })
     }
     load()
@@ -116,6 +113,20 @@ export default function Dashboard() {
           <div>
             <h3 className="font-semibold">Wallet</h3>
             <p className="text-xs text-white/50">Tes gains et retraits</p>
+          </div>
+        </Link>
+        <Link href="/dashboard/points" className="glass glass-hover flex items-center gap-4 p-6">
+          <Star className="h-8 w-8 text-[#FFD700]" />
+          <div>
+            <h3 className="font-semibold">Points Purama</h3>
+            <p className="text-xs text-white/50">Coffre quotidien + boutique</p>
+          </div>
+        </Link>
+        <Link href="/dashboard/concours" className="glass glass-hover flex items-center gap-4 p-6">
+          <Trophy className="h-8 w-8 text-[#FF6B35]" />
+          <div>
+            <h3 className="font-semibold">Concours</h3>
+            <p className="text-xs text-white/50">Classement hebdo + tirage mensuel</p>
           </div>
         </Link>
       </div>

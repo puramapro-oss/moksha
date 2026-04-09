@@ -29,6 +29,8 @@ export default function AuthForm() {
           toast.error(error.message || 'Connexion impossible')
           return
         }
+        // Lier parrainage si cookie ?ref= présent
+        await fetch('/api/referral/apply', { method: 'POST' }).catch(() => null)
         toast.success('Connexion réussie')
         router.push(next)
       } else {
@@ -41,6 +43,8 @@ export default function AuthForm() {
           toast.error(error.message || 'Inscription impossible')
           return
         }
+        // Lier parrainage si cookie ?ref= présent (le trigger SQL a déjà créé le profil)
+        await fetch('/api/referral/apply', { method: 'POST' }).catch(() => null)
         toast.success('Compte créé — bienvenue sur MOKSHA 🔥')
         router.push(next)
       }

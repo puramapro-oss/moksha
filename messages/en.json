@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "Free yourself.",
+    "subtagline": "Build your empire in 10 minutes.",
+    "skip": "Skip"
+  },
+  "nav": {
+    "features": "Features",
+    "how": "How it works",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "login": "Sign in",
+    "start": "Get started",
+    "language": "Language"
+  },
+  "hero": {
+    "badge": "Direct competitor of LegalPlace — 50% cheaper",
+    "title_1": "Free yourself.",
+    "title_highlight": "Build your empire",
+    "title_2": "in 10 minutes.",
+    "subtitle": "MOKSHA breaks the administrative chains. AI legal agent, automatic INPI filing, secure vault.",
+    "subtitle_emphasis": "Zero paperwork. Zero friction.",
+    "cta_primary": "Free yourself now",
+    "cta_secondary": "See how it works",
+    "trust_1": "Zero Rejection Guarantee",
+    "trust_2": "24h Express available",
+    "trust_3": "14-day free trial"
+  },
+  "footer": {
+    "description": "Free yourself. Build your empire in 10 minutes. AI legal agent, secure vault, automatic INPI filing.",
+    "product": "Product",
+    "create_company": "Create a company",
+    "create_association": "Create a non-profit",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "resources": "Resources",
+    "help_center": "Help center",
+    "jurisia": "JurisIA",
+    "legal": "Legal",
+    "legal_notice": "Legal notice",
+    "privacy": "Privacy",
+    "terms_sale": "Terms of sale",
+    "terms_use": "Terms of use",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — VAT not applicable (art. 293B French tax code)",
+    "made_in": "Made with 🔥 in France — 10% of revenue donated to the Purama non-profit"
+  }
+}

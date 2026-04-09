@@ -6,7 +6,9 @@ import { getJurisIASystemPrompt } from '@/lib/claude'
 export const runtime = 'nodejs'
 export const maxDuration = 120
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
+function getAnthropic() {
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || 'missing' })
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -47,7 +49,7 @@ export async function POST(req: NextRequest) {
     const model = isFree ? 'claude-haiku-4-5-20251001' : 'claude-sonnet-4-20250514'
     const maxTokens = isFree ? 2048 : 8192
 
-    // Save user msg if conversation_id
+    // Save user msg if conversation_id + auto-titrer la 1re question
     if (conversation_id) {
       const lastUser = messages[messages.length - 1]
       if (lastUser?.role === 'user') {
@@ -56,10 +58,18 @@ export async function POST(req: NextRequest) {
           role: 'user',
           content: lastUser.content,
         })
+        // Si c'est le 1er message, mettre le titre = 1ère question (60 chars)
+        if (messages.length === 1) {
+          const titre = lastUser.content.slice(0, 60).trim() + (lastUser.content.length > 60 ? '…' : '')
+          await supabase
+            .from('moksha_jurisia_conversations')
+            .update({ titre })
+            .eq('id', conversation_id)
+        }
       }
     }
 
-    const stream = anthropic.messages.stream({
+    const stream = getAnthropic().messages.stream({
       model,
       max_tokens: maxTokens,
       system: getJurisIASystemPrompt(),

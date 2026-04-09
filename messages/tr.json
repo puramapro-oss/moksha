@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "Kendini özgürleştir.",
+    "subtagline": "10 dakikada imparatorluğunu kur.",
+    "skip": "Atla"
+  },
+  "nav": {
+    "features": "Özellikler",
+    "how": "Nasıl çalışır",
+    "pricing": "Fiyatlar",
+    "faq": "SSS",
+    "login": "Giriş yap",
+    "start": "Başla",
+    "language": "Dil"
+  },
+  "hero": {
+    "badge": "LegalPlace'in doğrudan rakibi — %50 daha ucuz",
+    "title_1": "Kendini özgürleştir.",
+    "title_highlight": "İmparatorluğunu kur",
+    "title_2": "10 dakikada.",
+    "subtitle": "MOKSHA bürokratik zincirleri kırar. AI hukuk asistanı, otomatik INPI başvurusu, güvenli kasa.",
+    "subtitle_emphasis": "Sıfır kağıt işi. Sıfır sürtüşme.",
+    "cta_primary": "Şimdi özgürleş",
+    "cta_secondary": "Nasıl çalıştığını gör",
+    "trust_1": "Sıfır Red Garantisi",
+    "trust_2": "24 saat Express mevcut",
+    "trust_3": "14 gün ücretsiz deneme"
+  },
+  "footer": {
+    "description": "Kendini özgürleştir. 10 dakikada imparatorluğunu kur. AI hukuk asistanı, güvenli kasa, otomatik INPI başvurusu.",
+    "product": "Ürün",
+    "create_company": "Şirket kur",
+    "create_association": "Dernek kur",
+    "pricing": "Fiyatlar",
+    "faq": "SSS",
+    "resources": "Kaynaklar",
+    "help_center": "Yardım merkezi",
+    "jurisia": "JurisIA",
+    "legal": "Yasal",
+    "legal_notice": "Yasal uyarı",
+    "privacy": "Gizlilik",
+    "terms_sale": "Satış şartları",
+    "terms_use": "Kullanım şartları",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — KDV uygulanmaz (CGI Md. 293B)",
+    "made_in": "Fransa'da 🔥 ile yapıldı — Gelirin %10'u Purama derneğine bağışlanır"
+  }
+}

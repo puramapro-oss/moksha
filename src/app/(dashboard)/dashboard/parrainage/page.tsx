@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
 import { REFERRAL_MILESTONES } from '@/lib/constants'
+import ShareButtons from '@/components/shared/ShareButtons'
 
 export default function Parrainage() {
   const { profile } = useAuth()
@@ -76,6 +77,12 @@ export default function Parrainage() {
           <p className="text-xs uppercase tracking-wider text-white/50">Gains cumulés</p>
           <p className="mt-2 text-4xl font-extrabold text-[#FFD700]">{gains.toFixed(2)} €</p>
         </div>
+      </div>
+
+      {/* Share buttons */}
+      <div className="glass p-6">
+        <h2 className="mb-3 font-semibold">Partager MOKSHA</h2>
+        <ShareButtons referralCode={profile?.referral_code || ''} />
       </div>
 
       <div className="glass p-6">

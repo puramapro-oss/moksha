@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "自分を解放しよう。",
+    "subtagline": "10分であなたの帝国を築こう。",
+    "skip": "スキップ"
+  },
+  "nav": {
+    "features": "機能",
+    "how": "仕組み",
+    "pricing": "料金",
+    "faq": "よくある質問",
+    "login": "ログイン",
+    "start": "始める",
+    "language": "言語"
+  },
+  "hero": {
+    "badge": "LegalPlace の直接の競合 — 50% お得",
+    "title_1": "自分を解放しよう。",
+    "title_highlight": "あなたの帝国を築こう",
+    "title_2": "10分で。",
+    "subtitle": "MOKSHA は行政の鎖を断ち切ります。AI法務エージェント、INPI自動申請、セキュアな保管庫。",
+    "subtitle_emphasis": "ゼロ書類。ゼロ摩擦。",
+    "cta_primary": "今すぐ解放される",
+    "cta_secondary": "仕組みを見る",
+    "trust_1": "ゼロ拒否保証",
+    "trust_2": "24時間エクスプレス対応",
+    "trust_3": "14日間無料トライアル"
+  },
+  "footer": {
+    "description": "自分を解放しよう。10分であなたの帝国を築こう。AI法務エージェント、セキュアな保管庫、INPI自動申請。",
+    "product": "製品",
+    "create_company": "会社を作る",
+    "create_association": "団体を作る",
+    "pricing": "料金",
+    "faq": "よくある質問",
+    "resources": "リソース",
+    "help_center": "ヘルプセンター",
+    "jurisia": "JurisIA",
+    "legal": "法的",
+    "legal_notice": "法的通知",
+    "privacy": "プライバシー",
+    "terms_sale": "販売条件",
+    "terms_use": "利用規約",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — VAT適用外 (CGI 第293B条)",
+    "made_in": "フランスで 🔥 を込めて — 収益の10%をPurama協会に寄付"
+  }
+}

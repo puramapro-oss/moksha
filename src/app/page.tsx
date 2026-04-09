@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Hero from '@/components/landing/Hero'
 import Choices from '@/components/landing/Choices'
 import Features from '@/components/landing/Features'
@@ -11,6 +10,7 @@ import FAQ from '@/components/landing/FAQ'
 import CTAFinal from '@/components/landing/CTAFinal'
 import Footer from '@/components/layout/Footer'
 import LandingNav from '@/components/layout/LandingNav'
+import LandingReveal from '@/components/landing/LandingReveal'
 
 export default function Home() {
   return (
@@ -27,6 +27,7 @@ export default function Home() {
       <FAQ />
       <CTAFinal />
       <Footer />
+      <LandingReveal />
     </main>
   )
 }

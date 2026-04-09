@@ -16,6 +16,7 @@ export type Profile = {
   jurisia_reset_date: string
   is_admin: boolean
   is_super_admin: boolean
+  tutorial_completed: boolean
   created_at: string
   updated_at: string
 }
@@ -130,4 +131,85 @@ export type Referral = {
   statut: 'pending' | 'active' | 'paid'
   commission_amount: number
   created_at: string
+}
+
+// Points Purama
+export type PointTransaction = {
+  id: string
+  user_id: string
+  amount: number
+  type: 'inscription' | 'parrainage' | 'streak' | 'partage' | 'feedback' | 'mission' | 'achievement' | 'daily_gift' | 'achat' | 'conversion'
+  description: string | null
+  created_at: string
+}
+
+export type DailyGift = {
+  id: string
+  user_id: string
+  gift_type: 'points' | 'coupon' | 'ticket' | 'credits' | 'big_points' | 'mega_coupon'
+  gift_value: string
+  streak_count: number
+  opened_at: string
+}
+
+// Concours
+export type ContestEntry = {
+  id: string
+  user_id: string
+  contest_type: 'classement' | 'tirage'
+  period: string
+  score: number
+  rank: number | null
+  amount_won: number | null
+  created_at: string
+}
+
+export type LotteryTicket = {
+  id: string
+  user_id: string
+  source: 'inscription' | 'parrainage' | 'mission' | 'partage' | 'streak' | 'abo' | 'achat_points'
+  draw_id: string | null
+  created_at: string
+}
+
+// Partage social
+export type SocialShare = {
+  id: string
+  user_id: string
+  share_code: string
+  platform_hint: string | null
+  points_given: number
+  shared_at: string
+}
+
+// Feedback
+export type UserFeedback = {
+  id: string
+  user_id: string
+  rating: number
+  comment: string | null
+  category: 'general' | 'jurisia' | 'demarches' | 'proofvault' | 'wallet' | 'autre'
+  points_given: number
+  created_at: string
+}
+
+// Contact
+export type ContactMessage = {
+  id: string
+  name: string
+  email: string
+  subject: string
+  message: string
+  sent_at: string
+  responded: boolean
+}
+
+// Notification preferences
+export type NotificationPreference = {
+  id: string
+  user_id: string
+  type: string
+  enabled: boolean
+  frequency: 'low' | 'normal' | 'high'
+  paused_until: string | null
 }

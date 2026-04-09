@@ -24,7 +24,52 @@ export async function GET(request: NextRequest) {
       }
     )
     const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) return response
+    if (!error) {
+      // Lier parrainage cookie ?ref= si présent (best-effort, ne bloque pas)
+      try {
+        const refCookie = request.cookies.get('moksha_ref')?.value
+        if (refCookie) {
+          const { data: { user } } = await supabase.auth.getUser()
+          if (user) {
+            const { createServiceClient } = await import('@/lib/supabase')
+            const svc = createServiceClient()
+            const { data: profile } = await svc
+              .from('moksha_profiles')
+              .select('id, referred_by, referral_code')
+              .eq('id', user.id)
+              .single()
+            if (profile && !profile.referred_by && profile.referral_code !== refCookie) {
+              const { data: parrain } = await svc
+                .from('moksha_profiles')
+                .select('id')
+                .eq('referral_code', refCookie)
+                .single()
+              if (parrain) {
+                await svc.from('moksha_profiles').update({ referred_by: parrain.id }).eq('id', user.id)
+                await svc.from('moksha_referrals').insert({
+                  referrer_id: parrain.id,
+                  referee_id: user.id,
+                  code_used: refCookie,
+                  statut: 'pending',
+                  commission_amount: 0,
+                })
+                await svc.from('moksha_notifications').insert({
+                  user_id: parrain.id,
+                  type: 'referral',
+                  titre: 'Nouveau filleul 🔥',
+                  message: `${user.email} vient de s'inscrire avec ton code.`,
+                  action_url: '/dashboard/parrainage',
+                })
+              }
+            }
+            response.cookies.delete('moksha_ref')
+          }
+        }
+      } catch {
+        // best-effort, ne casse pas le login
+      }
+      return response
+    }
   }
 
   return NextResponse.redirect(new URL('/auth?error=auth_failed', origin))

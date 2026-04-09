@@ -41,8 +41,8 @@ export default function Comparatif() {
             Comparaison objective avec la concurrence.
           </p>
         </div>
-        <div className="glass overflow-hidden">
-          <table className="w-full">
+        <div className="glass overflow-x-auto">
+          <table className="w-full min-w-[640px]">
             <thead>
               <tr className="border-b border-white/10 text-left">
                 <th className="px-6 py-5 text-sm font-semibold text-white/60">Fonctionnalité</th>

@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "Liberte-se.",
+    "subtagline": "Construa seu império em 10 minutos.",
+    "skip": "Pular"
+  },
+  "nav": {
+    "features": "Recursos",
+    "how": "Como funciona",
+    "pricing": "Preços",
+    "faq": "FAQ",
+    "login": "Entrar",
+    "start": "Começar",
+    "language": "Idioma"
+  },
+  "hero": {
+    "badge": "Concorrente direto da LegalPlace — 50% mais barato",
+    "title_1": "Liberte-se.",
+    "title_highlight": "Construa seu império",
+    "title_2": "em 10 minutos.",
+    "subtitle": "MOKSHA quebra as correntes burocráticas. Agente IA jurídico, depósito INPI automático, cofre seguro.",
+    "subtitle_emphasis": "Zero papelada. Zero atrito.",
+    "cta_primary": "Libertar-se agora",
+    "cta_secondary": "Ver como funciona",
+    "trust_1": "Garantia Zero Rejeição",
+    "trust_2": "Express 24h disponível",
+    "trust_3": "Teste grátis de 14 dias"
+  },
+  "footer": {
+    "description": "Liberte-se. Construa seu império em 10 minutos. Agente IA jurídico, cofre seguro, depósito INPI automático.",
+    "product": "Produto",
+    "create_company": "Criar empresa",
+    "create_association": "Criar associação",
+    "pricing": "Preços",
+    "faq": "FAQ",
+    "resources": "Recursos",
+    "help_center": "Central de ajuda",
+    "jurisia": "JurisIA",
+    "legal": "Legal",
+    "legal_notice": "Aviso legal",
+    "privacy": "Privacidade",
+    "terms_sale": "Termos de venda",
+    "terms_use": "Termos de uso",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — IVA não aplicável (art. 293B CGI)",
+    "made_in": "Feito com 🔥 na França — 10% da receita doada à associação Purama"
+  }
+}

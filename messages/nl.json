@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "Bevrijd jezelf.",
+    "subtagline": "Bouw je imperium in 10 minuten.",
+    "skip": "Overslaan"
+  },
+  "nav": {
+    "features": "Functies",
+    "how": "Hoe het werkt",
+    "pricing": "Prijzen",
+    "faq": "FAQ",
+    "login": "Inloggen",
+    "start": "Beginnen",
+    "language": "Taal"
+  },
+  "hero": {
+    "badge": "Directe concurrent van LegalPlace — 50% goedkoper",
+    "title_1": "Bevrijd jezelf.",
+    "title_highlight": "Bouw je imperium",
+    "title_2": "in 10 minuten.",
+    "subtitle": "MOKSHA verbreekt de administratieve ketenen. AI juridische agent, automatische INPI-indiening, beveiligde kluis.",
+    "subtitle_emphasis": "Nul papierwerk. Nul wrijving.",
+    "cta_primary": "Nu bevrijden",
+    "cta_secondary": "Zie hoe het werkt",
+    "trust_1": "Nul Afwijzing Garantie",
+    "trust_2": "24u Express beschikbaar",
+    "trust_3": "14 dagen gratis proberen"
+  },
+  "footer": {
+    "description": "Bevrijd jezelf. Bouw je imperium in 10 minuten. AI juridische agent, beveiligde kluis, automatische INPI-indiening.",
+    "product": "Product",
+    "create_company": "Bedrijf oprichten",
+    "create_association": "Vereniging oprichten",
+    "pricing": "Prijzen",
+    "faq": "FAQ",
+    "resources": "Bronnen",
+    "help_center": "Helpcentrum",
+    "jurisia": "JurisIA",
+    "legal": "Juridisch",
+    "legal_notice": "Juridische kennisgeving",
+    "privacy": "Privacy",
+    "terms_sale": "Verkoopvoorwaarden",
+    "terms_use": "Gebruiksvoorwaarden",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — BTW niet van toepassing (art. 293B CGI)",
+    "made_in": "Gemaakt met 🔥 in Frankrijk — 10% van de omzet gedoneerd aan de Purama-vereniging"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "Befreie dich.",
+    "subtagline": "Baue dein Imperium in 10 Minuten.",
+    "skip": "Überspringen"
+  },
+  "nav": {
+    "features": "Funktionen",
+    "how": "Wie es funktioniert",
+    "pricing": "Preise",
+    "faq": "FAQ",
+    "login": "Anmelden",
+    "start": "Starten",
+    "language": "Sprache"
+  },
+  "hero": {
+    "badge": "Direkter Konkurrent von LegalPlace — 50% günstiger",
+    "title_1": "Befreie dich.",
+    "title_highlight": "Baue dein Imperium",
+    "title_2": "in 10 Minuten.",
+    "subtitle": "MOKSHA bricht die bürokratischen Ketten. KI-Rechtsagent, automatische INPI-Einreichung, sicherer Tresor.",
+    "subtitle_emphasis": "Null Papierkram. Null Reibung.",
+    "cta_primary": "Jetzt befreien",
+    "cta_secondary": "Sehen wie es funktioniert",
+    "trust_1": "Null-Ablehnungs-Garantie",
+    "trust_2": "24h Express verfügbar",
+    "trust_3": "14 Tage kostenlos testen"
+  },
+  "footer": {
+    "description": "Befreie dich. Baue dein Imperium in 10 Minuten. KI-Rechtsagent, sicherer Tresor, automatische INPI-Einreichung.",
+    "product": "Produkt",
+    "create_company": "Unternehmen gründen",
+    "create_association": "Verein gründen",
+    "pricing": "Preise",
+    "faq": "FAQ",
+    "resources": "Ressourcen",
+    "help_center": "Hilfecenter",
+    "jurisia": "JurisIA",
+    "legal": "Rechtliches",
+    "legal_notice": "Impressum",
+    "privacy": "Datenschutz",
+    "terms_sale": "AGB",
+    "terms_use": "Nutzungsbedingungen",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — MwSt. nicht anwendbar (Art. 293B CGI)",
+    "made_in": "Gemacht mit 🔥 in Frankreich — 10% des Umsatzes an den Purama-Verein gespendet"
+  }
+}

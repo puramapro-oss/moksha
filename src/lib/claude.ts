@@ -1,9 +1,13 @@
 import Anthropic from '@anthropic-ai/sdk'
 import type { Plan } from './constants'
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
-})
+let _anthropic: Anthropic | null = null
+function anthropic(): Anthropic {
+  if (!_anthropic) {
+    _anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || 'missing' })
+  }
+  return _anthropic
+}
 
 const TOKEN_LIMITS: Record<Plan, number> = {
   gratuit: 2048,
@@ -64,7 +68,7 @@ export async function askClaude(
   plan: Plan = 'gratuit',
   systemPrompt?: string
 ): Promise<string> {
-  const response = await anthropic.messages.create({
+  const response = await anthropic().messages.create({
     model: MODEL_MAP[plan],
     max_tokens: TOKEN_LIMITS[plan],
     system: systemPrompt ?? getJurisIASystemPrompt(),
@@ -80,7 +84,7 @@ export async function* streamClaude(
   plan: Plan = 'gratuit',
   systemPrompt?: string
 ): AsyncGenerator<string> {
-  const stream = anthropic.messages.stream({
+  const stream = anthropic().messages.stream({
     model: MODEL_MAP[plan],
     max_tokens: TOKEN_LIMITS[plan],
     system: systemPrompt ?? getJurisIASystemPrompt(),
@@ -98,7 +102,7 @@ export async function askClaudeJSON<T = unknown>(
   plan: Plan = 'gratuit'
 ): Promise<T | null> {
   try {
-    const response = await anthropic.messages.create({
+    const response = await anthropic().messages.create({
       model: MODEL_MAP[plan],
       max_tokens: TOKEN_LIMITS[plan],
       system: 'Tu réponds UNIQUEMENT avec un objet JSON valide, sans markdown, sans backticks, sans explication.',

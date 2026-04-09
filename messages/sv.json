@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "Befria dig själv.",
+    "subtagline": "Bygg ditt imperium på 10 minuter.",
+    "skip": "Hoppa över"
+  },
+  "nav": {
+    "features": "Funktioner",
+    "how": "Så fungerar det",
+    "pricing": "Priser",
+    "faq": "FAQ",
+    "login": "Logga in",
+    "start": "Kom igång",
+    "language": "Språk"
+  },
+  "hero": {
+    "badge": "Direkt konkurrent till LegalPlace — 50% billigare",
+    "title_1": "Befria dig själv.",
+    "title_highlight": "Bygg ditt imperium",
+    "title_2": "på 10 minuter.",
+    "subtitle": "MOKSHA bryter de byråkratiska kedjorna. AI-juristagent, automatisk INPI-anmälan, säkert valv.",
+    "subtitle_emphasis": "Noll pappersarbete. Noll friktion.",
+    "cta_primary": "Befria dig nu",
+    "cta_secondary": "Se hur det fungerar",
+    "trust_1": "Noll avslag-garanti",
+    "trust_2": "24h Express tillgänglig",
+    "trust_3": "14 dagars gratis provperiod"
+  },
+  "footer": {
+    "description": "Befria dig själv. Bygg ditt imperium på 10 minuter. AI-juristagent, säkert valv, automatisk INPI-anmälan.",
+    "product": "Produkt",
+    "create_company": "Skapa företag",
+    "create_association": "Skapa förening",
+    "pricing": "Priser",
+    "faq": "FAQ",
+    "resources": "Resurser",
+    "help_center": "Hjälpcenter",
+    "jurisia": "JurisIA",
+    "legal": "Juridiskt",
+    "legal_notice": "Juridiskt meddelande",
+    "privacy": "Integritet",
+    "terms_sale": "Försäljningsvillkor",
+    "terms_use": "Användarvillkor",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — Moms ej tillämplig (art. 293B CGI)",
+    "made_in": "Tillverkad med 🔥 i Frankrike — 10% av intäkterna doneras till Purama-föreningen"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "解放自己。",
+    "subtagline": "10分钟打造你的帝国。",
+    "skip": "跳过"
+  },
+  "nav": {
+    "features": "功能",
+    "how": "如何运作",
+    "pricing": "定价",
+    "faq": "常见问题",
+    "login": "登录",
+    "start": "开始",
+    "language": "语言"
+  },
+  "hero": {
+    "badge": "LegalPlace 的直接竞争对手 — 便宜 50%",
+    "title_1": "解放自己。",
+    "title_highlight": "打造你的帝国",
+    "title_2": "只需 10 分钟。",
+    "subtitle": "MOKSHA 打破行政束缚。AI 法律代理、自动 INPI 备案、安全保险库。",
+    "subtitle_emphasis": "零文书工作。零摩擦。",
+    "cta_primary": "立即解放",
+    "cta_secondary": "查看运作方式",
+    "trust_1": "零拒绝保证",
+    "trust_2": "24小时快速服务",
+    "trust_3": "14天免费试用"
+  },
+  "footer": {
+    "description": "解放自己。10分钟打造你的帝国。AI 法律代理、安全保险库、自动 INPI 备案。",
+    "product": "产品",
+    "create_company": "创建公司",
+    "create_association": "创建协会",
+    "pricing": "定价",
+    "faq": "常见问题",
+    "resources": "资源",
+    "help_center": "帮助中心",
+    "jurisia": "JurisIA",
+    "legal": "法律",
+    "legal_notice": "法律声明",
+    "privacy": "隐私",
+    "terms_sale": "销售条款",
+    "terms_use": "使用条款",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — 不适用增值税 (CGI 第 293B 条)",
+    "made_in": "在法国用 🔥 制作 — 10% 收入捐赠给 Purama 协会"
+  }
+}

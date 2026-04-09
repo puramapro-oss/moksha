@@ -93,6 +93,57 @@ export const COMPANY_INFO = {
   asso_percentage: 10,
 } as const
 
+// Points Purama
+export const POINTS_VALUE = 0.01 // 1pt = 0.01€
+export const POINTS_REWARDS = {
+  inscription: 100,
+  parrainage: 200,
+  streak_daily: 10,
+  partage: 300,
+  max_partage_jour: 3,
+  feedback: 200,
+  achievement: 500,
+  daily_gift_min: 5,
+  daily_gift_max: 100,
+  premier_jour: 100,
+} as const
+
+export const POINTS_SHOP = [
+  { id: 'reduction_10', label: '-10% sur votre prochain mois', cost: 1000, type: 'reduction' as const },
+  { id: 'reduction_30', label: '-30% sur votre prochain mois', cost: 3000, type: 'reduction' as const },
+  { id: 'reduction_50', label: '-50% sur votre prochain mois', cost: 5000, type: 'reduction' as const },
+  { id: 'mois_gratuit', label: '1 mois GRATUIT', cost: 10000, type: 'subscription' as const },
+  { id: 'ticket_tirage', label: '1 ticket tirage mensuel', cost: 500, type: 'ticket' as const },
+  { id: 'cash_1', label: '1€ en wallet', cost: 10000, type: 'cash' as const },
+] as const
+
+// Daily Gift distribution (% chances)
+export const DAILY_GIFT_CHANCES = {
+  points_small: 40, // 5-20 pts
+  coupon_small: 25, // -5% ou -10% (7j)
+  ticket: 15,       // 1 ticket tirage
+  credits: 10,      // +3 credits JurisIA
+  points_big: 5,    // -20% (3j)
+  coupon_big: 3,    // 50-100 pts
+  mega_coupon: 2,   // -50% (24h)
+} as const
+
+// Concours
+export const CONTEST_WEEKLY_POOL_PERCENT = 0.06 // 6% CA
+export const CONTEST_MONTHLY_POOL_PERCENT = 0.04 // 4% CA
+export const CONTEST_WEEKLY_DISTRIBUTION = [0.02, 0.01, 0.007, 0.005, 0.004, 0.003, 0.00275, 0.00275, 0.00275, 0.00275] as const
+export const CONTEST_MONTHLY_DISTRIBUTION = [0.012, 0.008, 0.006, 0.004, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002] as const
+
+// Streak multiplier
+export const STREAK_MULTIPLIER = [
+  { min: 1, max: 6, multiplier: 1 },
+  { min: 7, max: 13, multiplier: 2 },
+  { min: 14, max: 29, multiplier: 3 },
+  { min: 30, max: 59, multiplier: 5 },
+  { min: 60, max: 99, multiplier: 7 },
+  { min: 100, max: Infinity, multiplier: 10 },
+] as const
+
 // Codes APE (courants)
 export const CODES_APE = [
   { code: '62.01Z', label: 'Programmation informatique' },

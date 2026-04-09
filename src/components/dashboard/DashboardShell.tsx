@@ -10,15 +10,20 @@ import {
   BarChart3,
   Bell,
   Building2,
+  Share2,
   Users,
   Wallet,
   HelpCircle,
   Settings,
   LogOut,
   ShieldAlert,
+  Star,
+  Trophy,
+  MessageSquare,
 } from 'lucide-react'
 import Logo from '@/components/shared/Logo'
 import { useAuth } from '@/hooks/useAuth'
+import NotificationBell from './NotificationBell'
 
 type NavItem = { href: string; label: string; icon: React.ComponentType<{ className?: string }>; badge?: string }
 
@@ -30,58 +35,63 @@ const main: NavItem[] = [
   { href: '/dashboard/simulateur', label: 'Simulateur', icon: BarChart3 },
   { href: '/dashboard/rappels', label: 'Rappels', icon: Bell },
   { href: '/dashboard/structures', label: 'Mes structures', icon: Building2 },
+  { href: '/dashboard/partage', label: 'Partage Pro', icon: Share2 },
 ]
 
 const grow: NavItem[] = [
   { href: '/dashboard/parrainage', label: 'Parrainage', icon: Users },
   { href: '/dashboard/wallet', label: 'Wallet', icon: Wallet },
+  { href: '/dashboard/points', label: 'Points', icon: Star },
+  { href: '/dashboard/concours', label: 'Concours', icon: Trophy },
 ]
 
 const support: NavItem[] = [
   { href: '/dashboard/aide', label: 'Aide & FAQ', icon: HelpCircle },
+  { href: '/dashboard/feedback', label: 'Feedback', icon: MessageSquare },
   { href: '/dashboard/parametres', label: 'Paramètres', icon: Settings },
 ]
 
-export default function DashboardShell({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
-  const { profile, isSuperAdmin, signOut, plan } = useAuth()
+function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
+  const active = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
+  return (
+    <Link
+      href={item.href}
+      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
+        active
+          ? 'bg-gradient-to-r from-[#FF6B35]/15 to-[#FFD700]/5 text-white border border-[#FF6B35]/30'
+          : 'text-white/60 hover:bg-white/5 hover:text-white'
+      }`}
+    >
+      <item.icon className="h-4 w-4 shrink-0" />
+      <span>{item.label}</span>
+    </Link>
+  )
+}
 
-  const NavLink = ({ item }: { item: NavItem }) => {
-    const active = pathname === item.href || (item.href !== '/dashboard' && pathname?.startsWith(item.href))
-    return (
-      <Link
-        href={item.href}
-        className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
-          active
-            ? 'bg-gradient-to-r from-[#FF6B35]/15 to-[#FFD700]/5 text-white border border-[#FF6B35]/30'
-            : 'text-white/60 hover:bg-white/5 hover:text-white'
-        }`}
-      >
-        <item.icon className="h-4 w-4 shrink-0" />
-        <span>{item.label}</span>
-      </Link>
-    )
-  }
+export default function DashboardShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname() || '/dashboard'
+  const { profile, isSuperAdmin, signOut, plan } = useAuth()
 
   return (
     <div className="relative z-10 flex min-h-screen">
       {/* Sidebar desktop */}
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-white/5 bg-[#0A0F1E]/60 p-5 backdrop-blur-xl md:flex md:flex-col">
-        <div className="mb-8">
+        <div className="mb-8 flex items-center justify-between">
           <Logo />
+          <NotificationBell />
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto">
-          {main.map((i) => <NavLink key={i.href} item={i} />)}
+          {main.map((i) => <NavLink key={i.href} item={i} pathname={pathname} />)}
           <div className="my-4 border-t border-white/5" />
           <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-white/30">Croissance</p>
-          {grow.map((i) => <NavLink key={i.href} item={i} />)}
+          {grow.map((i) => <NavLink key={i.href} item={i} pathname={pathname} />)}
           <div className="my-4 border-t border-white/5" />
           <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-white/30">Support</p>
-          {support.map((i) => <NavLink key={i.href} item={i} />)}
+          {support.map((i) => <NavLink key={i.href} item={i} pathname={pathname} />)}
           {isSuperAdmin && (
             <>
               <div className="my-4 border-t border-white/5" />
-              <NavLink item={{ href: '/admin', label: 'Admin', icon: ShieldAlert }} />
+              <NavLink item={{ href: '/admin', label: 'Admin', icon: ShieldAlert }} pathname={pathname} />
             </>
           )}
         </nav>
@@ -110,9 +120,12 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         {/* Mobile header */}
         <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/5 bg-[#070B18]/80 px-5 py-4 backdrop-blur-xl md:hidden">
           <Logo size="sm" />
-          <button onClick={signOut} className="rounded-lg border border-white/10 p-2">
-            <LogOut className="h-4 w-4 text-white/60" />
-          </button>
+          <div className="flex items-center gap-2">
+            <NotificationBell />
+            <button onClick={signOut} className="rounded-lg border border-white/10 p-2">
+              <LogOut className="h-4 w-4 text-white/60" />
+            </button>
+          </div>
         </header>
         <div className="mx-auto max-w-6xl p-6 md:p-10">{children}</div>
       </main>

@@ -5,7 +5,7 @@ const PUBLIC_PATHS = [
   '/', '/demarrer', '/pricing', '/how-it-works',
   '/privacy', '/terms', '/legal', '/offline', '/login', '/signup', '/register', '/auth',
   '/mentions-legales', '/politique-confidentialite', '/cgv', '/cgu', '/politique-cookies',
-  '/paiement', '/merci', '/cookies',
+  '/paiement', '/merci', '/cookies', '/contact', '/ecosystem', '/offline',
 ]
 
 function isPublicPath(pathname: string): boolean {
@@ -16,14 +16,26 @@ function isPublicPath(pathname: string): boolean {
   if (pathname.startsWith('/auth/')) return true
   if (pathname.startsWith('/creer/')) return true
   if (pathname.startsWith('/partage/')) return true
+  if (pathname.startsWith('/signer/')) return true
+  if (pathname.startsWith('/share/')) return true
   if (pathname.match(/\.(ico|png|jpg|jpeg|svg|gif|webp|css|js|woff|woff2|ttf|json|xml|txt)$/)) return true
   if (pathname === '/sitemap.xml' || pathname === '/robots.txt' || pathname === '/manifest.json') return true
   return false
 }
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  const { pathname, searchParams } = request.nextUrl
   let response = NextResponse.next({ request })
+
+  // Capture ?ref=MOKSHA-XXXXXX dans un cookie 30 jours pour attribution parrainage
+  const refParam = searchParams.get('ref')
+  if (refParam && /^MOKSHA-[A-Z0-9]{4,12}$/i.test(refParam)) {
+    response.cookies.set('moksha_ref', refParam.toUpperCase(), {
+      maxAge: 60 * 60 * 24 * 30,
+      path: '/',
+      sameSite: 'lax',
+    })
+  }
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

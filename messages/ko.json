@@ -1,0 +1,48 @@
+{
+  "intro": {
+    "tagline": "자신을 해방하라.",
+    "subtagline": "10분 안에 당신의 제국을 세워라.",
+    "skip": "건너뛰기"
+  },
+  "nav": {
+    "features": "기능",
+    "how": "작동 방식",
+    "pricing": "가격",
+    "faq": "자주 묻는 질문",
+    "login": "로그인",
+    "start": "시작하기",
+    "language": "언어"
+  },
+  "hero": {
+    "badge": "LegalPlace의 직접 경쟁자 — 50% 더 저렴",
+    "title_1": "자신을 해방하라.",
+    "title_highlight": "당신의 제국을 세워라",
+    "title_2": "10분 안에.",
+    "subtitle": "MOKSHA는 행정 사슬을 끊어냅니다. AI 법률 에이전트, 자동 INPI 제출, 안전한 금고.",
+    "subtitle_emphasis": "서류 제로. 마찰 제로.",
+    "cta_primary": "지금 해방되기",
+    "cta_secondary": "작동 방식 보기",
+    "trust_1": "거절 제로 보장",
+    "trust_2": "24시간 익스프레스 이용 가능",
+    "trust_3": "14일 무료 체험"
+  },
+  "footer": {
+    "description": "자신을 해방하라. 10분 안에 당신의 제국을 세워라. AI 법률 에이전트, 안전한 금고, 자동 INPI 제출.",
+    "product": "제품",
+    "create_company": "회사 만들기",
+    "create_association": "협회 만들기",
+    "pricing": "가격",
+    "faq": "자주 묻는 질문",
+    "resources": "리소스",
+    "help_center": "도움말 센터",
+    "jurisia": "JurisIA",
+    "legal": "법적",
+    "legal_notice": "법적 고지",
+    "privacy": "개인정보 보호",
+    "terms_sale": "판매 약관",
+    "terms_use": "이용 약관",
+    "cookies": "Cookies",
+    "copyright": "© 2026 SASU PURAMA — 8 Rue de la Chapelle, 25560 Frasne — VAT 적용 안 됨 (CGI 제293B조)",
+    "made_in": "프랑스에서 🔥로 제작 — 매출의 10%를 Purama 협회에 기부"
+  }
+}
