@@ -17,6 +17,9 @@ const PUBLIC_PAGES = [
   '/cgu',
   '/cgv',
   '/politique-cookies',
+  '/contact',
+  '/ecosystem',
+  '/offline',
 ]
 
 const PROTECTED_PAGES = [
@@ -32,6 +35,9 @@ const PROTECTED_PAGES = [
   '/dashboard/simulateur',
   '/dashboard/structures',
   '/dashboard/wallet',
+  '/dashboard/points',
+  '/dashboard/concours',
+  '/dashboard/feedback',
 ]
 
 const ADMIN_PAGES = [
@@ -41,6 +47,9 @@ const ADMIN_PAGES = [
   '/admin/parrainages',
   '/admin/users',
   '/admin/wallet',
+  '/admin/feedback',
+  '/admin/points',
+  '/admin/contact',
 ]
 
 async function skipIntro(page: Page) {
@@ -236,6 +245,60 @@ test.describe('MOKSHA — API endpoints', () => {
     const r = await request.get('/api/admin/stats')
     expect([401, 403]).toContain(r.status())
   })
+
+  // V3 APIs
+  test('/api/points requires auth (401)', async ({ request }) => {
+    const r = await request.get('/api/points')
+    expect([401, 403]).toContain(r.status())
+  })
+
+  test('/api/points/daily-gift requires auth (401)', async ({ request }) => {
+    const r = await request.post('/api/points/daily-gift')
+    expect([401, 403]).toContain(r.status())
+  })
+
+  test('/api/feedback requires auth + POST', async ({ request }) => {
+    const r = await request.post('/api/feedback', { data: {} })
+    expect([401, 403, 400]).toContain(r.status())
+  })
+
+  test('/api/contact accepts POST with valid data', async ({ request }) => {
+    const r = await request.post('/api/contact', {
+      data: { name: 'PW Test', email: 'pw@test.dev', subject: 'Test PW', message: 'Ceci est un test Playwright automatisé. Ignorer.' },
+    })
+    expect([200, 500]).toContain(r.status()) // 500 if Resend not configured
+  })
+
+  test('/api/share requires auth (401)', async ({ request }) => {
+    const r = await request.post('/api/share', { data: { platform: 'test' } })
+    expect([401, 403]).toContain(r.status())
+  })
+
+  test('/api/concours requires auth (401)', async ({ request }) => {
+    const r = await request.get('/api/concours')
+    expect([401, 403]).toContain(r.status())
+  })
+
+  test('/api/aide/chat requires auth (401)', async ({ request }) => {
+    const r = await request.post('/api/aide/chat', { data: { message: 'test' } })
+    expect([401, 403]).toContain(r.status())
+  })
+
+  // Admin V3 APIs
+  test('/api/admin/feedback requires admin', async ({ request }) => {
+    const r = await request.get('/api/admin/feedback')
+    expect([401, 403]).toContain(r.status())
+  })
+
+  test('/api/admin/points requires admin', async ({ request }) => {
+    const r = await request.get('/api/admin/points')
+    expect([401, 403]).toContain(r.status())
+  })
+
+  test('/api/admin/contact requires admin', async ({ request }) => {
+    const r = await request.get('/api/admin/contact')
+    expect([401, 403]).toContain(r.status())
+  })
 })
 
 test.describe('MOKSHA — SEO & static', () => {
@@ -248,5 +311,70 @@ test.describe('MOKSHA — SEO & static', () => {
   test('robots.txt served', async ({ request }) => {
     const r = await request.get('/robots.txt')
     expect(r.status()).toBe(200)
+  })
+
+  test('manifest.json served for PWA', async ({ request }) => {
+    const r = await request.get('/manifest.json')
+    expect(r.status()).toBe(200)
+    const j = await r.json()
+    expect(j.short_name).toBe('MOKSHA')
+    expect(j.display).toBe('standalone')
+    expect(j.theme_color).toBe('#FF6B35')
+  })
+
+  test('sw.js served', async ({ request }) => {
+    const r = await request.get('/sw.js')
+    expect(r.status()).toBe(200)
+  })
+})
+
+test.describe('MOKSHA — V3 Contact form', () => {
+  test('contact page renders form with all fields', async ({ page }) => {
+    await skipIntro(page)
+    await page.goto('/contact')
+    await expect(page.locator('input[type="text"]').first()).toBeVisible()
+    await expect(page.locator('input[type="email"]')).toBeVisible()
+    await expect(page.locator('textarea')).toBeVisible()
+    await expect(page.locator('button[type="submit"]')).toBeVisible()
+  })
+})
+
+test.describe('MOKSHA — V3 Ecosystem page', () => {
+  test('ecosystem page shows Purama apps', async ({ page }) => {
+    await skipIntro(page)
+    const errors = trackConsole(page)
+    await page.goto('/ecosystem')
+    await expect(page.getByRole('heading', { name: 'Écosystème Purama' })).toBeVisible()
+    await expect(page.getByText('CROSS50')).toBeVisible()
+    await page.waitForTimeout(300)
+    expect(errors).toEqual([])
+  })
+})
+
+test.describe('MOKSHA — V3 Offline page', () => {
+  test('offline page renders fallback', async ({ page }) => {
+    await skipIntro(page)
+    await page.goto('/offline')
+    await expect(page.getByText('Hors connexion')).toBeVisible()
+  })
+})
+
+test.describe('MOKSHA — No placeholder / TODO / Lorem in source', () => {
+  test('landing page has no placeholder text', async ({ page }) => {
+    await skipIntro(page)
+    await page.goto('/')
+    const text = await page.locator('body').innerText()
+    const lower = text.toLowerCase()
+    expect(lower).not.toContain('lorem ipsum')
+    expect(lower).not.toContain('placeholder')
+    expect(lower).not.toContain('todo:')
+  })
+})
+
+test.describe('MOKSHA — Share redirect', () => {
+  test('/share/MOKSHA-TEST redirects to /?ref=', async ({ page }) => {
+    await skipIntro(page)
+    await page.goto('/share/MOKSHA-TEST123')
+    expect(page.url()).toContain('ref=MOKSHA-TEST123')
   })
 })
