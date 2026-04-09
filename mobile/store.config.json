@@ -1,0 +1,126 @@
+{
+  "configVersion": 0,
+  "apple": {
+    "info": {
+      "en-US": {
+        "title": "MOKSHA - Create Your Business",
+        "subtitle": "Launch your company in 10 minutes",
+        "description": "MOKSHA revolutionizes business creation. Create your SASU, SAS, SARL, EURL, SCI, or micro-enterprise in just 10 minutes with zero paperwork.\n\nKEY FEATURES:\n- AI Legal Agent (JurisIA): Get instant expert legal advice with official sources (Legifrance, INPI)\n- Enterprise Wizard: 6-step guided creation for any legal structure\n- Association Creator: Create your association loi 1901 effortlessly\n- ProofVault: Secure encrypted document vault (AES-256)\n- Tax Simulator: Compare legal structures side by side\n- Smart Reminders: Never miss an AG, VAT, or URSSAF deadline\n- Zero Rejection Guarantee: Free corrections and resubmissions\n- INPI Auto-Filing: Automated submission via Pappers Services\n\nWHY MOKSHA?\n- 50% cheaper than LegalPlace\n- AI-powered legal guidance\n- Encrypted document storage\n- Real-time compliance scoring\n- Referral program with real earnings\n\nMOKSHA means liberation in Sanskrit. Free yourself from bureaucracy.",
+        "keywords": "business creation,company,SASU,SAS,SARL,legal,entrepreneur,startup,INPI,register company,freelance,micro enterprise",
+        "promotionalText": "Create your business in 10 minutes. Zero paperwork. AI-powered.",
+        "marketingUrl": "https://moksha.purama.dev",
+        "supportUrl": "https://moksha.purama.dev/aide",
+        "privacyPolicyUrl": "https://moksha.purama.dev/politique-confidentialite"
+      },
+      "fr-FR": {
+        "title": "MOKSHA - Crée ton Entreprise",
+        "subtitle": "Lance ta boîte en 10 minutes",
+        "description": "MOKSHA révolutionne la création d'entreprise. Crée ta SASU, SAS, SARL, EURL, SCI ou micro-entreprise en 10 minutes, 0 paperasse.\n\nFONCTIONNALITÉS :\n- Agent juridique IA (JurisIA) : conseils juridiques experts avec sources officielles\n- Wizard de création : 6 étapes guidées pour toute structure juridique\n- Création d'association loi 1901\n- ProofVault : coffre-fort documents sécurisé (AES-256)\n- Simulateur fiscal : compare les statuts côte à côte\n- Rappels intelligents : AG, TVA, URSSAF, comptes annuels\n- Garantie Zéro Refus : corrections et redépôts gratuits\n- Dépôt INPI automatique via Pappers Services\n\nPOURQUOI MOKSHA ?\n- 50% moins cher que LegalPlace\n- IA juridique intégrée\n- Coffre-fort chiffré\n- Score de conformité temps réel\n- Programme de parrainage avec gains réels\n\nMOKSHA signifie libération en sanskrit. Libère-toi de la bureaucratie.",
+        "keywords": "création entreprise,société,SASU,SAS,SARL,juridique,entrepreneur,startup,INPI,créer société,freelance,micro entreprise,auto entrepreneur",
+        "promotionalText": "Crée ton entreprise en 10 minutes. 0 paperasse. Propulsé par l'IA."
+      },
+      "es-ES": {
+        "title": "MOKSHA - Crea tu Empresa",
+        "subtitle": "Lanza tu negocio en 10 minutos",
+        "description": "MOKSHA revoluciona la creación de empresas en Francia. Crea tu SASU, SAS, SARL o micro-empresa en 10 minutos sin papeleo.",
+        "keywords": "crear empresa,sociedad,SASU,SAS,emprendedor,startup,Francia"
+      },
+      "de-DE": {
+        "title": "MOKSHA - Unternehmen gründen",
+        "subtitle": "Starte dein Unternehmen in 10 Minuten",
+        "description": "MOKSHA revolutioniert die Unternehmensgründung in Frankreich. Gründe deine SASU, SAS, SARL oder Micro-Entreprise in 10 Minuten ohne Papierkram.",
+        "keywords": "Unternehmen gründen,Gesellschaft,SASU,SAS,Gründer,Startup,Frankreich"
+      },
+      "it-IT": {
+        "title": "MOKSHA - Crea la tua Impresa",
+        "subtitle": "Avvia la tua azienda in 10 minuti",
+        "description": "MOKSHA rivoluziona la creazione di imprese in Francia. Crea la tua SASU, SAS, SARL o micro-impresa in 10 minuti senza burocrazia.",
+        "keywords": "creare impresa,società,SASU,SAS,imprenditore,startup,Francia"
+      },
+      "pt-BR": {
+        "title": "MOKSHA - Crie sua Empresa",
+        "subtitle": "Lance seu negócio em 10 minutos",
+        "description": "MOKSHA revoluciona a criação de empresas na França. Crie sua SASU, SAS, SARL ou micro-empresa em 10 minutos sem burocracia.",
+        "keywords": "criar empresa,sociedade,SASU,SAS,empreendedor,startup,França"
+      },
+      "nl-NL": {
+        "title": "MOKSHA - Start je Bedrijf",
+        "subtitle": "Start je onderneming in 10 minuten",
+        "description": "MOKSHA revolutioneert het oprichten van bedrijven in Frankrijk. Richt je SASU, SAS, SARL of micro-onderneming op in 10 minuten zonder papierwerk.",
+        "keywords": "bedrijf starten,onderneming,SASU,SAS,ondernemer,startup,Frankrijk"
+      },
+      "pl-PL": {
+        "title": "MOKSHA - Załóż Firmę",
+        "subtitle": "Uruchom firmę w 10 minut",
+        "description": "MOKSHA rewolucjonizuje zakładanie firm we Francji. Załóż SASU, SAS, SARL lub mikroprzedsiębiorstwo w 10 minut bez biurokracji.",
+        "keywords": "założyć firmę,spółka,SASU,SAS,przedsiębiorca,startup,Francja"
+      },
+      "sv-SE": {
+        "title": "MOKSHA - Starta Företag",
+        "subtitle": "Starta ditt företag på 10 minuter",
+        "description": "MOKSHA revolutionerar företagsskapande i Frankrike. Skapa din SASU, SAS, SARL eller mikroföretag på 10 minuter utan pappersarbete.",
+        "keywords": "starta företag,bolag,SASU,SAS,entreprenör,startup,Frankrike"
+      },
+      "ar-SA": {
+        "title": "MOKSHA - أنشئ شركتك",
+        "subtitle": "أطلق عملك في 10 دقائق",
+        "description": "MOKSHA يحدث ثورة في إنشاء الشركات في فرنسا. أنشئ شركتك SASU أو SAS أو SARL في 10 دقائق بدون أوراق.",
+        "keywords": "إنشاء شركة,SASU,SAS,رائد أعمال,ستارت أب,فرنسا"
+      },
+      "zh-Hans": {
+        "title": "MOKSHA - 创建你的企业",
+        "subtitle": "10分钟启动你的公司",
+        "description": "MOKSHA 革新法国企业创建。10分钟内创建您的SASU、SAS、SARL或微型企业，零纸质文件。",
+        "keywords": "创建企业,公司,SASU,SAS,创业者,法国"
+      },
+      "ja": {
+        "title": "MOKSHA - 会社を設立",
+        "subtitle": "10分で事業を開始",
+        "description": "MOKSHAはフランスでの企業設立を革新します。10分でSASU、SAS、SARLまたはマイクロ企業を書類なしで設立。",
+        "keywords": "会社設立,SASU,SAS,起業家,スタートアップ,フランス"
+      },
+      "ko": {
+        "title": "MOKSHA - 회사 설립",
+        "subtitle": "10분 만에 사업 시작",
+        "description": "MOKSHA는 프랑스에서의 기업 설립을 혁신합니다. 10분 안에 서류 없이 SASU, SAS, SARL 또는 소기업을 설립하세요.",
+        "keywords": "회사설립,SASU,SAS,기업가,스타트업,프랑스"
+      },
+      "hi": {
+        "title": "MOKSHA - अपना व्यवसाय बनाएं",
+        "subtitle": "10 मिनट में अपनी कंपनी शुरू करें",
+        "description": "MOKSHA फ्रांस में व्यवसाय निर्माण में क्रांति लाता है। 10 मिनट में बिना कागजी कार्रवाई के अपनी SASU, SAS, SARL बनाएं।",
+        "keywords": "व्यवसाय बनाएं,कंपनी,SASU,SAS,उद्यमी,स्टार्टअप,फ्रांस"
+      },
+      "ru": {
+        "title": "MOKSHA - Создай бизнес",
+        "subtitle": "Запусти компанию за 10 минут",
+        "description": "MOKSHA революционизирует создание бизнеса во Франции. Создайте SASU, SAS, SARL или микропредприятие за 10 минут без бюрократии.",
+        "keywords": "создать бизнес,компания,SASU,SAS,предприниматель,стартап,Франция"
+      },
+      "tr": {
+        "title": "MOKSHA - İşletmeni Kur",
+        "subtitle": "10 dakikada işini başlat",
+        "description": "MOKSHA Fransa'da iş kurma sürecini devrimleştirir. 10 dakikada evrak işi olmadan SASU, SAS, SARL veya mikro işletme kurun.",
+        "keywords": "işletme kurmak,şirket,SASU,SAS,girişimci,startup,Fransa"
+      }
+    },
+    "categories": ["BUSINESS", "PRODUCTIVITY"],
+    "age_rating": "4+"
+  },
+  "google": {
+    "info": {
+      "en-US": {
+        "title": "MOKSHA - Create Your Business",
+        "shortDescription": "Launch your company in 10 minutes. AI-powered legal guidance.",
+        "fullDescription": "MOKSHA revolutionizes business creation. Create your SASU, SAS, SARL, EURL, SCI, or micro-enterprise in just 10 minutes with zero paperwork.\n\nKEY FEATURES:\n- AI Legal Agent (JurisIA): Expert legal advice with official sources\n- Enterprise Wizard: 6-step guided creation\n- ProofVault: Encrypted document vault (AES-256)\n- Tax Simulator: Compare legal structures\n- Smart Reminders: AG, VAT, URSSAF deadlines\n- Zero Rejection Guarantee\n- INPI Auto-Filing\n\nMOKSHA means liberation in Sanskrit. Free yourself from bureaucracy."
+      },
+      "fr-FR": {
+        "title": "MOKSHA - Crée ton Entreprise",
+        "shortDescription": "Lance ta boîte en 10 min. Agent juridique IA intégré.",
+        "fullDescription": "MOKSHA révolutionne la création d'entreprise. Crée ta SASU, SAS, SARL, EURL, SCI ou micro-entreprise en 10 minutes, 0 paperasse.\n\nFONCTIONNALITÉS :\n- Agent juridique IA (JurisIA)\n- Wizard de création en 6 étapes\n- ProofVault : coffre-fort documents (AES-256)\n- Simulateur fiscal\n- Rappels intelligents\n- Garantie Zéro Refus\n- Dépôt INPI automatique\n\nMOKSHA signifie libération en sanskrit. Libère-toi de la bureaucratie."
+      }
+    },
+    "category": "BUSINESS",
+    "contentRating": "Everyone"
+  }
+}

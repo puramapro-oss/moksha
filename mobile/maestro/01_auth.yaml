@@ -1,0 +1,36 @@
+appId: dev.purama.moksha
+name: "Auth - Login & Signup"
+---
+- launchApp
+- assertVisible: "MOKSHA"
+- assertVisible: "Se connecter"
+
+# Test login
+- tapOn:
+    id: "input-email"
+- inputText: "test@moksha.dev"
+- tapOn:
+    id: "input-password"
+- inputText: "TestPassword123!"
+- tapOn:
+    id: "btn-login"
+- waitForAnimationToEnd
+
+# Test navigation to signup
+- tapOn:
+    id: "link-signup"
+- assertVisible: "Créer un compte"
+- tapOn:
+    id: "input-name"
+- inputText: "Test User"
+- tapOn:
+    id: "input-email"
+- inputText: "nouveau@moksha.dev"
+- tapOn:
+    id: "input-password"
+- inputText: "TestPassword123!"
+- tapOn:
+    id: "btn-signup"
+- waitForAnimationToEnd
+
+- takeScreenshot: "auth_flow"

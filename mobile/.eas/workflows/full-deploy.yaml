@@ -1,0 +1,53 @@
+name: MOKSHA Full Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-ios:
+    name: Build iOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - run: cd mobile && npm ci
+      - run: cd mobile && eas build --platform ios --profile production --non-interactive
+
+  build-android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - run: cd mobile && npm ci
+      - run: cd mobile && eas build --platform android --profile production --non-interactive
+
+  submit-ios:
+    name: Submit iOS
+    needs: build-ios
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - run: cd mobile && eas submit --platform ios --profile production --non-interactive
+
+  submit-android:
+    name: Submit Android
+    needs: build-android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - run: cd mobile && eas submit --platform android --profile production --non-interactive

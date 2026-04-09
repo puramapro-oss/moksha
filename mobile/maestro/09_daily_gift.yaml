@@ -1,0 +1,15 @@
+appId: dev.purama.moksha
+name: "Daily Gift"
+---
+- launchApp
+- waitForAnimationToEnd
+- tapOn: "Cadeau"
+- assertVisible: "Cadeau du jour"
+- assertVisible: "Reviens chaque jour"
+
+# Open gift
+- tapOn:
+    id: "daily-gift-open"
+- waitForAnimationToEnd
+
+- takeScreenshot: "daily_gift"

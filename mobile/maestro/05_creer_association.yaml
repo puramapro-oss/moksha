@@ -1,0 +1,46 @@
+appId: dev.purama.moksha
+name: "Créer - Wizard Association"
+---
+- launchApp
+- waitForAnimationToEnd
+- tapOn:
+    id: "btn-creer"
+- tapOn:
+    id: "btn-association"
+
+# Step 1: Type
+- tapOn:
+    id: "type-culturelle"
+- tapOn:
+    id: "btn-next"
+
+# Step 2: Nom & Objet
+- tapOn:
+    id: "input-nom"
+- inputText: "Association Lumière"
+- tapOn:
+    id: "input-objet"
+- inputText: "Promotion de la culture et des arts"
+- tapOn:
+    id: "btn-next"
+
+# Step 3: Siege
+- tapOn:
+    id: "input-adresse"
+- inputText: "12 Rue des Arts, 75001 Paris"
+- tapOn:
+    id: "btn-next"
+
+# Step 4: Bureau
+- tapOn:
+    id: "input-president"
+- inputText: "Marie Martin"
+- tapOn:
+    id: "btn-next"
+
+# Step 5: Recap
+- assertVisible: "Récapitulatif"
+- assertVisible: "Culturelle"
+- assertVisible: "Association Lumière"
+
+- takeScreenshot: "wizard_association"

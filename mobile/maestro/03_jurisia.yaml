@@ -1,0 +1,22 @@
+appId: dev.purama.moksha
+name: "JurisIA - Chat AI"
+---
+- launchApp
+- waitForAnimationToEnd
+- tapOn: "JurisIA"
+- assertVisible: "Pose ta question juridique"
+
+# Test suggestion tap
+- tapOn:
+    id: "suggestion-Quelle str"
+- waitForAnimationToEnd
+
+# Test manual input
+- tapOn:
+    id: "jurisia-input"
+- inputText: "Comment créer une SASU ?"
+- tapOn:
+    id: "jurisia-send"
+- waitForAnimationToEnd
+
+- takeScreenshot: "jurisia_chat"

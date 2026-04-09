@@ -1,0 +1,15 @@
+appId: dev.purama.moksha
+name: "ProofVault - Documents"
+---
+- launchApp
+- waitForAnimationToEnd
+- tapOn: "ProofVault"
+- assertVisible: "ProofVault"
+
+# Verify upload buttons
+- assertVisible:
+    id: "upload-photo"
+- assertVisible:
+    id: "upload-file"
+
+- takeScreenshot: "proofvault"

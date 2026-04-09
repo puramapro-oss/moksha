@@ -1,0 +1,25 @@
+appId: dev.purama.moksha
+name: "Navigation - Tab Bar & Screens"
+---
+- launchApp
+- waitForAnimationToEnd
+
+# Test all tabs
+- tapOn: "Accueil"
+- assertVisible: "Salut"
+
+- tapOn: "JurisIA"
+- assertVisible: "JurisIA"
+- assertVisible: "Pose ta question juridique"
+
+- tapOn: "ProofVault"
+- assertVisible: "ProofVault"
+
+- tapOn: "Cadeau"
+- assertVisible: "Cadeau du jour"
+
+- tapOn: "Profil"
+- assertVisible: "Paramètres"
+- assertVisible: "Se déconnecter"
+
+- takeScreenshot: "navigation_tabs"

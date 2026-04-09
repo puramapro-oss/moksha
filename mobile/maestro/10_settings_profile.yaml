@@ -1,0 +1,23 @@
+appId: dev.purama.moksha
+name: "Settings & Profile"
+---
+- launchApp
+- waitForAnimationToEnd
+- tapOn: "Profil"
+- assertVisible: "Paramètres"
+- assertVisible: "Gains"
+- assertVisible: "Support"
+
+# Navigate to settings
+- tapOn:
+    id: "profile-paramètres"
+- assertVisible: "Mode sombre"
+- assertVisible: "Langue"
+- assertVisible: "Notifications"
+- assertVisible: "Supprimer mon compte"
+
+- tapOn:
+    id: "btn-signout"
+- waitForAnimationToEnd
+
+- takeScreenshot: "settings_profile"

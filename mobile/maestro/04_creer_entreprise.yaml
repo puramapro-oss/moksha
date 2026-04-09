@@ -1,0 +1,60 @@
+appId: dev.purama.moksha
+name: "Créer - Wizard Entreprise"
+---
+- launchApp
+- waitForAnimationToEnd
+- tapOn:
+    id: "btn-creer"
+- assertVisible: "Que veux-tu créer ?"
+
+# Choose entreprise
+- tapOn:
+    id: "btn-entreprise"
+- assertVisible: "Choisis ta structure"
+
+# Step 1: Structure
+- tapOn:
+    id: "structure-sasu"
+- tapOn:
+    id: "btn-next"
+
+# Step 2: Denomination
+- tapOn:
+    id: "input-denomination"
+- inputText: "Ma Startup SAS"
+- tapOn:
+    id: "input-activite"
+- inputText: "Développement logiciel et conseil IT"
+- tapOn:
+    id: "btn-next"
+
+# Step 3: Siege
+- tapOn:
+    id: "input-adresse"
+- inputText: "8 Rue de la Chapelle, 25560 Frasne"
+- tapOn:
+    id: "btn-next"
+
+# Step 4: Capital
+- tapOn:
+    id: "input-capital"
+- inputText: "5000"
+- tapOn:
+    id: "btn-next"
+
+# Step 5: Dirigeant
+- tapOn:
+    id: "input-prenom"
+- inputText: "Jean"
+- tapOn:
+    id: "input-nom"
+- inputText: "Dupont"
+- tapOn:
+    id: "btn-next"
+
+# Step 6: Recap
+- assertVisible: "Récapitulatif"
+- assertVisible: "SASU"
+- assertVisible: "Ma Startup SAS"
+
+- takeScreenshot: "wizard_entreprise"

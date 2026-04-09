@@ -1,0 +1,22 @@
+appId: dev.purama.moksha
+name: "Simulateur Fiscal"
+---
+- launchApp
+- waitForAnimationToEnd
+- tapOn:
+    id: "quick-simuler"
+- assertVisible: "Simulateur fiscal"
+
+# Input CA
+- tapOn:
+    id: "input-ca"
+- inputText: "50000"
+- tapOn:
+    id: "btn-simulate"
+- waitForAnimationToEnd
+
+# Verify results
+- assertVisible: "MEILLEUR CHOIX"
+- assertVisible: "Revenu net"
+
+- takeScreenshot: "simulateur_fiscal"

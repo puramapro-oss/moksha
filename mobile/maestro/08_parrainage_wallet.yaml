@@ -1,0 +1,27 @@
+appId: dev.purama.moksha
+name: "Parrainage & Wallet"
+---
+- launchApp
+- waitForAnimationToEnd
+
+# Test parrainage
+- tapOn:
+    id: "menu-parrainage"
+- assertVisible: "Parrainage"
+- assertVisible: "Ton code parrainage"
+- assertVisible:
+    id: "btn-copy"
+- assertVisible:
+    id: "btn-share"
+
+- back
+
+# Test wallet
+- tapOn:
+    id: "menu-wallet"
+- assertVisible: "Wallet"
+- assertVisible: "Solde disponible"
+- assertVisible:
+    id: "btn-withdraw"
+
+- takeScreenshot: "parrainage_wallet"
