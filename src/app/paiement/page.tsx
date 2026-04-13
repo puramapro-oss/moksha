@@ -8,7 +8,7 @@ export default function Paiement() {
   return (
     <main className="relative z-10 min-h-screen">
       <LandingNav />
-      <Suspense fallback={<div className="pt-40 text-center text-white/60">Chargement...</div>}>
+      <Suspense fallback={<div className="pt-40 text-center text-white/60">Ton espace se prépare...</div>}>
         <PaiementClient />
       </Suspense>
     </main>

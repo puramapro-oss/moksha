@@ -9,7 +9,7 @@ export const metadata = {
 export default function AuthPage() {
   return (
     <main className="relative z-10 flex min-h-screen items-center justify-center px-6 py-16">
-      <Suspense fallback={<div className="text-white/50">Chargement...</div>}>
+      <Suspense fallback={<div className="text-white/50">Ton espace se prépare...</div>}>
         <AuthForm />
       </Suspense>
     </main>

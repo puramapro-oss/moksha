@@ -21,6 +21,7 @@ export default function Footer() {
               <li><Link href="/creer/association" className="text-white/60 transition hover:text-white">{t('create_association')}</Link></li>
               <li><Link href="/#pricing" className="text-white/60 transition hover:text-white">{t('pricing')}</Link></li>
               <li><Link href="/#faq" className="text-white/60 transition hover:text-white">{t('faq')}</Link></li>
+              <li><Link href="/auth?next=/dashboard/financer" className="text-[#5DCAA5]/80 transition hover:text-[#5DCAA5]">💰 Aides & Financement</Link></li>
             </ul>
           </div>
           <div>

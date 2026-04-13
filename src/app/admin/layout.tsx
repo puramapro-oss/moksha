@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     if (!loading && !isSuperAdmin) router.replace('/dashboard')
   }, [loading, isSuperAdmin, router])
 
-  if (loading) return <div className="p-10 text-white/50">Chargement...</div>
+  if (loading) return <div className="p-10 text-white/50">Ton espace se prépare...</div>
   if (!isSuperAdmin) return null
 
   return (

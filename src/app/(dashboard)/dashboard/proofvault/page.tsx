@@ -108,7 +108,7 @@ export default function ProofVault() {
           onClick={() => fileRef.current?.click()}
         >
           <Upload className="h-10 w-10 text-white/30" />
-          <p className="text-white/60">Aucun document. Glisse un fichier ici ou clique pour ajouter.</p>
+          <p className="text-white/60">L&apos;espace de toutes les possibilités. Glisse un fichier ici ou clique pour ajouter.</p>
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-3">
