@@ -8,30 +8,46 @@
 ## P6: Audit + 21 SIM + Lighthouse ✅
 ## P7: Mobile Expo (iOS + Android) ✅
 
-## UPDATE V5 — Audit + Corrections ✅
-- [x] Phase 1 — Toggle Theme dark/light/OLED
-  - [x] ThemeProvider (src/components/shared/ThemeProvider.tsx)
-  - [x] CSS variables light + OLED dans globals.css
-  - [x] Script anti-flash dans layout.tsx head
-  - [x] Theme selector dans /parametres
-  - [x] DashboardShell utilise CSS vars au lieu de hardcoded colors
-- [x] Phase 2 — Bottom tab mobile (déjà existant dans DashboardShell)
-- [x] Phase 3 — Couche spirituelle
-  - [x] src/lib/awakening.ts (affirmations, citations, micro-textes, niveaux éveil)
-  - [x] src/hooks/useAwakening.ts
-  - [x] src/components/shared/SpiritualLayer.tsx (affirmation modal au login)
-  - [x] src/components/shared/WisdomFooter.tsx (citations rotatives)
-  - [x] /dashboard/breathe (respiration 4-7-8 avec cercle animé)
-  - [x] /dashboard/gratitude (journal 3/jour + streak)
-  - [x] Sidebar: section "Bien-être" avec Respiration + Gratitude
-  - [x] WisdomFooter intégré dans DashboardShell
-  - [x] SpiritualLayer intégré dans DashboardShell
-- [x] Phase 4 — Module /financer
-  - [x] src/lib/aides-data.ts (45 aides avec matching + cumul)
-  - [x] /dashboard/financer — wizard 4 étapes (profil → matching → PDF → suivi)
-  - [x] Bandeau vert sur Pricing "La plupart ne paient rien grâce aux aides"
-  - [x] Lien /financer dans sidebar (section Croissance)
-- [x] Phase 5 — Vérification
-  - [x] tsc --noEmit = 0 erreurs
-  - [x] npm run build = OK (toutes pages incluses)
-  - [x] grep TODO/console.log/Lorem/faux contenu = 0
+## UPDATE V5 — Audit + Corrections ✅ COMPLET
+- [x] Theme dark/light/OLED (ThemeProvider, CSS, toggle /parametres)
+- [x] Couche spirituelle (SpiritualLayer, WisdomFooter, /breathe, /gratitude, awakening.ts)
+- [x] Module /financer (wizard 4 étapes, 45 aides, bandeau pricing, lien footer)
+- [x] Micro-textes empowering (loading/empty states)
+- [x] Table moksha_gratitude_entries sur VPS avec RLS
+- [x] Lien /financer dans footer public
+- [x] Vérification : tsc 0, build OK, grep clean, curl 200 toutes pages
+- [x] Deploy Vercel prebuilt prod OK
+
+## AUDIT V5 — Phase A: DB + /financer complet ✅
+- [x] Table moksha_aides dans schema moksha (45 aides seedées + RLS)
+- [x] Table moksha_dossiers_financement (+ RLS + CRUD)
+- [x] API /api/financer (GET matching aides depuis DB)
+- [x] API /api/financer/dossiers (GET/POST/PATCH)
+- [x] /financer connecté au DB (plus de JS statique)
+- [x] Vraie génération PDF avec jsPDF
+- [x] Permissions GRANT schema moksha
+
+## AUDIT V5 — Phase B: Persistence spirituelle ✅
+- [x] Table moksha_breath_sessions + RLS
+- [x] Table moksha_intentions + RLS
+- [x] Table moksha_awakening_events + RLS
+- [x] /breathe connecté DB (sessions, historique, +50pts auto)
+- [x] /intentions page créée (quotidienne, toggle, streak)
+- [x] Sidebar + Intentions nav item
+
+## AUDIT V5 — Phase C: Engagement ❌
+- [ ] Système streak avec persistence DB
+- [ ] Daily gift (coffre quotidien) avec table + UI
+- [ ] Onboarding 10sec (1ère connexion)
+- [ ] Table moksha_point_transactions historique
+
+## AUDIT V5 — Phase D: Social ❌
+- [ ] Classement hebdo avec ligues
+- [ ] CRONs concours auto
+- [ ] Système influenceur (/devenir-influenceur, /go/[slug])
+
+## AUDIT V5 — Phase E: Polish ❌
+- [ ] Conversion popup (triggers contextuels)
+- [ ] Notifications IA adaptatives
+- [ ] Email sequences Resend (10 emails)
+- [ ] Wrapped mensuel

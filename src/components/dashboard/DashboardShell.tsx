@@ -23,6 +23,7 @@ import {
   Wind,
   Heart,
   Banknote,
+  Sparkles,
 } from 'lucide-react'
 import Logo from '@/components/shared/Logo'
 import WisdomFooter from '@/components/shared/WisdomFooter'
@@ -54,6 +55,7 @@ const grow: NavItem[] = [
 const wellbeing: NavItem[] = [
   { href: '/dashboard/breathe', label: 'Respiration', icon: Wind },
   { href: '/dashboard/gratitude', label: 'Gratitude', icon: Heart },
+  { href: '/dashboard/intentions', label: 'Intentions', icon: Sparkles },
 ]
 
 const support: NavItem[] = [
