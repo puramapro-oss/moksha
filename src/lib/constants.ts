@@ -3,7 +3,7 @@
 export const APP_SCHEMA = 'moksha'
 export const APP_NAME = 'MOKSHA'
 export const APP_TAGLINE = 'Libère-toi. Crée ton empire en 10 minutes.'
-export const APP_DESCRIPTION = 'Crée ton entreprise ou ton association en 10 minutes. Agent IA juridique, coffre-fort sécurisé, dépôt INPI automatique. Concurrent direct de LegalPlace.'
+export const APP_DESCRIPTION = 'Crée ton entreprise ou ton association en 10 minutes. Agent IA juridique, coffre-fort sécurisé, dépôt INPI automatique.'
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://moksha.purama.dev'
 export const SUPER_ADMIN_EMAIL = 'matiss.frasne@gmail.com'
 

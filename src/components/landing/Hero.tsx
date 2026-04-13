@@ -3,28 +3,29 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
-import { Flame, Zap, Shield, Sparkles } from 'lucide-react'
+import { Sparkles, ShieldCheck, Zap } from 'lucide-react'
 
 export default function Hero() {
   const t = useTranslations('hero')
+
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-32">
-      <div className="relative mx-auto max-w-7xl px-6 text-center">
+    <section className="relative overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-40 md:pb-28 lg:pt-44 lg:pb-32">
+      <div className="relative mx-auto w-full max-w-6xl px-4 text-center sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/80 backdrop-blur-lg"
+          transition={{ duration: 0.5 }}
+          className="mx-auto mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-[12px] text-white/75 backdrop-blur-xl sm:text-[13px]"
         >
-          <Flame className="h-4 w-4 text-[#FF6B35]" />
-          <span>{t('badge')}</span>
+          <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#FFD700]" />
+          <span className="truncate">{t('badge')}</span>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="h1-hero mx-auto max-w-4xl"
+          transition={{ duration: 0.65, delay: 0.08 }}
+          className="moksha-h1 mx-auto max-w-[18ch] text-balance"
         >
           {t('title_1')}{' '}
           <span className="moksha-gradient-text">{t('title_highlight')}</span>{' '}
@@ -32,52 +33,53 @@ export default function Hero() {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="mx-auto mt-6 max-w-2xl text-lg text-white/70 md:text-xl"
+          transition={{ duration: 0.65, delay: 0.16 }}
+          className="mx-auto mt-5 max-w-[58ch] text-pretty text-[15px] leading-relaxed text-white/65 sm:mt-6 sm:text-base md:text-lg"
         >
-          {t('subtitle')} <span className="text-white">{t('subtitle_emphasis')}</span>
+          {t('subtitle')} <span className="text-white/90">{t('subtitle_emphasis')}</span>
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+          transition={{ duration: 0.65, delay: 0.24 }}
+          className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4"
         >
           <Link
             href="/demarrer"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-8 py-4 text-base font-bold text-[#070B18] shadow-[0_0_40px_-5px_rgba(255,107,53,0.6)] transition-all hover:scale-[1.03] active:scale-[0.98]"
+            className="group relative inline-flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-7 py-3.5 text-[15px] font-semibold text-[#070B18] shadow-[0_8px_40px_-10px_rgba(255,107,53,0.7)] transition hover:shadow-[0_12px_50px_-8px_rgba(255,215,0,0.6)] sm:w-auto"
           >
-            <Flame className="h-5 w-5" />
             {t('cta_primary')}
-            <span className="transition-transform group-hover:translate-x-1">→</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
           </Link>
           <Link
             href="#comment"
-            className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-8 py-4 text-base font-medium text-white backdrop-blur-xl transition hover:bg-white/10"
+            className="inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] px-7 py-3.5 text-[15px] font-medium text-white/85 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/[0.08] sm:w-auto"
           >
-            {t('cta_secondary')} ▶
+            {t('cta_secondary')}
           </Link>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-white/50"
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[12px] text-white/45 sm:text-[13px]"
         >
-          <div className="flex items-center gap-2">
-            <Shield className="h-4 w-4 text-[#5DCAA5]" />
+          <div className="flex items-center gap-1.5">
+            <ShieldCheck className="h-3.5 w-3.5 text-[#5DCAA5]" />
             <span>{t('trust_1')}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Zap className="h-4 w-4 text-[#FFD700]" />
+          <span className="hidden h-1 w-1 rounded-full bg-white/15 sm:block" />
+          <div className="flex items-center gap-1.5">
+            <Zap className="h-3.5 w-3.5 text-[#FFD700]" />
             <span>{t('trust_2')}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-[#FF6B35]" />
+          <span className="hidden h-1 w-1 rounded-full bg-white/15 sm:block" />
+          <div className="flex items-center gap-1.5">
+            <Sparkles className="h-3.5 w-3.5 text-[#FF6B35]" />
             <span>{t('trust_3')}</span>
           </div>
         </motion.div>

@@ -8,6 +8,7 @@ import { getLocale, getMessages } from 'next-intl/server'
 import ErrorBoundary from '@/components/shared/ErrorBoundary'
 import CinematicIntro from '@/components/shared/CinematicIntro'
 import CookieBanner from '@/components/shared/CookieBanner'
+import ThemeProvider from '@/components/shared/ThemeProvider'
 import CursorGlow from '@/components/shared/CursorGlow'
 import { localeMeta, type Locale } from '@/i18n/config'
 import { APP_DESCRIPTION, APP_NAME, APP_URL } from '@/lib/constants'
@@ -41,7 +42,6 @@ export const metadata: Metadata = {
     'SCI',
     'micro-entreprise',
     'association loi 1901',
-    'LegalPlace',
     'INPI',
     'dépôt INPI',
     'statuts',
@@ -89,10 +89,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={locale} dir={dir} className={`${syne.variable} ${dmSans.variable}`}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')};(function(){try{var t=localStorage.getItem('moksha-theme');if(t&&['dark','light','oled'].indexOf(t)>-1)document.documentElement.setAttribute('data-theme',t)}catch(e){}})()` }} />
       </head>
       <body className="min-h-screen bg-[var(--bg-void)] font-[family-name:var(--font-body)] text-[var(--text-primary)] antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <ThemeProvider>
           <div className="aurora" />
           <div className="grid-bg" />
           <div className="noise" />
@@ -116,6 +117,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           />
           <Analytics />
           <SpeedInsights />
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

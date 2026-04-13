@@ -33,46 +33,48 @@ const choices = [
 
 export default function Choices() {
   return (
-    <section className="py-24">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-14 text-center">
-          <h2 className="font-display text-4xl font-extrabold md:text-5xl" style={{ fontFamily: 'var(--font-display)' }}>
-            Par où veux-tu <span className="moksha-gradient-text">commencer ?</span>
+    <section className="moksha-section">
+      <div className="moksha-container">
+        <div className="mx-auto mb-12 max-w-2xl text-center sm:mb-14">
+          <p className="moksha-eyebrow mb-3">Par où commencer</p>
+          <h2 className="moksha-h2">
+            Choisis ta <span className="moksha-gradient-text">voie</span>.
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/60">
-            Trois voies vers la libération. Choisis celle qui correspond à ton projet.
+          <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-white/55">
+            Trois portes d&apos;entrée. Une seule libération.
           </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-4 sm:gap-5 md:grid-cols-3">
           {choices.map((c, i) => (
             <motion.div
               key={c.title}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
             >
               <Link
                 href={c.href}
-                className="glass glass-hover group block h-full p-8 transition-all"
-                style={{ '--accent': c.color } as React.CSSProperties}
+                className="glass glass-hover group flex h-full flex-col p-6 transition-all sm:p-7"
               >
                 <div
-                  className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl transition-transform group-hover:scale-110"
+                  className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl transition-transform group-hover:scale-105"
                   style={{
-                    background: `linear-gradient(135deg, ${c.color}20, ${c.color}10)`,
-                    border: `1px solid ${c.color}35`,
+                    background: `linear-gradient(135deg, ${c.color}26, ${c.color}0d)`,
+                    border: `1px solid ${c.color}33`,
                   }}
                 >
-                  <c.icon className="h-7 w-7" style={{ color: c.color }} />
+                  <c.icon className="h-6 w-6" style={{ color: c.color }} />
                 </div>
-                <h3 className="mb-3 font-display text-2xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>
+                <h3 className="mb-2 font-display text-lg font-bold tracking-tight text-white sm:text-xl">
                   {c.title}
                 </h3>
-                <p className="mb-6 text-sm leading-relaxed text-white/60">{c.description}</p>
-                <span className="inline-flex items-center gap-2 text-sm font-semibold" style={{ color: c.color }}>
+                <p className="mb-6 text-pretty text-[13.5px] leading-relaxed text-white/60 sm:text-[14.5px]">
+                  {c.description}
+                </p>
+                <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: c.color }}>
                   {c.cta}
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                  <span className="transition-transform group-hover:translate-x-0.5">→</span>
                 </span>
               </Link>
             </motion.div>

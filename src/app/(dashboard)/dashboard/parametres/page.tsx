@@ -1,10 +1,48 @@
 'use client'
 
 import { useState } from 'react'
-import { Settings, LogOut, Bell, Download, Trash2 } from 'lucide-react'
+import { Settings, LogOut, Bell, Download, Trash2, Sun, Moon, Monitor } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
+import { useTheme, type Theme } from '@/components/shared/ThemeProvider'
+
+const themes: { value: Theme; label: string; icon: typeof Sun; desc: string }[] = [
+  { value: 'dark', label: 'Sombre', icon: Moon, desc: 'Thème par défaut' },
+  { value: 'light', label: 'Clair', icon: Sun, desc: 'Mode lumineux' },
+  { value: 'oled', label: 'OLED', icon: Monitor, desc: 'Noir pur, économie batterie' },
+]
+
+function ThemeSelector() {
+  const { theme, setTheme } = useTheme()
+  return (
+    <div className="glass p-6 space-y-4">
+      <h2 className="flex items-center gap-2 font-semibold">
+        <Sun className="h-4 w-4 text-[#FFD700]" /> Apparence
+      </h2>
+      <div className="grid grid-cols-3 gap-3">
+        {themes.map((t) => {
+          const active = theme === t.value
+          return (
+            <button
+              key={t.value}
+              onClick={() => setTheme(t.value)}
+              className={`flex flex-col items-center gap-2 rounded-xl p-4 text-center transition-all ${
+                active
+                  ? 'border border-[#FF6B35]/50 bg-[#FF6B35]/10 text-white'
+                  : 'border border-white/5 bg-white/[0.03] text-white/60 hover:bg-white/5'
+              }`}
+            >
+              <t.icon className={`h-5 w-5 ${active ? 'text-[#FF6B35]' : ''}`} />
+              <span className="text-sm font-medium">{t.label}</span>
+              <span className="text-[10px] text-[var(--text-muted)]">{t.desc}</span>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
 
 export default function Parametres() {
   const { profile, signOut, refetch } = useAuth()
@@ -70,6 +108,9 @@ export default function Parametres() {
           {saving ? 'Enregistrement...' : 'Enregistrer'}
         </button>
       </div>
+
+      {/* Theme */}
+      <ThemeSelector />
 
       {/* Notifications */}
       <div className="glass p-6 space-y-4">

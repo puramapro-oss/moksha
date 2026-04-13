@@ -17,8 +17,8 @@ const faqs = [
     r: "Aucun. Notre tarif MOKSHA ne couvre pas les frais officiels obligatoires que tu paies dans tous les cas : greffe ≈ 37€ et annonce légale ≈ 150-200€ (parution obligatoire au Journal d'Annonces Légales). Nous te les affichons avant paiement.",
   },
   {
-    q: "Quel taux de réussite ? Y a-t-il un risque de refus ?",
-    r: "Notre taux de conformité est supérieur à 98% grâce à ScannerPerfect et au contrôle JurisIA. En cas de refus, la Garantie Zéro Refus s'active : correction et redépôt gratuits illimités.",
+    q: "Y a-t-il un risque de refus du greffe ?",
+    r: "ScannerPerfect™ contrôle la qualité de tes pièces (lisibilité, format, complétude) avant envoi, et JurisIA vérifie la cohérence juridique du dossier. Si malgré tout le greffe demande une régularisation, la Garantie Zéro Refus s'active : on corrige et on redépose gratuitement, autant de fois qu'il faut.",
   },
   {
     q: "Mes données sont-elles sécurisées ?",
@@ -42,30 +42,40 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <section id="faq" className="py-24">
-      <div className="mx-auto max-w-3xl px-6">
-        <div className="mb-12 text-center">
-          <h2 className="font-display text-4xl font-extrabold md:text-5xl" style={{ fontFamily: 'var(--font-display)' }}>
+    <section id="faq" className="moksha-section">
+      <div className="moksha-container max-w-3xl">
+        <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
+          <p className="moksha-eyebrow mb-3">FAQ</p>
+          <h2 className="moksha-h2">
             Questions <span className="moksha-gradient-text">fréquentes</span>
           </h2>
         </div>
-        <div className="space-y-3">
-          {faqs.map((f, i) => (
-            <div key={i} className="glass overflow-hidden">
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition hover:bg-white/[0.02]"
-              >
-                <span className="font-semibold">{f.q}</span>
-                {open === i ? <Minus className="h-5 w-5 shrink-0 text-[#FF6B35]" /> : <Plus className="h-5 w-5 shrink-0 text-white/50" />}
-              </button>
-              {open === i && (
-                <div className="border-t border-white/5 px-6 py-5 text-sm leading-relaxed text-white/70">
-                  {f.r}
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="space-y-2.5">
+          {faqs.map((f, i) => {
+            const isOpen = open === i
+            return (
+              <div key={i} className={`glass overflow-hidden transition-colors ${isOpen ? 'border-white/15' : ''}`}>
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-white/[0.025] sm:px-6 sm:py-5"
+                  aria-expanded={isOpen}
+                >
+                  <span className="text-[14.5px] font-semibold text-white/90 sm:text-base">{f.q}</span>
+                  {isOpen ? (
+                    <Minus className="h-4 w-4 shrink-0 text-[#FF6B35]" />
+                  ) : (
+                    <Plus className="h-4 w-4 shrink-0 text-white/45" />
+                  )}
+                </button>
+                {isOpen && (
+                  <div className="border-t border-white/5 px-5 py-5 text-[13.5px] leading-relaxed text-pretty text-white/65 sm:px-6 sm:text-[14.5px]">
+                    {f.r}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

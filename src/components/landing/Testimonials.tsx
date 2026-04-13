@@ -1,71 +1,75 @@
 'use client'
 
-import { Star } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { HeartHandshake, Eye, Lock, Sparkles } from 'lucide-react'
 
-const featured = {
-  name: 'Maëlle R.',
-  role: 'Fondatrice SASU freelance design',
-  text: "J'ai créé ma SASU un samedi soir depuis mon canapé. Lundi matin, JurisIA m'a guidée sur ma première facture. Franchement, jamais je ne serais passée par un notaire. MOKSHA m'a fait gagner 800€ et 2 semaines.",
-}
-
-const others = [
-  { name: 'Kevin L.', role: 'SCI familiale', text: "Le simulateur m'a sauvé : j'ai comparé SCI IR vs IS en 5 min. Le comparatif m'a convaincu de basculer à l'IS.", stars: 5 },
-  { name: 'Ahmed B.', role: 'Micro-entrepreneur', text: "Créé en 8 min chrono. Le ScannerPerfect a détecté que ma pièce d'identité était floue avant envoi. Zéro refus.", stars: 5 },
-  { name: 'Claire M.', role: 'Association culturelle', text: "On a lancé notre asso loi 1901 en une soirée. Les statuts sont clairs, la déclaration préfecture partie seule.", stars: 5 },
-  { name: 'Thomas D.', role: 'SAS startup', text: "Le coffre ProofVault est un game changer. J'ai partagé mon Kbis et mes statuts à ma banque en 1 clic.", stars: 5 },
-  { name: 'Sofia P.', role: 'EURL consultante', text: "JurisIA m'a expliqué le régime TNS vs assimilé salarié en mots simples. J'ai enfin compris.", stars: 5 },
+const principles = [
+  {
+    icon: HeartHandshake,
+    title: 'Honnêteté radicale',
+    text: "Pas de témoignages inventés, pas de chiffres gonflés. Tu vois exactement ce que tu paies, ce que tu obtiens, et ce qui est en cours de construction.",
+    color: '#FF6B35',
+  },
+  {
+    icon: Eye,
+    title: 'Transparence totale',
+    text: "Frais de greffe, annonce légale, délais réels du greffe : tout est annoncé avant paiement. Aucune surprise, aucune option masquée.",
+    color: '#FFD700',
+  },
+  {
+    icon: Lock,
+    title: "Tes données t'appartiennent",
+    text: "Hébergement Europe, chiffrement AES-256, conformité RGPD. Tu peux exporter ou supprimer ton dossier à tout moment, en un clic.",
+    color: '#5DCAA5',
+  },
+  {
+    icon: Sparkles,
+    title: 'JurisIA, pas un avocat',
+    text: "JurisIA cite les sources officielles et indique son indice de confiance. Sur les cas complexes, il te redirige vers un professionnel — c'est la règle.",
+    color: '#FF6B35',
+  },
 ]
 
 export default function Testimonials() {
   return (
-    <section className="py-24">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-14 text-center">
-          <h2 className="font-display text-4xl font-extrabold md:text-5xl" style={{ fontFamily: 'var(--font-display)' }}>
-            Ils se sont <span className="moksha-gradient-text">libérés</span>.
+    <section className="moksha-section">
+      <div className="moksha-container">
+        <div className="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
+          <p className="moksha-eyebrow mb-3">Nos engagements</p>
+          <h2 className="moksha-h2">
+            Construit sur des <span className="moksha-gradient-text">principes clairs</span>.
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/60">
-            (Noms fictifs, cas d&apos;usage représentatifs.)
+          <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-white/55">
+            MOKSHA est en lancement. Plutôt que d'inventer des avis, on te dit comment on travaille.
           </p>
         </div>
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="glass lg:col-span-1 lg:row-span-2 flex flex-col justify-between p-8">
-            <div>
-              <div className="mb-4 flex gap-1">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-[#FFD700] text-[#FFD700]" />
-                ))}
+
+        <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
+          {principles.map((p, i) => (
+            <motion.div
+              key={p.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="glass glass-hover relative overflow-hidden p-6 sm:p-8"
+            >
+              <div
+                className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl"
+                style={{
+                  background: `linear-gradient(135deg, ${p.color}26, ${p.color}0d)`,
+                  border: `1px solid ${p.color}33`,
+                }}
+              >
+                <p.icon className="h-5 w-5" style={{ color: p.color }} />
               </div>
-              <p className="text-lg leading-relaxed text-white/85">&ldquo;{featured.text}&rdquo;</p>
-            </div>
-            <div className="mt-8 flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFD700] text-sm font-bold text-[#070B18]">
-                {featured.name.split(' ').map((p) => p[0]).join('')}
-              </div>
-              <div>
-                <p className="text-sm font-semibold">{featured.name}</p>
-                <p className="text-xs text-white/50">{featured.role}</p>
-              </div>
-            </div>
-          </div>
-          {others.map((o) => (
-            <div key={o.name} className="glass p-6">
-              <div className="mb-3 flex gap-1">
-                {Array.from({ length: o.stars }).map((_, i) => (
-                  <Star key={i} className="h-3.5 w-3.5 fill-[#FFD700] text-[#FFD700]" />
-                ))}
-              </div>
-              <p className="mb-4 text-sm leading-relaxed text-white/75">&ldquo;{o.text}&rdquo;</p>
-              <div className="flex items-center gap-2">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xs font-bold">
-                  {o.name.split(' ').map((p) => p[0]).join('')}
-                </div>
-                <div>
-                  <p className="text-xs font-semibold">{o.name}</p>
-                  <p className="text-[11px] text-white/50">{o.role}</p>
-                </div>
-              </div>
-            </div>
+              <h3 className="mb-2 font-display text-lg font-bold tracking-tight text-white sm:text-xl">
+                {p.title}
+              </h3>
+              <p className="text-pretty text-[14px] leading-relaxed text-white/60 sm:text-[15px]">
+                {p.text}
+              </p>
+            </motion.div>
           ))}
         </div>
       </div>

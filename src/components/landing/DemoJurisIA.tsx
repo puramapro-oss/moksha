@@ -12,26 +12,26 @@ const features = [
 
 export default function DemoJurisIA() {
   return (
-    <section className="py-24">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 md:grid-cols-2">
+    <section className="moksha-section">
+      <div className="moksha-container grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
         <div>
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/80">
-            <Bot className="h-4 w-4 text-[#FF6B35]" /> JurisIA
-          </div>
-          <h2 className="font-display text-4xl font-extrabold md:text-5xl" style={{ fontFamily: 'var(--font-display)' }}>
-            Ton <span className="moksha-gradient-text">avocat IA</span> de confiance, 24/7.
+          <p className="moksha-eyebrow mb-3 flex items-center gap-2">
+            <Bot className="h-3.5 w-3.5 text-[#FF6B35]" /> JurisIA
+          </p>
+          <h2 className="moksha-h2">
+            Ton agent juridique <span className="moksha-gradient-text">IA</span>, 24/7.
           </h2>
-          <p className="mt-4 text-white/60">
+          <p className="mt-4 max-w-md text-pretty text-[15px] leading-relaxed text-white/60">
             Pose tes questions en français simple. JurisIA cite les textes officiels, évalue sa confiance et te
             redirige vers un professionnel pour les cas complexes.
           </p>
-          <ul className="mt-8 space-y-4">
+          <ul className="mt-7 space-y-3.5">
             {features.map((f) => (
               <li key={f.label} className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#FF6B35]/30 bg-[#FF6B35]/10">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#FF6B35]/30 bg-[#FF6B35]/10">
                   <f.icon className="h-4 w-4 text-[#FF6B35]" />
                 </div>
-                <span className="text-sm text-white/80">{f.label}</span>
+                <span className="text-[14px] text-white/80 sm:text-sm">{f.label}</span>
               </li>
             ))}
           </ul>

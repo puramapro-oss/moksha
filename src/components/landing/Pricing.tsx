@@ -69,72 +69,87 @@ export default function Pricing() {
   const [interval, setInterval] = useState<Interval>('mensuel')
 
   return (
-    <section id="pricing" className="py-24">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-10 text-center">
-          <h2 className="font-display text-4xl font-extrabold md:text-5xl" style={{ fontFamily: 'var(--font-display)' }}>
-            Libère-toi à <span className="moksha-gradient-text">ton rythme</span>.
+    <section id="pricing" className="moksha-section">
+      <div className="moksha-container">
+        {/* Bandeau financement */}
+        <Link
+          href="/auth?next=/dashboard/financer"
+          className="mb-8 flex items-center justify-center gap-2 rounded-xl border border-[#5DCAA5]/30 bg-[#5DCAA5]/10 px-5 py-3 text-sm transition hover:bg-[#5DCAA5]/15"
+        >
+          <span className="text-lg">💰</span>
+          <span className="text-[#5DCAA5]">
+            La plupart de nos clients ne paient rien grâce aux aides publiques.
+          </span>
+          <span className="font-semibold text-[#5DCAA5] underline underline-offset-2">
+            Vérifier mes aides →
+          </span>
+        </Link>
+
+        <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12">
+          <p className="moksha-eyebrow mb-3">Tarifs</p>
+          <h2 className="moksha-h2">
+            À ton <span className="moksha-gradient-text">rythme</span>.
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-white/60">
-            10 % du chiffre d&apos;affaires de MOKSHA est reversé à l&apos;association Purama (inclusion numérique).
+          <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-white/55">
+            Sans engagement, annulable en un clic. 10&nbsp;% du chiffre d&apos;affaires est reversé à l&apos;association Purama.
           </p>
-          <div className="mt-8 inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur-xl">
+          <div className="mt-7 inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1 backdrop-blur-xl">
             <button
+              type="button"
               onClick={() => setInterval('mensuel')}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition ${
-                interval === 'mensuel' ? 'bg-white/10 text-white' : 'text-white/50'
+              className={`rounded-full px-4 py-1.5 text-[13px] font-medium transition sm:px-5 sm:py-2 sm:text-sm ${
+                interval === 'mensuel' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white/75'
               }`}
             >
               Mensuel
             </button>
             <button
+              type="button"
               onClick={() => setInterval('annuel')}
-              className={`relative rounded-full px-5 py-2 text-sm font-medium transition ${
-                interval === 'annuel' ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18]' : 'text-white/50'
+              className={`relative rounded-full px-4 py-1.5 text-[13px] font-medium transition sm:px-5 sm:py-2 sm:text-sm ${
+                interval === 'annuel' ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18]' : 'text-white/50 hover:text-white/75'
               }`}
             >
               Annuel
-              <span className="ml-2 rounded-full bg-[#5DCAA5]/20 px-2 py-0.5 text-[10px] font-bold text-[#5DCAA5]">
-                -20 %
+              <span className="ml-1.5 rounded-full bg-[#5DCAA5]/20 px-1.5 py-0.5 text-[10px] font-bold text-[#5DCAA5] sm:ml-2 sm:px-2">
+                -20%
               </span>
             </button>
           </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="mx-auto grid max-w-5xl items-stretch gap-5 md:grid-cols-3 md:gap-4 lg:gap-5">
           {plans.map((p) => (
             <div
               key={p.id}
-              className={`glass relative flex flex-col p-8 ${
-                p.featured ? 'scale-[1.03] border-[#FF6B35]/40 shadow-[0_0_60px_-15px_rgba(255,107,53,0.5)]' : ''
+              className={`glass relative flex flex-col p-7 sm:p-8 ${
+                p.featured ? 'border-[#FF6B35]/35 shadow-[0_0_60px_-20px_rgba(255,107,53,0.55)] md:-my-3 md:py-10' : ''
               }`}
             >
               {p.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-1 text-[11px] font-bold text-[#070B18]">
-                  🔥 {p.badge}
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-3 py-1 text-[10px] font-bold tracking-wide text-[#070B18]">
+                  {p.badge}
                 </div>
               )}
-              <div className="mb-6">
-                <h3 className="font-display text-2xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>
-                  {p.name}
-                </h3>
-                <p className="mt-1 text-sm text-white/55">{p.description}</p>
+              <div className="mb-5">
+                <h3 className="font-display text-xl font-bold tracking-tight text-white">{p.name}</h3>
+                <p className="mt-1 text-[13px] text-white/55">{p.description}</p>
               </div>
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-extrabold">
+                  <span className="font-display text-[44px] font-extrabold leading-none tracking-tight text-white">
                     {p.prices[interval]}
-                    <span className="text-2xl">€</span>
                   </span>
-                  {p.prices[interval] > 0 && <span className="text-sm text-white/50">/mois</span>}
+                  <span className="text-2xl font-extrabold text-white">€</span>
+                  {p.prices[interval] > 0 && <span className="ml-1 text-[13px] text-white/45">/mois</span>}
                 </div>
                 {interval === 'annuel' && p.prices.annuel > 0 && (
-                  <p className="mt-1 text-xs text-white/40">facturé {p.prices.annuel * 12}€/an</p>
+                  <p className="mt-1 text-[11px] text-white/40">facturé {p.prices.annuel * 12}€/an</p>
                 )}
               </div>
-              <ul className="mb-8 space-y-3">
+              <ul className="mb-7 space-y-2.5">
                 {p.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm text-white/80">
+                  <li key={f} className="flex items-start gap-2 text-[13.5px] leading-relaxed text-white/75">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#5DCAA5]" />
                     <span>{f}</span>
                   </li>
@@ -142,10 +157,10 @@ export default function Pricing() {
               </ul>
               <Link
                 href={p.href}
-                className={`mt-auto inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition ${
+                className={`mt-auto inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[13.5px] font-bold transition ${
                   p.featured
-                    ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18] hover:opacity-95'
-                    : 'border border-white/10 bg-white/5 text-white hover:bg-white/10'
+                    ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18] shadow-[0_8px_30px_-12px_rgba(255,215,0,0.55)] hover:opacity-95'
+                    : 'border border-white/10 bg-white/[0.04] text-white hover:border-white/20 hover:bg-white/[0.08]'
                 }`}
               >
                 {p.featured && <Flame className="h-4 w-4" />}

@@ -20,8 +20,13 @@ import {
   Star,
   Trophy,
   MessageSquare,
+  Wind,
+  Heart,
+  Banknote,
 } from 'lucide-react'
 import Logo from '@/components/shared/Logo'
+import WisdomFooter from '@/components/shared/WisdomFooter'
+import SpiritualLayer from '@/components/shared/SpiritualLayer'
 import { useAuth } from '@/hooks/useAuth'
 import NotificationBell from './NotificationBell'
 
@@ -43,6 +48,12 @@ const grow: NavItem[] = [
   { href: '/dashboard/wallet', label: 'Wallet', icon: Wallet },
   { href: '/dashboard/points', label: 'Points', icon: Star },
   { href: '/dashboard/concours', label: 'Concours', icon: Trophy },
+  { href: '/dashboard/financer', label: 'Financer', icon: Banknote },
+]
+
+const wellbeing: NavItem[] = [
+  { href: '/dashboard/breathe', label: 'Respiration', icon: Wind },
+  { href: '/dashboard/gratitude', label: 'Gratitude', icon: Heart },
 ]
 
 const support: NavItem[] = [
@@ -75,7 +86,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   return (
     <div className="relative z-10 flex min-h-screen">
       {/* Sidebar desktop */}
-      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-white/5 bg-[#0A0F1E]/60 p-5 backdrop-blur-xl md:flex md:flex-col">
+      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-white/5 bg-[var(--bg-nebula)]/60 p-5 backdrop-blur-xl md:flex md:flex-col">
         <div className="mb-8 flex items-center justify-between">
           <Logo />
           <NotificationBell />
@@ -85,6 +96,9 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           <div className="my-4 border-t border-white/5" />
           <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-white/30">Croissance</p>
           {grow.map((i) => <NavLink key={i.href} item={i} pathname={pathname} />)}
+          <div className="my-4 border-t border-white/5" />
+          <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-white/30">Bien-être</p>
+          {wellbeing.map((i) => <NavLink key={i.href} item={i} pathname={pathname} />)}
           <div className="my-4 border-t border-white/5" />
           <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-white/30">Support</p>
           {support.map((i) => <NavLink key={i.href} item={i} pathname={pathname} />)}
@@ -118,7 +132,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       {/* Main */}
       <main className="flex-1 pb-20 md:pb-8">
         {/* Mobile header */}
-        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/5 bg-[#070B18]/80 px-5 py-4 backdrop-blur-xl md:hidden">
+        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/5 bg-[var(--bg-void)]/80 px-5 py-4 backdrop-blur-xl md:hidden">
           <Logo size="sm" />
           <div className="flex items-center gap-2">
             <NotificationBell />
@@ -127,11 +141,15 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             </button>
           </div>
         </header>
-        <div className="mx-auto max-w-6xl p-6 md:p-10">{children}</div>
+        <div className="mx-auto max-w-6xl p-6 md:p-10">
+          {children}
+          <WisdomFooter />
+        </div>
       </main>
+      <SpiritualLayer />
 
       {/* Mobile bottom nav */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-around border-t border-white/10 bg-[#070B18]/95 py-2 backdrop-blur-2xl md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-around border-t border-white/10 bg-[var(--bg-void)]/95 py-2 backdrop-blur-2xl md:hidden">
         {main.slice(0, 5).map((item) => {
           const active = pathname === item.href || (item.href !== '/dashboard' && pathname?.startsWith(item.href))
           return (

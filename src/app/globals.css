@@ -34,7 +34,8 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; overflow-x: clip; }
+html, body { max-width: 100%; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   background: var(--bg-void);
   color: var(--text-primary);
@@ -43,8 +44,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   position: relative;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
+img, svg, video, canvas { max-width: 100%; height: auto; }
 
 body::before {
   content: '';
@@ -127,10 +129,14 @@ body::before {
   position: fixed;
   border-radius: 50%;
   filter: blur(120px);
-  opacity: 0.25;
+  opacity: 0.22;
   pointer-events: none;
   z-index: 0;
   animation: drift 22s ease-in-out infinite;
+  will-change: transform;
+}
+@media (max-width: 768px) {
+  .fire-orb { opacity: 0.16; filter: blur(80px); }
 }
 @keyframes drift {
   0%, 100% { transform: translate(0, 0) scale(1); }
@@ -164,13 +170,38 @@ body::before {
   border-color: rgba(93, 202, 165, 0.5);
 }
 
-.h1-hero {
+.h1-hero,
+.moksha-h1 {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.25rem, 5.6vw + 0.5rem, 4.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  word-wrap: break-word;
+  hyphens: auto;
 }
+
+.moksha-h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.875rem, 3.4vw + 0.6rem, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.moksha-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+}
+
+.text-balance { text-wrap: balance; }
+.text-pretty { text-wrap: pretty; }
+
+.moksha-section { padding-block: clamp(64px, 8vw, 120px); }
+.moksha-container { max-width: 1200px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); }
 
 /* --- Utils --- */
 .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -285,6 +316,69 @@ input, textarea, select { font-family: inherit; }
 }
 .glow-border:hover::after {
   opacity: 1;
+}
+
+/* --- Light Theme --- */
+[data-theme="light"] {
+  --bg-void: #F5F3EF;
+  --bg-nebula: #EDE9E3;
+  --bg-card: rgba(0,0,0,0.04);
+  --bg-card-hover: rgba(0,0,0,0.07);
+  --text-primary: #1A1A2E;
+  --text-secondary: rgba(26, 26, 46, 0.65);
+  --text-muted: rgba(26, 26, 46, 0.4);
+  --border: rgba(0,0,0,0.08);
+  --border-glow: rgba(255, 107, 53, 0.25);
+}
+[data-theme="light"] body { background: var(--bg-void); color: var(--text-primary); }
+[data-theme="light"] body::before {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.06), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.04), transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(93, 202, 165, 0.03), transparent 60%);
+}
+[data-theme="light"] .fire-orb { opacity: 0.06; }
+[data-theme="light"] .aurora::before { opacity: 0.5; }
+[data-theme="light"] .grid-bg {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+}
+[data-theme="light"] .noise { opacity: 0.015; }
+[data-theme="light"] .glass {
+  background: rgba(255,255,255,0.65);
+  border-color: rgba(0,0,0,0.08);
+}
+[data-theme="light"] .glass-hover:hover {
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 40px rgba(255, 107, 53, 0.08);
+}
+[data-theme="light"] ::selection { background: rgba(255, 107, 53, 0.25); color: #1A1A2E; }
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(255, 107, 53, 0.15); }
+
+/* --- OLED Theme --- */
+[data-theme="oled"] {
+  --bg-void: #000000;
+  --bg-nebula: #050505;
+  --bg-card: rgba(255,255,255,0.025);
+  --bg-card-hover: rgba(255,255,255,0.045);
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255,255,255,0.6);
+  --text-muted: rgba(255,255,255,0.3);
+  --border: rgba(255,255,255,0.06);
+}
+[data-theme="oled"] body { background: #000000; }
+[data-theme="oled"] body::before {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.05), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.03), transparent 50%);
+}
+[data-theme="oled"] .fire-orb { opacity: 0.12; }
+[data-theme="oled"] .aurora::before { opacity: 0.6; }
+[data-theme="oled"] .grid-bg {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
 }
 
 @media (prefers-reduced-motion: reduce) {

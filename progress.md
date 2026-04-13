@@ -1,43 +1,29 @@
 # MOKSHA — Progress
 
-## Current Phase: P7 MOBILE ✅ COMPLETE
+## Current Phase: UPDATE V5 ✅ COMPLETE
 
 ### Last files touched:
-- mobile/app/partage/index.tsx (fixed lucide icons)
-- mobile/store.config.json
-- mobile/GOOGLE_PLAY_SETUP.md
-- mobile/.eas/workflows/full-deploy.yaml
-- mobile/maestro/*.yaml (10 flows)
+- src/components/shared/ThemeProvider.tsx (NEW)
+- src/components/shared/SpiritualLayer.tsx (NEW)
+- src/components/shared/WisdomFooter.tsx (NEW)
+- src/lib/awakening.ts (NEW)
+- src/lib/aides-data.ts (NEW — 45 aides)
+- src/hooks/useAwakening.ts (NEW)
+- src/app/(dashboard)/dashboard/breathe/page.tsx (NEW)
+- src/app/(dashboard)/dashboard/gratitude/page.tsx (NEW)
+- src/app/(dashboard)/dashboard/financer/page.tsx (NEW — wizard 4 étapes)
+- src/app/(dashboard)/dashboard/parametres/page.tsx (MODIFIED — theme toggle)
+- src/app/globals.css (MODIFIED — light/OLED themes)
+- src/app/layout.tsx (MODIFIED — ThemeProvider + anti-flash script)
+- src/components/dashboard/DashboardShell.tsx (MODIFIED — CSS vars, well-being section, SpiritualLayer, WisdomFooter, /financer link)
+- src/components/landing/Pricing.tsx (MODIFIED — bandeau vert aides)
 
 ### State:
-- TypeScript: 0 errors (tsc --noEmit clean)
-- All 23 screens created and functional
-- 10 Maestro flows ready
-- Store config in 16 languages
-- EAS build/submit pipeline configured
-- Icons generated via Pollinations
-
-### Mobile App Structure:
-```
-mobile/
-├── app/
-│   ├── _layout.tsx (AuthGuard)
-│   ├── (tabs)/ (5 tabs: Accueil, JurisIA, ProofVault, Cadeau, Profil)
-│   ├── auth/ (login, signup, forgot-password)
-│   ├── creer/ (choix, entreprise wizard, association wizard)
-│   ├── simulateur/
-│   ├── parrainage/
-│   ├── wallet/
-│   ├── points/
-│   ├── settings/
-│   ├── aide/
-│   ├── rappels/
-│   └── partage/
-├── lib/ (supabase SecureStore, constants, utils)
-├── hooks/ (useAuth, useStore)
-├── components/ui/ (Button, Card, Input, Badge, EmptyState, Skeleton)
-├── maestro/ (10 YAML flows)
-├── store.config.json (16 langs)
-├── GOOGLE_PLAY_SETUP.md
-└── .eas/workflows/full-deploy.yaml
-```
+- TypeScript: 0 errors
+- Build: OK (all pages compile)
+- No placeholders, no fake content, no console.log
+- 4 missing features now implemented:
+  1. Theme dark/light/OLED ✅
+  2. Spiritual layer (affirmations, breathe, gratitude, wisdom quotes) ✅
+  3. Module /financer (45 aides, wizard 4 étapes, bandeau pricing) ✅
+  4. Bottom tab mobile (already existed) ✅
