@@ -28,8 +28,8 @@ test.describe('MOKSHA — Cinematic intro + i18n (16 languages)', () => {
     await page.addInitScript(() => window.localStorage.setItem('moksha_intro_seen', '1'))
     await page.goto('/')
     await expect(page.getByRole('navigation').getByText('Fonctionnalités').first()).toBeVisible()
-    await expect(page.getByText(/Concurrent direct de LegalPlace/i)).toBeVisible()
-    await expect(page.getByText(/Se libérer maintenant/i)).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Libère-toi/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: /Se libérer maintenant/i })).toBeVisible()
   })
 
   test('language switcher → English: nav + hero in English', async ({ page }) => {
@@ -38,8 +38,8 @@ test.describe('MOKSHA — Cinematic intro + i18n (16 languages)', () => {
     await page.getByRole('button', { name: /Langue|Language/i }).first().click()
     await page.getByTestId('lang-en').click()
     await expect(page.getByRole('navigation').getByText('Features').first()).toBeVisible({ timeout: 8_000 })
-    await expect(page.getByText(/Direct competitor of LegalPlace/i)).toBeVisible()
-    await expect(page.getByText(/Free yourself now/i)).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Free yourself/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: /Free yourself now/i })).toBeVisible()
   })
 
   test('language persists across reload (cookie)', async ({ page }) => {
@@ -47,9 +47,9 @@ test.describe('MOKSHA — Cinematic intro + i18n (16 languages)', () => {
     await page.goto('/')
     await page.getByRole('button', { name: /Langue|Language/i }).first().click()
     await page.getByTestId('lang-de').click()
-    await expect(page.getByText(/Direkter Konkurrent von LegalPlace/i)).toBeVisible({ timeout: 8_000 })
+    await expect(page.getByText(/Jetzt befreien/i)).toBeVisible({ timeout: 8_000 })
     await page.reload()
-    await expect(page.getByText(/Direkter Konkurrent von LegalPlace/i)).toBeVisible()
+    await expect(page.getByText(/Jetzt befreien/i)).toBeVisible()
   })
 
   test('Arabic locale sets dir=rtl on <html>', async ({ page }) => {
@@ -57,7 +57,7 @@ test.describe('MOKSHA — Cinematic intro + i18n (16 languages)', () => {
     await page.goto('/')
     await page.getByRole('button', { name: /Langue|Language/i }).first().click()
     await page.getByTestId('lang-ar').click()
-    await expect(page.getByText(/منافس مباشر/)).toBeVisible({ timeout: 8_000 })
+    await expect(page.getByText(/تحرّر الآن/)).toBeVisible({ timeout: 8_000 })
     const dir = await page.locator('html').getAttribute('dir')
     expect(dir).toBe('rtl')
   })
