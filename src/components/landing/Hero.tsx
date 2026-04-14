@@ -9,8 +9,8 @@ export default function Hero() {
   const t = useTranslations('hero')
 
   return (
-    <section className="relative overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-40 md:pb-28 lg:pt-44 lg:pb-32">
-      <div className="relative mx-auto w-full max-w-6xl px-4 text-center sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden pt-32 pb-20 sm:pt-36 sm:pb-24 md:pt-40 md:pb-28 lg:pt-48 lg:pb-32">
+      <div className="relative mx-auto w-full max-w-5xl px-6 text-center sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -25,7 +25,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.08 }}
-          className="moksha-h1 mx-auto max-w-[18ch] text-balance"
+          className="moksha-h1 mx-auto max-w-[22ch] text-balance text-white"
         >
           {t('title_1')}{' '}
           <span className="moksha-gradient-text">{t('title_highlight')}</span>{' '}

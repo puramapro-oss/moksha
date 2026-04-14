@@ -19,11 +19,13 @@ export default function LandingNav() {
 
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? 'backdrop-blur-2xl border-b border-white/5 bg-[#070B18]/80' : ''
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
+        scrolled
+          ? 'border-white/5 bg-[#070B18]/85 backdrop-blur-2xl'
+          : 'border-transparent bg-[#070B18]/55 backdrop-blur-xl'
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6">
         <Logo />
         <div className="hidden items-center gap-8 md:flex">
           <a href="#features" className="text-sm text-white/70 transition hover:text-white">{t('features')}</a>
