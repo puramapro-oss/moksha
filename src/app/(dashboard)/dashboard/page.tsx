@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Bot, FileText, Lock, Plus, TrendingUp, Users, Wallet as WalletIcon, Flame, Star, Trophy } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
+import StreakBadge from '@/components/shared/StreakBadge'
 
 type Stats = {
   demarches: number
@@ -45,9 +46,12 @@ export default function Dashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-display text-3xl font-extrabold md:text-4xl" style={{ fontFamily: 'var(--font-display)' }}>
-          {greeting}, {profile?.full_name?.split(' ')[0] || 'entrepreneur'} 🔥
-        </h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="font-display text-3xl font-extrabold md:text-4xl" style={{ fontFamily: 'var(--font-display)' }}>
+            {greeting}, {profile?.full_name?.split(' ')[0] || 'entrepreneur'} 🔥
+          </h1>
+          <StreakBadge />
+        </div>
         <p className="mt-2 text-white/60">Voici où en est ton empire.</p>
       </div>
 

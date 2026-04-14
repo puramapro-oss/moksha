@@ -35,11 +35,12 @@
 - [x] /intentions page créée (quotidienne, toggle, streak)
 - [x] Sidebar + Intentions nav item
 
-## AUDIT V5 — Phase C: Engagement ❌
-- [ ] Système streak avec persistence DB
-- [ ] Daily gift (coffre quotidien) avec table + UI
-- [ ] Onboarding 10sec (1ère connexion)
-- [ ] Table moksha_point_transactions historique
+## AUDIT V5 — Phase C: Engagement ✅
+- [x] Système streak via moksha_daily_gifts.streak_count + StreakBadge visible dashboard
+- [x] Daily gift fonctionnel (/api/points/daily-gift + /dashboard/points)
+- [x] Onboarding 10sec — WelcomeBonus component (affirmation + 100pts + action immédiate)
+- [x] API /api/points/welcome-bonus (GET check + POST claim, anti-double-réclamation)
+- [x] Table moksha_point_transactions déjà en place avec 10 types validés
 
 ## AUDIT V5 — Phase D: Social ❌
 - [ ] Classement hebdo avec ligues

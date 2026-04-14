@@ -1,6 +1,6 @@
 # MOKSHA — Progress
 
-## Current Phase: AUDIT V5 — Phase A+B TERMINÉES
+## Current Phase: AUDIT V5 — Phase A+B+C TERMINÉES
 
 ### Deploy:
 - URL: https://moksha.purama.dev
@@ -45,7 +45,14 @@
 - moksha_intentions
 - moksha_awakening_events
 
-### Reste à faire (Phases C-E):
-- Phase C: Streak system + daily gift + onboarding + point_transactions
+### Phase C — Engagement ✅
+- API /api/points/welcome-bonus (GET check / POST claim 100pts, anti-double)
+- Component WelcomeBonus (modal 10-sec, affirmation + bouton claim, localStorage guard)
+- Component StreakBadge (flame + count, actif/passe selon delta jour)
+- Layout: WelcomeBonus monté dans (dashboard)/layout.tsx
+- Dashboard page: StreakBadge affiché dans le header à côté du greeting
+- Daily gift et moksha_point_transactions/balances étaient déjà en place
+
+### Reste à faire (Phases D-E):
 - Phase D: Classement + contests CRONs + influenceur
 - Phase E: Conversion popup + notifications IA + email sequences + wrapped
