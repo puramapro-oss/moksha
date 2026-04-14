@@ -52,8 +52,11 @@
 - [x] /dashboard/influencer (création profil + lien + stats clicks/conversions)
 - [x] Sidebar + Influenceur + Classement nav items
 
-## AUDIT V5 — Phase E: Polish ❌
-- [ ] Conversion popup (triggers contextuels)
-- [ ] Notifications IA adaptatives
-- [ ] Email sequences Resend (10 emails)
-- [ ] Wrapped mensuel
+## AUDIT V5 — Phase E: Polish ✅
+- [x] Conversion popup — ConversionPopup toast bas droite, triggers contextuels (gains en attente / upgrade)
+- [x] Tables moksha_popups_shown + moksha_email_sequences (dedup + cooldown 7j)
+- [x] Notifications IA adaptatives — /api/notifications/adaptive (7 suggestions prioritisées)
+- [x] Email sequences Resend (J1 astuce / J3 relance / J7 tips / J14 upgrade / J21 témoignage / J30 winback)
+- [x] CRON /api/cron/email-sequences (daily 10h) — dedup par email_type
+- [x] CRON /api/cron/wrapped-monthly (1er du mois 9h) — stats mois précédent + envoi Resend
+- [x] Page /dashboard/wrapped (stats mois en cours : points, gratitudes, breath min, intentions, streak, ligue)

@@ -88,4 +88,83 @@ export const emailTemplates = {
        <p>Échéance : <strong>${echeance}</strong></p>
        <p>Ne laisse pas passer cette échéance. Connecte-toi pour agir dès maintenant.</p>`
     ),
+  seq_j1_astuce: (name: string) =>
+    shell(
+      'Une astuce pour bien démarrer',
+      `<h2 style="color:#FF6B35;">Salut ${name} 👋</h2>
+       <p>Une astuce qui change tout dès le 1er jour : <strong>pose ton intention du jour</strong>. Ça prend 10 secondes et ça donne une direction claire.</p>
+       <div style="text-align:center;margin:24px 0;">
+         <a href="https://moksha.purama.dev/dashboard/intentions" style="display:inline-block;background:linear-gradient(135deg,#FF6B35,#FFD700);color:#070B18;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;">Poser mon intention</a>
+       </div>`,
+    ),
+  seq_j3_relance: (name: string) =>
+    shell(
+      'On ne t\'a pas vu depuis 2 jours',
+      `<h2 style="color:#FFD700;">${name}, tout va bien ?</h2>
+       <p>Tu as commencé fort. Ne lâche pas maintenant. 3 minutes par jour suffisent pour maintenir le momentum.</p>
+       <div style="text-align:center;margin:24px 0;">
+         <a href="https://moksha.purama.dev/dashboard" style="display:inline-block;background:linear-gradient(135deg,#FF6B35,#FFD700);color:#070B18;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;">Reprendre où j'en étais</a>
+       </div>`,
+    ),
+  seq_j7_tips: (name: string) =>
+    shell(
+      '3 fonctionnalités que tu n\'as pas encore utilisées',
+      `<h2 style="color:#5DCAA5;">${name}, voici 3 leviers cachés 🔥</h2>
+       <ul>
+         <li><strong>/breathe</strong> — 3 min de 4-7-8 = +50 points et décision claire.</li>
+         <li><strong>/gratitude</strong> — 3 gratitudes par jour = +300 points + streak.</li>
+         <li><strong>/financer</strong> — vérifie si tu peux récupérer 100% du coût via les aides publiques.</li>
+       </ul>
+       <div style="text-align:center;margin:24px 0;">
+         <a href="https://moksha.purama.dev/dashboard/financer" style="display:inline-block;background:linear-gradient(135deg,#FF6B35,#FFD700);color:#070B18;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;">Vérifier mes droits</a>
+       </div>`,
+    ),
+  seq_j14_upgrade: (name: string) =>
+    shell(
+      '-20% sur ton abonnement Pro pendant 48h',
+      `<h2 style="color:#FF6B35;">${name}, offre exclusive</h2>
+       <p>Tu utilises MOKSHA depuis 2 semaines. Voici un code perso pour passer Pro à -20% pendant 48h.</p>
+       <div style="background:rgba(255,107,53,0.1);border:1px dashed #FF6B35;padding:16px;border-radius:12px;text-align:center;margin:20px 0;">
+         <p style="margin:0;font-size:12px;color:#FFD700;">CODE PROMO</p>
+         <p style="margin:4px 0 0;font-family:monospace;font-size:24px;font-weight:800;color:#FF6B35;">MOKSHA20</p>
+       </div>
+       <div style="text-align:center;margin:24px 0;">
+         <a href="https://moksha.purama.dev/pricing" style="display:inline-block;background:linear-gradient(135deg,#FF6B35,#FFD700);color:#070B18;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;">Passer Pro</a>
+       </div>
+       <p style="font-size:11px;color:#94A3B8;">Valable 48h, cumulable avec les aides publiques.</p>`,
+    ),
+  seq_j21_temoignage: (name: string) =>
+    shell(
+      'Ce que MOKSHA fait vraiment',
+      `<h2 style="color:#FFD700;">${name}, une question 💭</h2>
+       <p>Après 3 semaines sur MOKSHA, qu'est-ce qui t'a le plus marqué ? Réponds simplement à ce mail — je lis chaque retour en personne.</p>
+       <p>Ton feedback aide à construire MOKSHA pour les 10 000 prochains entrepreneurs.</p>
+       <p style="margin-top:24px;">Matiss<br/><em style="color:#94A3B8;">Fondateur</em></p>`,
+    ),
+  seq_j30_winback: (name: string) =>
+    shell(
+      'On te garde ta place',
+      `<h2 style="color:#FF6B35;">${name}, ta place t'attend</h2>
+       <p>1 mois que tu as créé ton compte. On voulait juste te dire : ta place est toujours là, tes données intactes, ton streak en pause.</p>
+       <p>Reviens quand tu veux. Pas de pression.</p>
+       <div style="text-align:center;margin:24px 0;">
+         <a href="https://moksha.purama.dev/dashboard" style="display:inline-block;background:linear-gradient(135deg,#FF6B35,#FFD700);color:#070B18;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;">Revenir sur MOKSHA</a>
+       </div>`,
+    ),
+  wrapped: (name: string, stats: { points: number; gratitudes: number; breath_min: number; dossiers: number }, month: string) =>
+    shell(
+      `Ton mois ${month} sur MOKSHA`,
+      `<h2 style="color:#FFD700;">${name}, ton wrapped 🔥</h2>
+       <p>Voici ce que tu as accompli ce mois-ci :</p>
+       <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+         <tr><td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.08);">Points gagnés</td><td style="text-align:right;color:#FFD700;font-weight:700;">${stats.points}</td></tr>
+         <tr><td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.08);">Gratitudes écrites</td><td style="text-align:right;color:#5DCAA5;font-weight:700;">${stats.gratitudes}</td></tr>
+         <tr><td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.08);">Minutes de respiration</td><td style="text-align:right;color:#FF6B35;font-weight:700;">${stats.breath_min}</td></tr>
+         <tr><td style="padding:12px;">Dossiers financement</td><td style="text-align:right;color:#FFD700;font-weight:700;">${stats.dossiers}</td></tr>
+       </table>
+       <p><em>Tu vois ? Tu es capable de tout.</em></p>
+       <div style="text-align:center;margin:24px 0;">
+         <a href="https://moksha.purama.dev/dashboard/wrapped" style="display:inline-block;background:linear-gradient(135deg,#FF6B35,#FFD700);color:#070B18;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;">Voir mon wrapped complet</a>
+       </div>`,
+    ),
 }
