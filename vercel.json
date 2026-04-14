@@ -10,14 +10,16 @@
     "src/app/api/cron/daily-reminders/route.ts": { "maxDuration": 60 },
     "src/app/api/cron/conformity-score/route.ts": { "maxDuration": 60 },
     "src/app/api/cron/weekly-report/route.ts": { "maxDuration": 120 },
-    "src/app/api/cron/monthly-reset/route.ts": { "maxDuration": 60 }
+    "src/app/api/cron/monthly-reset/route.ts": { "maxDuration": 60 },
+    "src/app/api/cron/weekly-contest/route.ts": { "maxDuration": 120 }
   },
   "crons": [
     { "path": "/api/cron/check-inpi", "schedule": "0 */6 * * *" },
     { "path": "/api/cron/daily-reminders", "schedule": "0 8 * * *" },
     { "path": "/api/cron/conformity-score", "schedule": "0 */3 * * *" },
     { "path": "/api/cron/weekly-report", "schedule": "0 9 * * 1" },
-    { "path": "/api/cron/monthly-reset", "schedule": "0 0 1 * *" }
+    { "path": "/api/cron/monthly-reset", "schedule": "0 0 1 * *" },
+    { "path": "/api/cron/weekly-contest", "schedule": "59 23 * * 0" }
   ],
   "headers": [
     {

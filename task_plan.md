@@ -42,10 +42,15 @@
 - [x] API /api/points/welcome-bonus (GET check + POST claim, anti-double-réclamation)
 - [x] Table moksha_point_transactions déjà en place avec 10 types validés
 
-## AUDIT V5 — Phase D: Social ❌
-- [ ] Classement hebdo avec ligues
-- [ ] CRONs concours auto
-- [ ] Système influenceur (/devenir-influenceur, /go/[slug])
+## AUDIT V5 — Phase D: Social ✅
+- [x] Classement hebdo avec 10 ligues (Bronze → Purama) — lib/ligues.ts + /dashboard/classement
+- [x] CRON /api/cron/weekly-contest — calcul score dimanche 23h59, upsert top 100
+- [x] Tables moksha_influencer_profiles + moksha_influencer_clicks + RLS
+- [x] /devenir-influenceur (landing publique 8 paliers)
+- [x] /go/[slug] (redirect avec cookie ref 30j + tracking clicks)
+- [x] /api/influencer (GET profil+stats / POST création profil avec slug unique)
+- [x] /dashboard/influencer (création profil + lien + stats clicks/conversions)
+- [x] Sidebar + Influenceur + Classement nav items
 
 ## AUDIT V5 — Phase E: Polish ❌
 - [ ] Conversion popup (triggers contextuels)
