@@ -46,7 +46,9 @@ export async function POST(req: NextRequest) {
     }
 
     const isFree = profile?.plan === 'gratuit'
-    const model = isFree ? 'claude-haiku-4-5-20251001' : 'claude-sonnet-4-20250514'
+    const model = isFree
+      ? (process.env.ANTHROPIC_MODEL_FAST || 'claude-haiku-4-5-20251001')
+      : (process.env.ANTHROPIC_MODEL_MAIN || 'claude-sonnet-4-6')
     const maxTokens = isFree ? 2048 : 8192
 
     // Save user msg if conversation_id + auto-titrer la 1re question

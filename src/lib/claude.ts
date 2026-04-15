@@ -15,10 +15,14 @@ const TOKEN_LIMITS: Record<Plan, number> = {
   pro: 16384,
 }
 
+const MODEL_FAST = process.env.ANTHROPIC_MODEL_FAST || 'claude-haiku-4-5-20251001'
+const MODEL_MAIN = process.env.ANTHROPIC_MODEL_MAIN || 'claude-sonnet-4-6'
+const MODEL_PRO = process.env.ANTHROPIC_MODEL_PRO || 'claude-opus-4-6'
+
 const MODEL_MAP: Record<Plan, string> = {
-  gratuit: 'claude-haiku-4-5-20251001',
-  autopilote: 'claude-sonnet-4-20250514',
-  pro: 'claude-sonnet-4-20250514',
+  gratuit: MODEL_FAST,
+  autopilote: MODEL_MAIN,
+  pro: MODEL_PRO,
 }
 
 export function getJurisIASystemPrompt(): string {
