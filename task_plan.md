@@ -60,3 +60,33 @@
 - [x] CRON /api/cron/email-sequences (daily 10h) — dedup par email_type
 - [x] CRON /api/cron/wrapped-monthly (1er du mois 9h) — stats mois précédent + envoi Resend
 - [x] Page /dashboard/wrapped (stats mois en cours : points, gratitudes, breath min, intentions, streak, ligue)
+
+## V7 UPGRADE — 2026-04-16 — Waves 1→3 ✅ DEPLOYED
+- [x] **Wave 1 — Fondations**
+  - [x] Modèles IA via env (ANTHROPIC_MODEL_MAIN/FAST/PRO → sonnet-4-6/haiku-4-5/opus-4-6)
+  - [x] 3 fichiers migrés : lib/claude.ts + api/aide/chat + api/jurisia/chat
+  - [x] .env.local : PURAMA_PHASE=1, WALLET_MODE=points, PRIME_MODE=phase1, IN_APP_PURCHASE=false
+  - [x] .claude/agents/qa-agent.md (22 points) + security-agent.md
+  - [x] .claude/commands/ : /deploy /test-full /audit
+- [x] **Wave 2 — Paiement V7 §11**
+  - [x] SQL migration VPS : moksha_subscriptions + retractions + fiscal_notifications + annual_summaries + profiles.subscription_started_at + referrals.level (RLS)
+  - [x] Webhook Stripe: 7 events (ajout customer.subscription.created + invoice.payment_failed + charge.refunded)
+  - [x] Prime J+0 = +25€ wallet auto (idempotent) + notif
+  - [x] charge.refunded <30j = prime déduite + plan→gratuit + insert retractions
+  - [x] PaiementClient wording L221-28 + "Démarrer & recevoir ma prime"
+  - [x] /dashboard/parametres/abonnement + résiliation 3 étapes (pertes→pause→feedback)
+  - [x] /api/stripe/portal (cancel_at_period_end)
+- [x] **Wave 3 — Fiscal §17**
+  - [x] /fiscal page publique (seuils 3000€, case 5NG, abattement 34%)
+  - [x] /api/fiscal/summary (PDF jsPDF à la demande)
+  - [x] CRON /api/cron/fiscal-thresholds (quotidien 7h, paliers 1500/2500/3000, email Resend)
+  - [x] CRON /api/cron/prime-tranches (quotidien 6h, M+1=+25€, M+2=+50€)
+  - [x] middleware /fiscal + /financer publics
+- [x] Deploy Vercel prod OK → https://moksha.purama.dev (curl 200 /, /fiscal, /paiement)
+
+## V7 UPGRADE — RESTE (Waves 4-5)
+- [ ] **Wave 4** — Components UI Phase 1 (CardTeaser, WalletPhase1, PrimeTracker) intégrés dashboard
+- [ ] **Wave 4** — Banner in-app "Tu as gagné >3000€, pense à déclarer" (logique CRON déjà en place, manque composant React)
+- [ ] **Wave 5** — Parrainage V4 3 niveaux : colonne `level` déjà ajoutée, reste logique N2/N3 dans webhook invoice.payment_succeeded + dashboard arbre visuel
+- [ ] Enregistrer les 3 nouveaux events dans Stripe Dashboard (invoice.payment_failed, charge.refunded, customer.subscription.created) via curl ou UI
+- [ ] Ajouter ANTHROPIC_MODEL_MAIN/FAST/PRO + PURAMA_PHASE=1 + WALLET_MODE=points + PRIME_MODE=phase1 + IN_APP_PURCHASE=false sur Vercel env prod
