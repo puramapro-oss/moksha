@@ -13,7 +13,9 @@
     "src/app/api/cron/monthly-reset/route.ts": { "maxDuration": 60 },
     "src/app/api/cron/weekly-contest/route.ts": { "maxDuration": 120 },
     "src/app/api/cron/email-sequences/route.ts": { "maxDuration": 120 },
-    "src/app/api/cron/wrapped-monthly/route.ts": { "maxDuration": 180 }
+    "src/app/api/cron/wrapped-monthly/route.ts": { "maxDuration": 180 },
+    "src/app/api/cron/fiscal-thresholds/route.ts": { "maxDuration": 120 },
+    "src/app/api/cron/prime-tranches/route.ts": { "maxDuration": 120 }
   },
   "crons": [
     { "path": "/api/cron/check-inpi", "schedule": "0 */6 * * *" },
@@ -23,7 +25,9 @@
     { "path": "/api/cron/monthly-reset", "schedule": "0 0 1 * *" },
     { "path": "/api/cron/weekly-contest", "schedule": "59 23 * * 0" },
     { "path": "/api/cron/email-sequences", "schedule": "0 10 * * *" },
-    { "path": "/api/cron/wrapped-monthly", "schedule": "0 9 1 * *" }
+    { "path": "/api/cron/wrapped-monthly", "schedule": "0 9 1 * *" },
+    { "path": "/api/cron/fiscal-thresholds", "schedule": "0 7 * * *" },
+    { "path": "/api/cron/prime-tranches", "schedule": "0 6 * * *" }
   ],
   "headers": [
     {
