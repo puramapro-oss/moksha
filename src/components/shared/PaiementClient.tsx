@@ -58,15 +58,18 @@ export default function PaiementClient() {
           {price} <span className="text-2xl">€</span>
           <span className="ml-1 text-sm text-white/50">/{interval === 'annuel' ? 'an' : 'mois'}</span>
         </div>
+        <p className="mb-4 text-sm text-white/80">
+          Ta prime de bienvenue de <strong>100€</strong> t&apos;attend. Créditée sur ton compte MOKSHA dès aujourd&apos;hui (25€ immédiat, puis 25€ à M+1 et 50€ à M+2).
+        </p>
         <button
           onClick={checkout}
           disabled={redirecting}
           className="w-full rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-4 text-base font-bold text-[#070B18] disabled:opacity-50"
         >
-          {redirecting ? 'Redirection...' : 'Continuer vers Stripe →'}
+          {redirecting ? 'Redirection...' : 'Démarrer & recevoir ma prime'}
         </button>
-        <p className="mt-4 text-[10px] text-white/40">
-          Paiement sécurisé via Stripe. Essai gratuit 14 jours, annulable à tout moment.
+        <p className="mt-3 text-[10px] text-white/40 leading-relaxed">
+          En démarrant maintenant, tu bénéficies d&apos;un accès immédiat à ton abonnement (art. L221-28 Code conso) — ce qui entraîne renonciation à ton droit de rétractation de 14 jours. Paiement sécurisé Stripe. Prime retirable après 30 jours d&apos;abonnement actif. Annulation &lt;30j = prime déduite du remboursement.
         </p>
       </div>
     </section>
