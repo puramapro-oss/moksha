@@ -6,6 +6,9 @@ import { Bot, FileText, Lock, Plus, TrendingUp, Users, Wallet as WalletIcon, Fla
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
 import StreakBadge from '@/components/shared/StreakBadge'
+import CardTeaser from '@/components/wallet/CardTeaser'
+import PrimeTracker from '@/components/wallet/PrimeTracker'
+import WalletPhase1 from '@/components/wallet/WalletPhase1'
 
 type Stats = {
   demarches: number
@@ -102,6 +105,13 @@ export default function Dashboard() {
         <StatCard label="Documents" value={stats?.documents ?? '...'} icon={<Lock className="h-5 w-5" />} />
         <StatCard label="Score conformité" value={stats ? `${stats.score}%` : '...'} icon={<Flame className="h-5 w-5" />} accent />
       </div>
+
+      {/* V7 Phase 1 — Wallet + Prime + Card teaser */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <WalletPhase1 />
+        <PrimeTracker />
+      </div>
+      <CardTeaser />
 
       {/* Tiles */}
       <div className="grid gap-4 md:grid-cols-2">

@@ -3,6 +3,7 @@ import type Stripe from 'stripe'
 import { stripe } from '@/lib/stripe'
 import { createClient as createAdmin } from '@supabase/supabase-js'
 import { sendEmail, emailTemplates } from '@/lib/resend'
+import { payReferralCommissions } from '@/lib/referrals'
 
 export const runtime = 'nodejs'
 
@@ -93,64 +94,36 @@ export async function POST(req: NextRequest) {
             await sendEmail({ to: profile.email, subject: 'Paiement confirmé — MOKSHA', html: emailTemplates.paiement_ok(plan) })
           }
 
-          // Commission parrainage 1er paiement (50% du montant payé)
-          if (profile?.referred_by) {
-            const amountTotal = (session.amount_total ?? 0) / 100
-            const commission = Math.round(amountTotal * 0.5 * 100) / 100
-            // Idempotence : a-t-on déjà créé une commission "active" pour ce filleul ?
-            const { data: existingRef } = await sb
-              .from('moksha_referrals')
-              .select('id, statut')
-              .eq('referee_id', userId)
-              .eq('referrer_id', profile.referred_by)
-              .single()
-            if (existingRef && existingRef.statut === 'pending' && commission > 0) {
-              await sb
-                .from('moksha_referrals')
-                .update({ statut: 'active', commission_amount: commission })
-                .eq('id', existingRef.id)
-              await sb.from('moksha_wallet_transactions').insert({
-                user_id: profile.referred_by,
-                type: 'commission',
-                amount: commission,
-                description: `Commission 1er paiement filleul (${plan})`,
-                statut: 'completed',
-              })
-              await sb.from('moksha_notifications').insert({
-                user_id: profile.referred_by,
-                type: 'commission',
-                titre: `+${commission.toFixed(2)}€ encaissés 🔥`,
-                message: `Ton filleul vient de prendre le plan ${plan}.`,
-                action_url: '/dashboard/wallet',
-              })
-            }
-          }
+          // V7 §10 — Commission parrainage 3 niveaux (N1=50% | N2=15% | N3=7%)
+          const amountTotal = (session.amount_total ?? 0) / 100
+          await payReferralCommissions(sb, {
+            refereeId: userId,
+            amountPaidEur: amountTotal,
+            idempotencyKey: `checkout_${session.id}`,
+            planLabel: plan,
+          })
         }
         break
       }
       case 'invoice.payment_succeeded': {
-        // Commission récurrente 10% sur chaque renouvellement
+        // V7 §10 — Commission 3 niveaux à vie sur chaque renouvellement
         const invoice = event.data.object as Stripe.Invoice
         const customerId = typeof invoice.customer === 'string' ? invoice.customer : null
         if (!customerId) break
-        // Récupérer le user via stripe_customer_id
-        const { data: profile } = await sb
-          .from('moksha_profiles')
-          .select('id, referred_by, plan')
-          .eq('stripe_customer_id', customerId)
-          .single()
-        if (!profile?.referred_by) break
         // Skip la 1ère facture (déjà traitée par checkout.session.completed)
         if (invoice.billing_reason === 'subscription_create') break
+        const { data: profile } = await sb
+          .from('moksha_profiles')
+          .select('id, plan')
+          .eq('stripe_customer_id', customerId)
+          .single()
+        if (!profile?.id) break
         const amountPaid = (invoice.amount_paid ?? 0) / 100
-        const commission = Math.round(amountPaid * 0.1 * 100) / 100
-        if (commission <= 0) break
-        await sb.from('moksha_wallet_transactions').insert({
-          user_id: profile.referred_by,
-          type: 'commission',
-          amount: commission,
-          description: `Commission récurrente 10% — filleul (${profile.plan})`,
-          statut: 'completed',
+        await payReferralCommissions(sb, {
+          refereeId: profile.id,
+          amountPaidEur: amountPaid,
+          idempotencyKey: `invoice_${invoice.id}`,
+          planLabel: profile.plan,
         })
         break
       }

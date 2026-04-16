@@ -84,9 +84,12 @@
   - [x] middleware /fiscal + /financer publics
 - [x] Deploy Vercel prod OK → https://moksha.purama.dev (curl 200 /, /fiscal, /paiement)
 
-## V7 UPGRADE — RESTE (Waves 4-5)
-- [ ] **Wave 4** — Components UI Phase 1 (CardTeaser, WalletPhase1, PrimeTracker) intégrés dashboard
-- [ ] **Wave 4** — Banner in-app "Tu as gagné >3000€, pense à déclarer" (logique CRON déjà en place, manque composant React)
-- [ ] **Wave 5** — Parrainage V4 3 niveaux : colonne `level` déjà ajoutée, reste logique N2/N3 dans webhook invoice.payment_succeeded + dashboard arbre visuel
-- [ ] Enregistrer les 3 nouveaux events dans Stripe Dashboard (invoice.payment_failed, charge.refunded, customer.subscription.created) via curl ou UI
-- [ ] Ajouter ANTHROPIC_MODEL_MAIN/FAST/PRO + PURAMA_PHASE=1 + WALLET_MODE=points + PRIME_MODE=phase1 + IN_APP_PURCHASE=false sur Vercel env prod
+## V7 UPGRADE — Waves 4+5 ✅ DEPLOYED
+- [x] **Wave 4** — Components UI Phase 1 (CardTeaser + waitlist RPC, WalletPhase1 solde+points, PrimeTracker 3 paliers 25/25/50) intégrés `/dashboard` + `/dashboard/wallet`
+- [x] **Wave 4** — FiscalBanner in-app doré (>3000€/an, fenêtre 1er janv → 15 juin, dismiss persisté sur moksha_fiscal_notifications.acknowledged) monté dans dashboard layout
+- [x] **Wave 5** — Parrainage V4 3 niveaux : lib/referrals.ts (getReferralChain + payReferralCommissions idempotent) branché sur checkout.session.completed + invoice.payment_succeeded. Taux 50/15/7%. Unique constraint (referrer, referee, level).
+- [x] **Wave 5** — /dashboard/parrainage : stats N1/N2/N3 (count + gains) + arbre visuel 3 niveaux colorés
+- [x] Stripe webhook — 7 events enregistrés incl. charge.refunded (we_1TJDwb4Y1unNvKtXntwehEDn)
+- [x] Vercel prod env — PURAMA_PHASE=1, WALLET_MODE=points, PRIME_MODE=phase1, IN_APP_PURCHASE=false, ANTHROPIC_MODEL_MAIN/FAST/PRO
+- [x] SQL migration VPS : moksha_card_waitlist + moksha_card_waitlist_count() RPC + unique constraint referrals + index fiscal_notifications
+- [x] Deploy Vercel prod → 200 sur / /fiscal /paiement /dashboard /dashboard/parrainage
