@@ -2,13 +2,16 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Bot, FileText, Lock, Plus, TrendingUp, Users, Wallet as WalletIcon, Flame, Star, Trophy } from 'lucide-react'
+import { Bot, FileText, Lock, Plus, TrendingUp, Wallet as WalletIcon, Flame, Star, Trophy } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
 import StreakBadge from '@/components/shared/StreakBadge'
 import CardTeaser from '@/components/wallet/CardTeaser'
 import PrimeTracker from '@/components/wallet/PrimeTracker'
 import WalletPhase1 from '@/components/wallet/WalletPhase1'
+import ReferralBlock from '@/components/engagement/ReferralBlock'
+import AmbassadorBlock from '@/components/engagement/AmbassadorBlock'
+import CrossPromoBlock from '@/components/engagement/CrossPromoBlock'
 
 type Stats = {
   demarches: number
@@ -56,6 +59,13 @@ export default function Dashboard() {
           <StreakBadge />
         </div>
         <p className="mt-2 text-white/60">Voici où en est ton empire.</p>
+      </div>
+
+      {/* V7 §15 — 3 blocs above the fold : Parrainage + Ambassadeur + Cross-promo */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        <ReferralBlock />
+        <AmbassadorBlock />
+        <CrossPromoBlock />
       </div>
 
       {/* Quick actions */}
@@ -115,13 +125,6 @@ export default function Dashboard() {
 
       {/* Tiles */}
       <div className="grid gap-4 md:grid-cols-2">
-        <Link href="/dashboard/parrainage" className="glass glass-hover flex items-center gap-4 p-6">
-          <Users className="h-8 w-8 text-[#FFD700]" />
-          <div>
-            <h3 className="font-semibold">Parrainage</h3>
-            <p className="text-xs text-white/50">Ton code : {profile?.referral_code || '—'}</p>
-          </div>
-        </Link>
         <Link href="/dashboard/wallet" className="glass glass-hover flex items-center gap-4 p-6">
           <WalletIcon className="h-8 w-8 text-[#5DCAA5]" />
           <div>

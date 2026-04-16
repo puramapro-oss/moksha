@@ -93,3 +93,19 @@
 - [x] Vercel prod env — PURAMA_PHASE=1, WALLET_MODE=points, PRIME_MODE=phase1, IN_APP_PURCHASE=false, ANTHROPIC_MODEL_MAIN/FAST/PRO
 - [x] SQL migration VPS : moksha_card_waitlist + moksha_card_waitlist_count() RPC + unique constraint referrals + index fiscal_notifications
 - [x] Deploy Vercel prod → 200 sur / /fiscal /paiement /dashboard /dashboard/parrainage
+
+## V7 SUPREME — 2026-04-16 — 3 BLOCS + CROSS-PROMO + AMBASSADEUR ✅ DEPLOYED
+- [x] **SQL** migration VPS : moksha.moksha_cross_promos (10 colonnes, 5 index, RLS SELECT own) — tracking cross-promo
+- [x] **Coupon Stripe WELCOME50** vérifié existant (créé par MIDAS, -50% once, livemode)
+- [x] **Route /go/[slug]** étendue — détecte ?coupon=WELCOME50 + cookie purama_promo HttpOnly 7j + insert cross_promos. Whitelist apps (19) + whitelist coupons. Préserve flow influenceur existant.
+- [x] **/api/stripe/checkout** lit cookie purama_promo → applique `discounts:[{coupon:WELCOME50}]` auto. Rattache clic anonyme récent ou crée row. Passe cross_promo_id en metadata. Cookie effacé post-consommation.
+- [x] **Webhook Stripe** checkout.session.completed marque moksha_cross_promos.converted=true via metadata.cross_promo_id
+- [x] **Renommage Influenceur → Ambassadeur** : nouvelles pages /ambassadeur (landing 9 paliers V7 §20 Bronze 200€ → Éternel 200 000€) + /dashboard/ambassadeur. Ancien /devenir-influenceur et /dashboard/influencer = permanentRedirect 308. Sidebar DashboardShell mise à jour. Middleware PUBLIC_PATHS incl. /ambassadeur. Mot "Influenceur" absent UI.
+- [x] **BLOC 1 ReferralBlock** — card glass : lien copy 1 tap + QR code (qrcode.react) + compteur filleuls live + gains cumulés + CTA navigator.share avec fallback copy. Empty state first-filleul.
+- [x] **BLOC 2 AmbassadorBlock** — card glass dorée : 9 paliers Bronze→Éternel colorés, palier actuel surligné+glow palier suivant, barre progression, prime delta. CTA /ambassadeur.
+- [x] **BLOC 3 CrossPromoBlock** — promotion JurisPurama (KASH 404, fallback mapping V7 §15). Lien https://jurispurama.purama.dev/go/moksha?coupon=WELCOME50. Tracking clic sortant optimiste.
+- [x] **Intégration dashboard/page.tsx** : 3 blocs `grid-cols-3 lg:` above the fold après greeting. Ancienne tuile Parrainage retirée (doublon).
+- [x] **Redirects CLAUDE.md §12** : /pricing→/paiement, /login→/auth, /devenir-influenceur→/ambassadeur, /dashboard/influencer→/dashboard/ambassadeur
+- [x] **Next.js 16.2.4** (HIGH DoS patched via security-agent)
+- [x] **Verdicts agents** : qa-agent après fixes = OK | security-agent = PROD OK grade A
+- [x] Deploy Vercel prod → dpl_FKjwWzMNrTMZSFEk73BJgNkuZm2K → https://moksha.purama.dev (200 sur / /pricing /login /ambassadeur /paiement /fiscal /dashboard + redirects 307/308 corrects + cookie purama_promo validé Secure+HttpOnly+SameSite=lax+7j)

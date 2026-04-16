@@ -2,11 +2,11 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 const PUBLIC_PATHS = [
-  '/', '/demarrer', '/pricing', '/how-it-works',
+  '/', '/demarrer', '/pricing', '/how-it-works', '/tarifs',
   '/privacy', '/terms', '/legal', '/offline', '/login', '/signup', '/register', '/auth',
   '/mentions-legales', '/politique-confidentialite', '/cgv', '/cgu', '/politique-cookies',
   '/paiement', '/merci', '/cookies', '/contact', '/ecosystem', '/offline',
-  '/devenir-influenceur',
+  '/devenir-influenceur', '/ambassadeur',
   '/fiscal', '/financer',
 ]
 

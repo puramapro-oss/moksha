@@ -48,7 +48,7 @@ const main: NavItem[] = [
 
 const grow: NavItem[] = [
   { href: '/dashboard/parrainage', label: 'Parrainage', icon: Users },
-  { href: '/dashboard/influencer', label: 'Influenceur', icon: Sparkles },
+  { href: '/dashboard/ambassadeur', label: 'Ambassadeur', icon: Sparkles },
   { href: '/dashboard/wallet', label: 'Wallet', icon: Wallet },
   { href: '/dashboard/points', label: 'Points', icon: Star },
   { href: '/dashboard/classement', label: 'Classement', icon: Medal },

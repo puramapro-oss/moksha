@@ -37,6 +37,13 @@ export async function POST(req: NextRequest) {
         const session = event.data.object as Stripe.Checkout.Session
         const userId = session.metadata?.user_id
         const plan = session.metadata?.plan
+        const crossPromoId = session.metadata?.cross_promo_id
+        if (crossPromoId) {
+          await sb
+            .from('moksha_cross_promos')
+            .update({ converted: true, converted_at: new Date().toISOString() })
+            .eq('id', crossPromoId)
+        }
         if (userId && plan) {
           const now = new Date().toISOString()
           const stripeCustomerId = typeof session.customer === 'string' ? session.customer : null
