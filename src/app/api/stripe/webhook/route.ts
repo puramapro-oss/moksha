@@ -4,6 +4,7 @@ import { stripe } from '@/lib/stripe'
 import { createClient as createAdmin } from '@supabase/supabase-js'
 import { sendEmail, emailTemplates } from '@/lib/resend'
 import { payReferralCommissions } from '@/lib/referrals'
+import { ensurePrimeRow, markSubscriptionPayment, suspendPrimePalier, reclaimPrime } from '@/lib/primes-v4'
 
 export const runtime = 'nodejs'
 
@@ -101,6 +102,10 @@ export async function POST(req: NextRequest) {
             await sendEmail({ to: profile.email, subject: 'Paiement confirmé — MOKSHA', html: emailTemplates.paiement_ok(plan) })
           }
 
+          // V4 Wave E — Initialise prime V4 + marque paiement #1 (déclenche palier J1 au prochain CRON)
+          await ensurePrimeRow(sb, { userId })
+          await markSubscriptionPayment(sb, { userId, paymentIndex: 1 })
+
           // V7 §10 — Commission parrainage 3 niveaux (N1=50% | N2=15% | N3=7%)
           const amountTotal = (session.amount_total ?? 0) / 100
           await payReferralCommissions(sb, {
@@ -112,19 +117,33 @@ export async function POST(req: NextRequest) {
         }
         break
       }
-      case 'invoice.payment_succeeded': {
+      case 'invoice.payment_succeeded':
+      case 'invoice.paid': {
         // V7 §10 — Commission 3 niveaux à vie sur chaque renouvellement
+        // V4 Wave E — Incrémente subscription_payment_check_N pour déclenchement palier J30/J60
         const invoice = event.data.object as Stripe.Invoice
         const customerId = typeof invoice.customer === 'string' ? invoice.customer : null
         if (!customerId) break
-        // Skip la 1ère facture (déjà traitée par checkout.session.completed)
-        if (invoice.billing_reason === 'subscription_create') break
         const { data: profile } = await sb
           .from('moksha_profiles')
           .select('id, plan')
           .eq('stripe_customer_id', customerId)
           .single()
         if (!profile?.id) break
+
+        // V4: check combien de paiements validés pour calculer le palier à activer
+        const invoicesList = await stripe.invoices.list({ customer: customerId, limit: 10, status: 'paid' })
+        const paidCount = invoicesList.data.length
+        if (paidCount === 1) {
+          await markSubscriptionPayment(sb, { userId: profile.id, paymentIndex: 1 })
+        } else if (paidCount === 2) {
+          await markSubscriptionPayment(sb, { userId: profile.id, paymentIndex: 2 })
+        } else if (paidCount >= 3) {
+          await markSubscriptionPayment(sb, { userId: profile.id, paymentIndex: 3 })
+        }
+
+        // Skip la 1ère facture pour les commissions (déjà traitée par checkout.session.completed)
+        if (invoice.billing_reason === 'subscription_create') break
         const amountPaid = (invoice.amount_paid ?? 0) / 100
         await payReferralCommissions(sb, {
           refereeId: profile.id,
@@ -169,6 +188,10 @@ export async function POST(req: NextRequest) {
           .select('id, email')
           .eq('stripe_customer_id', customerId)
           .single()
+        if (profile?.id) {
+          // V4 Wave E — suspend palier en cours tant que prélèvement n'est pas validé
+          await suspendPrimePalier(sb, { userId: profile.id })
+        }
         if (profile?.email) {
           await sendEmail({
             to: profile.email,
@@ -201,13 +224,15 @@ export async function POST(req: NextRequest) {
         const refundAmount = (charge.amount_refunded ?? 0) / 100
         let primeDeducted = 0
         if (within30d) {
-          // Récupère primes déjà versées
+          // V4 Wave E — récupère primes V4 + wallet transactions legacy
+          const { deducted: v4Deducted } = await reclaimPrime(sb, { userId: profile.id })
           const { data: primes } = await sb
             .from('moksha_wallet_transactions')
             .select('amount')
             .eq('user_id', profile.id)
             .eq('type', 'prime')
-          primeDeducted = (primes ?? []).reduce((s, p) => s + Number(p.amount || 0), 0)
+          const legacyDeducted = (primes ?? []).reduce((s, p) => s + Number(p.amount || 0), 0)
+          primeDeducted = v4Deducted + legacyDeducted
         }
         await sb.from('moksha_retractions').insert({
           user_id: profile.id,
