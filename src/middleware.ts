@@ -8,6 +8,7 @@ const PUBLIC_PATHS = [
   '/paiement', '/merci', '/cookies', '/contact', '/ecosystem', '/offline',
   '/devenir-influenceur', '/ambassadeur',
   '/fiscal', '/financer',
+  '/reglement', '/remboursement',
 ]
 
 function isPublicPath(pathname: string): boolean {
