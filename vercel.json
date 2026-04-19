@@ -17,7 +17,9 @@
     "src/app/api/cron/fiscal-thresholds/route.ts": { "maxDuration": 120 },
     "src/app/api/cron/prime-tranches/route.ts": { "maxDuration": 120 },
     "src/app/api/cron/primes-v4-daily/route.ts": { "maxDuration": 120 },
-    "src/app/api/cron/tax-thresholds-v4/route.ts": { "maxDuration": 120 }
+    "src/app/api/cron/tax-thresholds-v4/route.ts": { "maxDuration": 120 },
+    "src/app/api/cron/karma-weekly-draw/route.ts": { "maxDuration": 120 },
+    "src/app/api/cron/karma-monthly-draw/route.ts": { "maxDuration": 180 }
   },
   "crons": [
     { "path": "/api/cron/check-inpi", "schedule": "0 */6 * * *" },
@@ -31,7 +33,9 @@
     { "path": "/api/cron/fiscal-thresholds", "schedule": "0 7 * * *" },
     { "path": "/api/cron/prime-tranches", "schedule": "0 6 * * *" },
     { "path": "/api/cron/primes-v4-daily", "schedule": "30 6 * * *" },
-    { "path": "/api/cron/tax-thresholds-v4", "schedule": "0 8 * * *" }
+    { "path": "/api/cron/tax-thresholds-v4", "schedule": "0 8 * * *" },
+    { "path": "/api/cron/karma-weekly-draw", "schedule": "59 23 * * 0" },
+    { "path": "/api/cron/karma-monthly-draw", "schedule": "5 0 1 * *" }
   ],
   "headers": [
     {
