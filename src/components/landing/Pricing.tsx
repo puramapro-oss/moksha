@@ -15,6 +15,7 @@ const plans = [
     cta: 'Commencer gratuitement',
     href: '/auth?next=/dashboard',
     featured: false,
+    badge: undefined as string | undefined,
     features: [
       'JurisIA — 3 questions / jour',
       'Modèles de documents',
@@ -24,43 +25,24 @@ const plans = [
     ],
   },
   {
-    id: 'autopilote',
-    name: 'Autopilote',
-    description: 'Pour créer et piloter 100% en autonomie.',
-    prices: { mensuel: 19, annuel: 15 },
-    cta: 'Essai gratuit 14 jours',
-    href: '/auth?next=/paiement?plan=autopilote',
+    id: 'premium',
+    name: 'Premium',
+    description: 'Tout inclus. Création d\'entreprise en 10 min. Prime 100€.',
+    prices: { mensuel: 29.99, annuel: 23.99 }, // annuel = 287,90€ / 12 (−20%)
+    cta: 'Démarrer & recevoir ma prime 100€',
+    href: '/auth?next=/paiement',
     featured: true,
-    badge: 'POPULAIRE',
+    badge: 'PRIME 100€',
     features: [
-      'JurisIA illimité + sources',
-      'Documents juridiques illimités',
-      'Dépôt INPI automatique',
-      'ProofVault illimité',
-      'Rappels automatiques',
-      'Score conformité temps réel',
-      'Garantie Zéro Refus',
-      'Express inclus',
-      "Jusqu'à 3 structures",
-    ],
-  },
-  {
-    id: 'pro',
-    name: 'Pro',
-    description: 'Pour cabinets, DAF, holdings.',
-    prices: { mensuel: 49, annuel: 39 },
-    cta: "S'abonner",
-    href: '/auth?next=/paiement?plan=pro',
-    featured: false,
-    features: [
-      'Tout Autopilote +',
-      'Structures illimitées',
-      'Délégation d\'accès',
-      'Dossier banque en 1 clic',
-      'Lien auditeur',
-      'Export PDF / CSV',
-      'API + webhooks',
-      'Support 24/7',
+      'Création SASU/SAS/SARL/EURL/SCI/Micro en 10 min',
+      'JurisIA illimité + sources Legifrance / INPI',
+      'Dépôt INPI automatique (Pappers Services)',
+      'ProofVault illimité — AES-256 + timeline horodatée',
+      'Score conformité temps réel + Garantie Zéro Refus',
+      'Express inclus (24h au lieu de 72h)',
+      'Structures illimitées + Dossier banque 1 clic',
+      'Rappels AG/TVA/URSSAF auto + Simulateur fiscal',
+      'Prime 100€ — 25€ J1 / 25€ J30 / 50€ J60',
     ],
   },
 ]
@@ -118,8 +100,15 @@ export default function Pricing() {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-5xl items-stretch gap-5 md:grid-cols-3 md:gap-4 lg:gap-5">
-          {plans.map((p) => (
+        <div className="mx-auto grid max-w-3xl items-stretch gap-5 md:grid-cols-2 md:gap-4 lg:gap-5">
+          {plans.map((p) => {
+            const priceValue = p.prices[interval]
+            const priceDisplay = Number.isInteger(priceValue)
+              ? String(priceValue)
+              : priceValue.toFixed(2).replace('.', ',')
+            // Total annuel : spécifique Premium = 287,90€ (29,99 × 12 × 0,80), sinon formule simple.
+            const yearlyTotal = p.id === 'premium' ? '287,90' : String(p.prices.annuel * 12)
+            return (
             <div
               key={p.id}
               className={`glass relative flex flex-col p-7 sm:p-8 ${
@@ -138,13 +127,13 @@ export default function Pricing() {
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
                   <span className="font-display text-[44px] font-extrabold leading-none tracking-tight text-white">
-                    {p.prices[interval]}
+                    {priceDisplay}
                   </span>
                   <span className="text-2xl font-extrabold text-white">€</span>
-                  {p.prices[interval] > 0 && <span className="ml-1 text-[13px] text-white/45">/mois</span>}
+                  {priceValue > 0 && <span className="ml-1 text-[13px] text-white/45">/mois</span>}
                 </div>
-                {interval === 'annuel' && p.prices.annuel > 0 && (
-                  <p className="mt-1 text-[11px] text-white/40">facturé {p.prices.annuel * 12}€/an</p>
+                {interval === 'annuel' && priceValue > 0 && (
+                  <p className="mt-1 text-[11px] text-white/40">facturé {yearlyTotal}€/an</p>
                 )}
               </div>
               <ul className="mb-7 space-y-2.5">
@@ -167,7 +156,8 @@ export default function Pricing() {
                 {p.cta}
               </Link>
             </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

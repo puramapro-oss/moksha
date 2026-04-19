@@ -11,8 +11,9 @@ function anthropic(): Anthropic {
 
 const TOKEN_LIMITS: Record<Plan, number> = {
   gratuit: 2048,
-  autopilote: 8192,
-  pro: 16384,
+  premium: 16384,
+  autopilote: 8192, // legacy grandfather
+  pro: 16384,       // legacy grandfather
 }
 
 const MODEL_FAST = process.env.ANTHROPIC_MODEL_FAST || 'claude-haiku-4-5-20251001'
@@ -21,8 +22,9 @@ const MODEL_PRO = process.env.ANTHROPIC_MODEL_PRO || 'claude-opus-4-6'
 
 const MODEL_MAP: Record<Plan, string> = {
   gratuit: MODEL_FAST,
-  autopilote: MODEL_MAIN,
-  pro: MODEL_PRO,
+  premium: MODEL_PRO,
+  autopilote: MODEL_MAIN, // legacy grandfather
+  pro: MODEL_PRO,         // legacy grandfather
 }
 
 export function getJurisIASystemPrompt(): string {

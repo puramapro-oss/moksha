@@ -23,27 +23,36 @@ export const REFERRAL_FIRST_MONTH_DISCOUNT = 0.5 // 50%
 export const REFERRAL_RECURRING_PERCENT = 0.1 // 10%
 export const WALLET_MIN_WITHDRAWAL = 20
 
-// Plans
-export type Plan = 'gratuit' | 'autopilote' | 'pro'
+// Plans — V4 STRIPE_CONNECT_KARMA_V4
+// Premium = plan unique actif (29,99€/mois). Autopilote/Pro = legacy grandfather (anciens abonnés conservés).
+export type Plan = 'gratuit' | 'premium' | 'autopilote' | 'pro'
 
 export const PLAN_LIMITS: Record<Plan, { jurisiaPerDay: number; proofvaultMo: number; structures: number }> = {
   gratuit: { jurisiaPerDay: 3, proofvaultMo: 500, structures: 1 },
+  premium: { jurisiaPerDay: 9999, proofvaultMo: 999999, structures: 9999 },
   autopilote: { jurisiaPerDay: 9999, proofvaultMo: 999999, structures: 3 },
   pro: { jurisiaPerDay: 9999, proofvaultMo: 999999, structures: 9999 },
 }
 
 export const PLAN_LABEL: Record<Plan, string> = {
   gratuit: 'Gratuit',
-  autopilote: 'Autopilote',
-  pro: 'Pro',
+  premium: 'Premium',
+  autopilote: 'Autopilote (legacy)',
+  pro: 'Pro (legacy)',
 }
 
-// Stripe prices (price_ids à renseigner après création Stripe)
+export const LEGACY_PLANS = new Set<Plan>(['autopilote', 'pro'])
+export const ACTIVE_PLAN: Exclude<Plan, 'gratuit'> = 'premium'
+
+// Stripe prices V4 — 29,99€/mois (création d'entreprise premium) + coupon ANNUAL_20 (-20%)
 export const STRIPE_PRICES = {
+  premium_mensuel: { price: 29.99, currency: 'EUR', interval: 'month' },
+  premium_annuel: { price: 287.9, currency: 'EUR', interval: 'year' }, // 29,99 × 12 × 0,80
+  // Legacy (grandfather) — plus affichés mais utilisés pour stats
   autopilote_mensuel: { price: 19, currency: 'EUR', interval: 'month' },
-  autopilote_annuel: { price: 180, currency: 'EUR', interval: 'year' }, // 15€/mois
+  autopilote_annuel: { price: 180, currency: 'EUR', interval: 'year' },
   pro_mensuel: { price: 49, currency: 'EUR', interval: 'month' },
-  pro_annuel: { price: 468, currency: 'EUR', interval: 'year' }, // 39€/mois
+  pro_annuel: { price: 468, currency: 'EUR', interval: 'year' },
   express_addon: { price: 50, currency: 'EUR', interval: 'one_time' },
 } as const
 

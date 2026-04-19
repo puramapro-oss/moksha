@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { stripe, STRIPE_PLANS, type StripePlanKey } from '@/lib/stripe'
+import { stripe, STRIPE_PLANS, type StripePlanKey, ACTIVE_STRIPE_PLAN_KEYS } from '@/lib/stripe'
 
 type CheckoutSessionParams = Parameters<typeof stripe.checkout.sessions.create>[0]
 import { createServerSupabaseClient } from '@/lib/supabase-server'
@@ -28,14 +28,33 @@ function readPuramaPromo(req: NextRequest): PuramaPromo | null {
 
 export async function POST(req: NextRequest) {
   try {
-    const { plan, interval } = await req.json()
-    const key = `${plan}_${interval}` as StripePlanKey
+    const { plan, interval } = (await req.json()) as { plan?: string; interval?: string }
+    const normalizedPlan = plan ?? 'premium'
+    const normalizedInterval = interval ?? 'mensuel'
+    const key = `${normalizedPlan}_${normalizedInterval}` as StripePlanKey
     const planSpec = STRIPE_PLANS[key]
     if (!planSpec) return NextResponse.json({ error: 'Plan invalide' }, { status: 400 })
 
     const supabase = await createServerSupabaseClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+
+    // V4 — refus de souscription nouveaux plans legacy (autopilote/pro) pour non-abonnés.
+    // Les utilisateurs existants Autopilote/Pro restent sur leur plan (grandfather webhook).
+    if (!ACTIVE_STRIPE_PLAN_KEYS.includes(key as (typeof ACTIVE_STRIPE_PLAN_KEYS)[number])) {
+      const { data: profile } = await supabase
+        .from('moksha_profiles')
+        .select('plan')
+        .eq('id', user.id)
+        .maybeSingle()
+      const currentPlan = profile?.plan as string | undefined
+      if (currentPlan !== normalizedPlan) {
+        return NextResponse.json(
+          { error: 'Ce plan est réservé aux abonnés existants. Choisis MOKSHA Premium.' },
+          { status: 400 },
+        )
+      }
+    }
 
     if (user.email === SUPER_ADMIN_EMAIL) {
       return NextResponse.json({ error: 'Super admin — aucun paiement requis' }, { status: 400 })
