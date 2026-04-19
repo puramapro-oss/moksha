@@ -229,6 +229,26 @@ export async function POST(req: NextRequest) {
         }
         break
       }
+
+      // V4 Wave C — Stripe Connect account.updated (KYC sync)
+      case 'account.updated': {
+        const account = event.data.object as Stripe.Account
+        await sb
+          .from('moksha_connect_accounts')
+          .update({
+            onboarding_completed: account.details_submitted === true && account.payouts_enabled === true,
+            payouts_enabled: account.payouts_enabled === true,
+            charges_enabled: account.charges_enabled === true,
+            details_submitted: account.details_submitted === true,
+            requirements: (account.requirements ?? {}) as unknown as Record<string, unknown>,
+            kyc_verified_at:
+              account.details_submitted === true && account.payouts_enabled === true
+                ? new Date().toISOString()
+                : null,
+          })
+          .eq('stripe_account_id', account.id)
+        break
+      }
     }
     return NextResponse.json({ received: true })
   } catch (e) {
