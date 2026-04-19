@@ -94,6 +94,60 @@
 - [x] SQL migration VPS : moksha_card_waitlist + moksha_card_waitlist_count() RPC + unique constraint referrals + index fiscal_notifications
 - [x] Deploy Vercel prod → 200 sur / /fiscal /paiement /dashboard /dashboard/parrainage
 
+## V4 STRIPE_CONNECT_KARMA — 2026-04-19 ✅ DEPLOYED (10/13 waves)
+
+**Source of truth** : ~/purama/STRIPE_CONNECT_KARMA_V4.md
+
+### ✅ COMPLÉTÉES
+
+- [x] **Wave A** — Pricing 29,99€ single Premium + grandfather Autopilote/Pro legacy. Coupon Stripe ANNUAL_20 créé (livemode forever -20%). PaiementClient refondé (toggle mensuel/annuel, 8 features, mention primes alignées paiements J1/J30/J60).
+- [x] **Wave B** — SQL 12 tables V4 appliquées sur VPS (moksha_connect_accounts, moksha_user_wallets, moksha_primes_v4, moksha_bourses_inclusion, moksha_user_tax_profiles, moksha_tax_declarations, moksha_facturx_invoices, moksha_cpa_earnings, moksha_karma_tickets, moksha_karma_draws, moksha_karma_winners, moksha_reglements). RLS owner-only + public (draws/reglements). Fonction SECURITY DEFINER apply_wallet_transaction_v4.
+- [x] **Wave C** — Stripe Connect Express + Embedded Components. `lib/stripe-connect.ts` (createConnectAccount type=express FR, controller.fees.payer=account, dashboard=none), API /api/connect/onboard + /status, /dashboard/wallet/connect avec ConnectOnboarding + ConnectPayouts, webhook account.updated sync DB. Webhook Stripe endpoint we_1TJDwb4Y1unNvKtXntwehEDn étendu 11 events.
+- [x] **Wave D** — Onboarding fiscal 4 profils (particulier_occasionnel/bnc, autoentrepreneur, entreprise). `lib/tax.ts` (seuils 305/77700/188700/36800€, Luhn SIRET, computeThresholdAlert, getRetraitMessage). API /api/tax/profile GET/POST. Modal TaxProfileOnboarding (2 étapes) dans dashboard layout.
+- [x] **Wave E** — Primes V4 refactor J1/J30/J60 = 25/25/50€ alignées paiements. `lib/primes-v4.ts` (ensurePrimeRow idempotent, markSubscriptionPayment, suspendPrimePalier, disbursePrimePalier atomique via Stripe Transfer + wallet materialization, computePayablePaliers, reclaimPrime rétractation). CRON /api/cron/primes-v4-daily (30 6 * * *). Webhook invoice.paid compte paiements validés → palier correspondant. invoice.payment_failed → palier_suspended. charge.refunded <30j → reclaim. PrimeTrackerV4 UI.
+- [x] **Wave F** — Flow fiscal 1 (occasionnel) + 2 (BNC 2042-C-PRO). API /api/tax/prefill-2042 (génère PDF jsPDF avec case 5NG/5KU, abattement 34%, instructions 1-click). Page /dashboard/fiscalite adaptée au profil (KPIs, alertes seuils, boutons download). CRON /api/cron/tax-thresholds-v4 (8h daily) scan wallets>1000€, email Resend branded, flag threshold_*_alerted.
+- [x] **Wave I** — Bourses Asso inclusion dual circuit strict. `lib/bourses.ts` (7 profils sociaux CAF/rural/jeune/senior/demandeur_emploi/etudiant/handicap avec montants 100-200€, 10 missions citoyennes, 12 subventions renouvelables). API /api/bourses/eligibility + /verify-mission + /disburse (refuse si financement_source != subvention_*). Page /dashboard/bourse + /eligibilite. BourseClient pour soumettre preuves.
+- [x] **Wave L** — Règlement jeux-concours OriginStamp blockchain. `lib/originstamp.ts` (SHA-256 + API Tezos free tier, fallback gracieux si clé absente). API /api/reglement/publish admin-only. Page /reglement publique (9 articles obligatoires, hash live) + /remboursement (formulaire frais → Resend).
+- [x] **Wave J** — NAMA-Business coach IA + /karma public. `lib/nama-business.ts` (system prompt 15 ans, règles action concrète, redirect JurisIA). API /api/nama/chat streaming SSE (quota 10 msg/j gratuit, illimité payant, model sonnet-4-6/haiku-4-5). Page /dashboard/nama chat plein écran. Page /karma (cagnottes live, 6 jeux, 18 façons, mentions ANJ).
+- [x] **Wave K** — 18 façons gratuites gagner tickets + ×5 multiplicateur abonné. `lib/karma-tickets.ts` (20 TicketSource, rules max_per_day, buildTicketInserts, getCurrentDrawPeriod ISO). API /api/karma/ticket (POST anti-abus + ×5 if paying, GET tickets+totals).
+- [x] **Wave M** — CRONs karma draws. /api/cron/karma-weekly-draw (dim 23h59, pool 2% CA min 10€, 1 gagnant pondéré). /api/cron/karma-monthly-draw (1er 00:05, pool 3% CA min 50€, 3 gagnants 60/25/15%). Idempotent par period+rank. Transfer Connect + notif.
+- [x] **Wave O** — Deploy prod Vercel OK (dpl_HoYQ8exMcLcyqxESf4sz4fWdjSrz). Smoke tests prod : /, /paiement, /reglement, /remboursement, /karma = 200. /dashboard/* = 307 auth redirect OK. tsc 0 erreur, build 0 erreur.
+
+### 🔜 RESTANTES (bloquées par credentials externes)
+
+- [ ] **Wave G** — Flow 3 AE URSSAF Tierce Déclaration. Besoin : URSSAF_TIERCE_API_KEY + URSSAF_TIERCE_MANDATE_TEMPLATE_ID. Code prêt à écrire (DocuSeal mandat 2min, CRON trimestriel). Fallback: génération PDF déclaration trimestrielle + instructions 1-click.
+- [ ] **Wave H** — Flow 4 Entreprise Pennylane OAuth + Factur-X. Besoin : PENNYLANE_OAUTH_CLIENT_ID + PENNYLANE_OAUTH_SECRET. Code Factur-X XML CII D16B + PDF/A-3 à écrire. Fallback: EDI-TDFC cert `.p12`.
+- [ ] **Wave N** — CPA tracking MOKSHA (Qonto 115€ + Pennylane 60€ + Blank 40€ = 215€) + Google Ad Grants prep (Solidatech + Asso RNA). Besoin : RNA + SIREN Asso + signatures partenaires.
+
+### 📋 ENV VARS À AJOUTER (Vercel dashboard)
+
+```
+STRIPE_CONNECT_CLIENT_ID=ca_[à_générer_stripe_dashboard]
+KARMA_MIN_WITHDRAWAL_EUR=20
+KARMA_RECOMMENDED_WITHDRAWAL_EUR=50
+ORIGINSTAMP_API_KEY=[créer_compte_gratuit_originstamp.com]
+TAX_THRESHOLD_OCCASIONAL_EUR=305
+TAX_THRESHOLD_BNC_MICRO_EUR=77700
+TAX_THRESHOLD_BIC_MICRO_EUR=188700
+TAX_THRESHOLD_TVA_FRANCHISE_EUR=36800
+ASSO_RNA=[RNA_PENDING]
+ASSO_SIREN=[SIREN_PENDING]
+HELLOASSO_CLIENT_ID=[HELLOASSO_PENDING]
+HELLOASSO_CLIENT_SECRET=[HELLOASSO_PENDING]
+```
+
+### 🏛️ DUAL CIRCUIT CONFIRMÉ
+
+- **SASU** finance : primes 100€/app (source `cpa_earnings`) — jamais Asso
+- **Asso** finance : bourses 50-200€ (source `bourses_inclusion.financement_source='subvention_*'`) — jamais SASU
+- Check stricts : DB (CHECK constraint) + code applicatif (disburse refuse 'pending' 402)
+
+### 🎯 PROCHAIN RELANCE
+
+"Continue V4 Waves G/H/N" quand les credentials externes (URSSAF API, Pennylane OAuth, Asso RNA/SIREN, partenaires CPA) sont disponibles.
+
+---
+
 ## V7 SUPREME — 2026-04-16 — 3 BLOCS + CROSS-PROMO + AMBASSADEUR ✅ DEPLOYED
 - [x] **SQL** migration VPS : moksha.moksha_cross_promos (10 colonnes, 5 index, RLS SELECT own) — tracking cross-promo
 - [x] **Coupon Stripe WELCOME50** vérifié existant (créé par MIDAS, -50% once, livemode)
