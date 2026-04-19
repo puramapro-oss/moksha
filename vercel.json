@@ -16,7 +16,8 @@
     "src/app/api/cron/wrapped-monthly/route.ts": { "maxDuration": 180 },
     "src/app/api/cron/fiscal-thresholds/route.ts": { "maxDuration": 120 },
     "src/app/api/cron/prime-tranches/route.ts": { "maxDuration": 120 },
-    "src/app/api/cron/primes-v4-daily/route.ts": { "maxDuration": 120 }
+    "src/app/api/cron/primes-v4-daily/route.ts": { "maxDuration": 120 },
+    "src/app/api/cron/tax-thresholds-v4/route.ts": { "maxDuration": 120 }
   },
   "crons": [
     { "path": "/api/cron/check-inpi", "schedule": "0 */6 * * *" },
@@ -29,7 +30,8 @@
     { "path": "/api/cron/wrapped-monthly", "schedule": "0 9 1 * *" },
     { "path": "/api/cron/fiscal-thresholds", "schedule": "0 7 * * *" },
     { "path": "/api/cron/prime-tranches", "schedule": "0 6 * * *" },
-    { "path": "/api/cron/primes-v4-daily", "schedule": "30 6 * * *" }
+    { "path": "/api/cron/primes-v4-daily", "schedule": "30 6 * * *" },
+    { "path": "/api/cron/tax-thresholds-v4", "schedule": "0 8 * * *" }
   ],
   "headers": [
     {
