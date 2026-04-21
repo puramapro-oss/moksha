@@ -53,11 +53,31 @@ Format de tes réponses en Markdown structuré avec titres, listes, gras. Tu peu
 
 export function getDocumentGenerationPrompt(type: string, data: Record<string, unknown>): string {
   const contextData = JSON.stringify(data, null, 2)
+  const zfrr = Boolean((data as { optim_zfrr?: boolean }).optim_zfrr)
+  const jei = Boolean((data as { optim_jei?: boolean }).optim_jei)
+  const isStatuts = /statuts/i.test(type)
+
+  const fiscalClauses: string[] = []
+  if (isStatuts && zfrr) {
+    fiscalClauses.push(
+      `- Inclure un article dédié "Régime fiscal — Zone Franche Rurale Revitalisation (ZFRR)" indiquant que la société entend bénéficier de l'exonération d'impôt sur les sociétés de l'article 44 quindecies du CGI (5 ans d'exonération totale, puis abattements dégressifs), sous réserve que le siège social et l'activité effective soient implantés en zone ZFRR.`,
+    )
+  }
+  if (isStatuts && jei) {
+    fiscalClauses.push(
+      `- Inclure un article dédié "Régime fiscal — Jeune Entreprise Innovante (JEI)" indiquant que la société entend bénéficier des exonérations prévues aux articles 44 sexies-0 A et 131 du CGI (exo IS partielle, exo charges sociales patronales sur les personnels de R&D, exo taxe foncière/CFE sur délibération locale), sous réserve de consacrer au moins 15 % de ses charges à des dépenses de R&D éligibles.`,
+    )
+  }
+  const fiscalBlock =
+    fiscalClauses.length > 0
+      ? `\n\nClauses fiscales à intégrer impérativement :\n${fiscalClauses.join('\n')}\n`
+      : ''
+
   return `Tu es un juriste expert français. Génère un document juridique de type "${type}" en bonne et due forme, en français, prêt à être signé.
 
 Données du dossier :
 ${contextData}
-
+${fiscalBlock}
 Exigences :
 - Respecter le Code de commerce et les usages de la place
 - Être exhaustif mais lisible

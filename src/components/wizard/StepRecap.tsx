@@ -76,6 +76,52 @@ export default function StepRecap({
           </div>
         </section>
 
+        {data.forme !== 'micro' && (
+          <section className="rounded-2xl border border-[#5DCAA5]/25 bg-[#5DCAA5]/5 p-5">
+            <h3 className="mb-1 text-sm font-semibold text-white">🛡️ Optimisations fiscales optionnelles</h3>
+            <p className="mb-4 text-xs text-white/50">
+              Clauses insérées dans les statuts par JurisIA. Tu pourras activer le régime auprès de
+              l&apos;administration à tout moment.
+            </p>
+
+            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3 text-sm transition hover:bg-white/5">
+              <input
+                type="checkbox"
+                checked={data.optim_zfrr}
+                onChange={(e) => update({ optim_zfrr: e.target.checked })}
+                className="mt-0.5 h-4 w-4 accent-[#5DCAA5]"
+              />
+              <span className="text-white/80">
+                <strong className="text-white">Zone Franche Rurale Revitalisation (ZFRR)</strong>
+                <span className="ml-2 rounded-full bg-[#5DCAA5]/20 px-2 py-0.5 text-[11px] text-[#5DCAA5]">0 % IS 5 ans</span>
+                <br />
+                <span className="text-[12px] text-white/50">
+                  Exonération impôt sur les sociétés 5 ans si le siège est implanté en zone éligible
+                  (ex. Frasne 25560). Mention insérée dans les statuts.
+                </span>
+              </span>
+            </label>
+
+            <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3 text-sm transition hover:bg-white/5">
+              <input
+                type="checkbox"
+                checked={data.optim_jei}
+                onChange={(e) => update({ optim_jei: e.target.checked })}
+                className="mt-0.5 h-4 w-4 accent-[#5DCAA5]"
+              />
+              <span className="text-white/80">
+                <strong className="text-white">Jeune Entreprise Innovante (JEI)</strong>
+                <span className="ml-2 rounded-full bg-[#5DCAA5]/20 px-2 py-0.5 text-[11px] text-[#5DCAA5]">Exo charges R&amp;D</span>
+                <br />
+                <span className="text-[12px] text-white/50">
+                  Exonération charges sociales dirigeants 8 ans si ≥15 % de dépenses R&amp;D.
+                  Cumul possible avec CIR/CII (30 %).
+                </span>
+              </span>
+            </label>
+          </section>
+        )}
+
         <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
           <input
             type="checkbox"

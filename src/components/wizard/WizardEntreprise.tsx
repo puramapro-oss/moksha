@@ -31,6 +31,10 @@ export type WizardData = {
     nationalite: string
     adresse: string
   }
+  /** Zone Franche Rurale Revitalisation — exo IS 5 ans si siège en ZFRR. */
+  optim_zfrr: boolean
+  /** Jeune Entreprise Innovante — exo charges sociales dirigeants si R&D ≥15%. */
+  optim_jei: boolean
   accept_cgv: boolean
 }
 
@@ -66,6 +70,8 @@ export default function WizardEntreprise() {
       nationalite: 'Française',
       adresse: '',
     },
+    optim_zfrr: false,
+    optim_jei: false,
     accept_cgv: false,
   })
 

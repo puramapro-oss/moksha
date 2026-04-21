@@ -46,12 +46,20 @@ export default function Demarches() {
           </h1>
           <p className="mt-1 text-sm text-white/60">Suivi en temps réel de tes dossiers MOKSHA.</p>
         </div>
-        <Link
-          href="/creer/entreprise"
-          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]"
-        >
-          <Plus className="h-4 w-4" /> Nouvelle démarche
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/dashboard/demarches/aides-creation"
+            className="hidden items-center gap-2 rounded-xl border border-[#5DCAA5]/30 bg-[#5DCAA5]/10 px-4 py-2.5 text-sm font-semibold text-[#5DCAA5] transition hover:bg-[#5DCAA5]/15 md:inline-flex"
+          >
+            ✨ Aides à la création
+          </Link>
+          <Link
+            href="/creer/entreprise"
+            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]"
+          >
+            <Plus className="h-4 w-4" /> Nouvelle démarche
+          </Link>
+        </div>
       </div>
 
       {loading ? (
