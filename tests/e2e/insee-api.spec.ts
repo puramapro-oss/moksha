@@ -11,7 +11,8 @@ const APPLE_SIRET = '32212091600208'
 const APPLE_SIREN = '322120916'
 const INSEE_SIRET = '12002701600563'
 const INVALID_LUHN_SIRET = '12345678901234'
-const NOT_FOUND_SIRET = '99999999999999' // Luhn-valide volontairement (pour 404, pas 400)
+// SIRET Luhn-valide (sum=0) mais SIREN 000000000 inexistant au RCS
+const NOT_FOUND_SIRET = '00000000000000'
 
 test.describe('GET /api/siret/[siret]', () => {
   test('SIRET Apple France valide → 200 avec denomination + adresse', async ({ request }) => {
