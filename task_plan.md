@@ -166,7 +166,7 @@ HELLOASSO_CLIENT_SECRET=[HELLOASSO_PENDING]
 
 ---
 
-## V7.1 / V4.1 MIGRATION — 2026-04-21 — INSEE LIVE + OPENTIMESTAMPS + CONNECT V4.1 🚧 EN COURS
+## V7.1 / V4.1 MIGRATION — 2026-04-21 — INSEE LIVE + OPENTIMESTAMPS + CONNECT V4.1 ✅ DEPLOYED
 
 **Sources of truth** : `~/purama/CLAUDE.md` V7.1 §36 + `~/purama/STRIPE_CONNECT_KARMA_V4.md` V4.1
 **Triggers** : OriginStamp retired 31 mai 2025 → OpenTimestamps obligatoire | INSEE Sirene live key disponible | Stripe Connect Embedded 7 components V4.1
@@ -203,27 +203,56 @@ HELLOASSO_CLIENT_SECRET=[HELLOASSO_PENDING]
 
 ### CHANTIER 3 — Stripe Connect Embedded V4.1 (7 components + endpoint dédié + 7 pages /compte/*) 🔴
 
-- [ ] **F3.1** Étendre `src/lib/stripe-connect.ts` — `createAccountSession` ajouter components V4.1 manquants : `account_management`, `payments`, `balances`, `documents` (en plus de `account_onboarding`, `payouts`, `notification_banner` déjà présents)
-- [ ] **F3.2** Créer endpoint dédié `src/app/api/connect/account-session/route.ts` (POST) — auth user, retourne `client_secret` (V4.1 §36.5 pattern)
-- [ ] **F3.3** Refactor `src/app/api/connect/onboard/route.ts` pour appeler le nouvel endpoint (DRY)
-- [ ] **F3.4** `src/components/wallet/ConnectProvider.tsx` — wrapper `loadConnectAndInitialize` + `ConnectComponentsProvider` réutilisable
-- [ ] **F3.5** Créer pages `/compte/{notifications,gestion,virements,paiements,soldes,documents,configuration}` mappées sur les 7 site links Stripe Dashboard (V4.1 §36.5). Chaque page = 1 component embedded + UI Purama wrapper.
-- [ ] **F3.6** Mettre à jour middleware pour /compte/* (auth required redirect /auth?next=)
-- [ ] **F3.7** Vitest `account-session.test.ts` — auth required, retourne client_secret, idempotent
-- [ ] **F3.8** Playwright `compte-pages.spec.ts` — 7 pages chargent (skip si non-onboardé)
-- [ ] **F3.9** Commit + deploy + smoke test 7 pages
+- [x] **F3.1** `src/lib/stripe-connect.ts` — `createAccountSession` étendue aux 7 composants V4.1 (account_onboarding, account_management, notification_banner, payouts, payments, balances, documents)
+- [x] **F3.2** `src/app/api/connect/account-session/route.ts` POST — auth user, 404 si Connect non initialisé, retourne client_secret
+- [x] **F3.3** `src/app/api/connect/onboard/route.ts` — réutilise déjà `createAccountSession` du lib (DRY natif)
+- [x] **F3.4** `src/components/wallet/ConnectProvider.tsx` wrapper `loadConnectAndInitialize` + `ConnectComponentsProvider` + states loading/ready/not-onboarded/unauth/error
+- [x] **F3.5** 7 pages `/compte/{notifications,gestion,virements,paiements,soldes,documents,configuration}` mappées sur les site links Stripe Dashboard + layout avec nav latérale
+- [x] **F3.6** Middleware — /compte/* déjà protégé via absence de PUBLIC_PATHS (auth required → /auth?next=/compte/…)
+- [x] **F3.7** Vitest `account-session.test.ts` 4/4 (auth required, 404, success, erreur Stripe)
+- [x] **F3.8** Playwright `compte-pages.spec.ts` 8/8 (7 redirections /auth + 401 endpoint)
+- [x] **F3.9** Deploy prod Vercel + smoke test 7 pages 307 + 401 endpoint
 
-### CHANTIERS SECONDAIRES
+### CHANTIERS SECONDAIRES ✅
 
-- [ ] **F4** ZFRR + JEI cochables dans WizardEntreprise (StepRecap nouvelles cases) → mention auto dans statuts SASU générés par JurisIA
-- [ ] **F5** Workflow ACCRE → ARCE → dépôt statuts dans `/dashboard/demarches` (3 étapes pré-remplies, intégration France Travail si API dispo, sinon liens 1-click)
-- [ ] **F6** Audit final 0 placeholder business : `grep -rn "placeholder\|TODO\|FIXME\|coming soon\|Lorem" src/` ne doit retourner que des `placeholder=` HTML inputs (pas de mocks logique)
+- [x] **F4** ZFRR + JEI cochables dans WizardEntreprise — `optim_zfrr` + `optim_jei` dans `WizardData`, checkboxes StepRecap (section verte "Optimisations fiscales"), `lib/claude.ts` injecte les clauses 44 quindecies CGI (ZFRR) + 44 sexies-0 A CGI (JEI) dans le prompt statuts quand activées
+- [x] **F5** Workflow ACRE → ARCE → dépôt statuts dans `/dashboard/demarches/aides-creation` — 3 étapes pré-remplies, liens 1-click officiels (URSSAF Cerfa 13584*02, France Travail ARCE 14263*02, Guichet Unique INPI), persistance localStorage + auto-détection dossier MOKSHA actif, print/PDF one-click, CTA visible depuis `/dashboard/demarches`
+- [x] **F6** Audit final : 0 TODO / 0 FIXME / 0 Lorem / 0 "coming soon" / 0 témoignage inventé dans `src/`. Seuls `placeholder:` CSS pseudo-selectors Tailwind + "placeholder" string dans `lib/claude.ts` (prompt interdisant les placeholders XXX — instruction) + back-compat `originstamp_*` dans `reglement` (F2.8 exige préservation). Vérifié par `grep -rn "TODO|FIXME|coming soon|Lorem" src/ --include="*.ts" --include="*.tsx"` = 0 hors tests.
 
-### 🎯 STRATÉGIE EXÉCUTION
+### ✅ DEPLOYED 2026-04-21 — Dépôts Vercel
 
-1. Chantier 1 entier (F1.1 → F1.13) → "Phase 1 (Chantier #1) terminée, relance-moi"
-2. Chantier 2 entier → "Phase 2 terminée, relance-moi"
-3. Chantier 3 entier → "Phase 3 terminée, relance-moi"
-4. Secondaires F4 + F5 + F6
+- `dpl_7UgGCcdAceDP9nXhaTFpKBHW1TPh` — Chantier #3 (7 components Connect + 7 pages /compte/*)
+- `moksha-3674g53dd-puramapro-oss-projects` — Secondaires F4 + F5
 
-Chaque feature : code → tsc 0 → vitest si logique pure → Playwright si UI → commit atomique → next.
+### 🔬 Smoke tests prod 2026-04-21
+
+```
+GET  /                         → 200
+GET  /reglement                → 200
+GET  /paiement                 → 200
+GET  /fiscal                   → 200
+GET  /karma                    → 200
+GET  /ambassadeur              → 200
+GET  /compte/notifications     → 307 (auth redirect → /auth)
+GET  /compte/gestion           → 307
+GET  /compte/virements         → 307
+GET  /compte/paiements         → 307
+GET  /compte/soldes            → 307
+GET  /compte/documents         → 307
+GET  /compte/configuration     → 307
+POST /api/connect/account-session → 401 "Non authentifié"
+```
+
+### 📈 Stats tests
+
+- vitest : 5 files / 55 tests passés / 1 skipped
+- Playwright : 8/8 sur `compte-pages.spec.ts` (pré-prod), 4/4 sur `reglement.spec.ts`
+
+### 🎯 STRATÉGIE EXÉCUTION — RÉALISÉE
+
+1. ✅ Chantier 1 (INSEE Sirene live) — F1.1 → F1.13
+2. ✅ Chantier 2 (OpenTimestamps Bitcoin) — F2.1 → F2.10
+3. ✅ Chantier 3 (Connect Embedded V4.1 + 7 pages /compte/*) — F3.1 → F3.9
+4. ✅ Secondaires F4 + F5 + F6
+
+Chaque feature : code → tsc 0 → vitest si logique pure → Playwright si UI → commit atomique → next. **V7.1 / V4.1 COMPLET**.
