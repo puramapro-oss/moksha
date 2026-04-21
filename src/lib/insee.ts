@@ -531,7 +531,10 @@ async function writeSirenCache(
 // INSEE SIRENE V3.11 — fetch + normalisation
 // ═══════════════════════════════════════════════════════════════════
 
-const INSEE_BASE = 'https://api.insee.fr/entreprises/sirene/V3.11'
+// V7.1 patch 21/04/2026 — nouveau portail INSEE :
+// l'ancien `/entreprises/sirene/V3.11` retourne "url deprecated, visit https://portail-api.insee.fr/"
+// La base actuelle est `/api-sirene/3.11/`.
+const INSEE_BASE = 'https://api.insee.fr/api-sirene/3.11'
 const FETCH_TIMEOUT_MS = 8_000
 
 type InseeEtablissement = {

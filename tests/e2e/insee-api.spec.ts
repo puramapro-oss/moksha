@@ -6,8 +6,9 @@
 
 import { test, expect } from '@playwright/test'
 
-const APPLE_SIRET = '73282932000074'
-const APPLE_SIREN = '732829320'
+// SIRET/SIREN Apple France actuels (vérifiés via recherche-entreprises gouv 2026)
+const APPLE_SIRET = '32212091600208'
+const APPLE_SIREN = '322120916'
 const INSEE_SIRET = '12002701600563'
 const INVALID_LUHN_SIRET = '12345678901234'
 const NOT_FOUND_SIRET = '99999999999999' // Luhn-valide volontairement (pour 404, pas 400)
