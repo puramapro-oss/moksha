@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { createServiceClient } from '@/lib/supabase'
-import { stampContent } from '@/lib/originstamp'
+import { stampContent } from '@/lib/opentimestamps'
 import { SUPER_ADMIN_EMAIL } from '@/lib/constants'
 
 export const runtime = 'nodejs'
@@ -15,8 +15,10 @@ const PublishSchema = z.object({
 
 /**
  * POST /api/reglement/publish (admin-only)
- * Horodate le règlement sur OriginStamp (Tezos) et insert dans moksha_reglements.
- * Désactive automatiquement les versions précédentes (active=false).
+ * V7.1 : horodate le règlement sur OpenTimestamps (Bitcoin) et insert dans
+ * moksha_reglements. Désactive automatiquement les versions précédentes
+ * (active=false). La preuve est INCOMPLETE au stamping initial — elle est
+ * upgraded ~1-2h plus tard par CRON quand Bitcoin confirme l'ancrage.
  */
 export async function POST(req: NextRequest) {
   try {
@@ -43,9 +45,8 @@ export async function POST(req: NextRequest) {
       .insert({
         version: parsed.data.version,
         content_hash: stamp.contentHash,
-        originstamp_hash: stamp.originstampHash,
-        originstamp_proof_url: stamp.proofUrl,
-        blockchain: stamp.blockchain,
+        opentimestamps_proof: stamp.proof,
+        blockchain: 'bitcoin',
         content_url: parsed.data.content_url ?? `/reglement?v=${parsed.data.version}`,
         active: true,
       })
@@ -57,7 +58,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       reglement: data,
-      blockchain_pending: stamp.fallback,
+      stamp_status: 'pending_anchor',
+      message: 'Règlement horodaté. Ancrage Bitcoin en attente (~1-2h).',
     })
   } catch (e) {
     return NextResponse.json({ error: e instanceof Error ? e.message : 'Erreur' }, { status: 500 })
@@ -67,8 +69,8 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   const svc = createServiceClient()
   const { data } = await svc
-    .from('moksha_reglements')
-    .select('version, content_hash, originstamp_hash, originstamp_proof_url, blockchain, published_at, active')
+    .from('moksha_reglements_status')
+    .select('id, version, content_hash, blockchain, stamp_status, bitcoin_block_height, bitcoin_block_timestamp, published_at, active')
     .order('published_at', { ascending: false })
     .limit(20)
   return NextResponse.json({ reglements: data ?? [] })
