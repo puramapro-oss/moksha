@@ -57,15 +57,31 @@ export async function createConnectAccount(input: ConnectAccountInput): Promise<
 }
 
 /**
- * Crée une AccountSession pour Embedded Onboarding (KYC reste sur moksha.purama.dev).
- * TTL: ~1h (auto-régénéré par Connect Embedded).
+ * Crée une AccountSession pour Embedded Components (KYC reste sur moksha.purama.dev).
+ * TTL : ~1h (auto-régénéré côté client).
+ *
+ * V7.1/V4.1 §36.5 — 7 composants activés :
+ *   account_onboarding, account_management, notification_banner,
+ *   payouts, payments, balances, documents.
+ *
+ * Mappés sur les 7 site links Stripe Dashboard (purama.dev/compte/*).
  */
-export async function createAccountSession(stripeAccountId: string): Promise<Stripe.AccountSession> {
+export async function createAccountSession(
+  stripeAccountId: string,
+): Promise<Stripe.AccountSession> {
   const stripe = getStripe()
   return stripe.accountSessions.create({
     account: stripeAccountId,
     components: {
       account_onboarding: {
+        enabled: true,
+        features: { external_account_collection: true },
+      },
+      account_management: {
+        enabled: true,
+        features: { external_account_collection: true },
+      },
+      notification_banner: {
         enabled: true,
         features: { external_account_collection: true },
       },
@@ -78,7 +94,25 @@ export async function createAccountSession(stripeAccountId: string): Promise<Str
           edit_payout_schedule: true,
         },
       },
-      notification_banner: { enabled: true },
+      payments: {
+        enabled: true,
+        features: {
+          refund_management: false,
+          dispute_management: false,
+          capture_payments: false,
+          destination_on_behalf_of_charge_management: false,
+        },
+      },
+      balances: {
+        enabled: true,
+        features: {
+          standard_payouts: true,
+          instant_payouts: true,
+          external_account_collection: true,
+          edit_payout_schedule: true,
+        },
+      },
+      documents: { enabled: true },
     },
   })
 }
