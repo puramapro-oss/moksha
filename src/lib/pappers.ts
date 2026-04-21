@@ -1,5 +1,11 @@
-// MOKSHA — Pappers API + recherche-entreprises (gratuit) + api-adresse
-// Docs: https://api.pappers.fr/v2, https://recherche-entreprises.api.gouv.fr, https://adresse.data.gouv.fr
+// MOKSHA — Pappers API + recherche-entreprises (gratuit) + api-adresse + INSEE Sirene (V7.1 §36.1)
+// Docs:
+//   - INSEE Sirene V3.11 (officiel, prioritaire) : https://api.insee.fr (via lib/insee.ts)
+//   - recherche-entreprises gouv (anonyme, full-text) : https://recherche-entreprises.api.gouv.fr
+//   - Pappers (formalités INPI + bilans + dirigeants) : https://api.pappers.fr/v2
+//   - api-adresse : https://adresse.data.gouv.fr
+
+import { getSiret as inseeGetSiret, getSiren as inseeGetSiren } from './insee'
 
 const PAPPERS_BASE = 'https://api.pappers.fr/v2'
 const PAPPERS_SERVICES_BASE = 'https://services.pappers.fr/api'
@@ -17,7 +23,42 @@ export type EntrepriseResult = {
   etat?: string
 }
 
-// --- GRATUIT sans clé : recherche-entreprises.api.gouv.fr ---
+// --- V7.1 — Lookup SIRET prioritaire INSEE Sirene ---
+// Préféré pour SIRET/SIREN exacts. Fallback automatique recherche-entreprises gouv inclus.
+export async function getEntrepriseFromSiret(siret: string): Promise<EntrepriseResult | null> {
+  const res = await inseeGetSiret(siret)
+  if (!res.ok) return null
+  const e = res.info
+  return {
+    siren: e.siren,
+    siret: e.siret,
+    denomination: e.denomination,
+    forme_juridique: e.forme_juridique,
+    code_ape: e.code_naf,
+    adresse: e.adresse.line,
+    date_creation: e.date_creation ?? undefined,
+    etat: e.etat === 'A' ? 'A' : 'F',
+  }
+}
+
+export async function getEntrepriseFromSiren(siren: string): Promise<EntrepriseResult | null> {
+  const res = await inseeGetSiren(siren)
+  if (!res.ok) return null
+  const u = res.info
+  return {
+    siren: u.siren,
+    siret: u.siret_siege ?? undefined,
+    denomination: u.denomination,
+    forme_juridique: u.forme_juridique,
+    code_ape: u.code_naf,
+    adresse: undefined,
+    date_creation: u.date_creation ?? undefined,
+    etat: u.etat === 'A' ? 'A' : 'C',
+  }
+}
+
+// --- GRATUIT sans clé : recherche-entreprises.api.gouv.fr (recherche full-text par nom) ---
+// INSEE Sirene n'expose pas de full-text public — on garde recherche-entreprises pour ça.
 export async function searchEntrepriseGouv(query: string): Promise<EntrepriseResult[]> {
   try {
     const url = `${RECHERCHE_ENTREPRISES_BASE}/search?q=${encodeURIComponent(query)}&per_page=10`
