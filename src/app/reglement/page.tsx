@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createServiceClient } from '@/lib/supabase'
 import LandingNav from '@/components/layout/LandingNav'
+import ReglementVerifyBadge from '@/components/reglement/ReglementVerifyBadge'
 
 export const metadata = { title: 'Règlement des jeux-concours — MOKSHA' }
 export const dynamic = 'force-dynamic'
@@ -67,10 +68,14 @@ Durée de conservation : 5 ans pour les gagnants, 3 ans pour les participants.
 Tout litige relatif à l'interprétation ou l'application du présent règlement sera soumis
 au **Tribunal de commerce de Besançon** (France).
 
-## Article 8 — Horodatage blockchain
+## Article 8 — Preuve blockchain Purama
 
-Ce règlement est horodaté sur la blockchain **Tezos** via OriginStamp, garantissant
-l'authenticité et l'antériorité du texte. Le hash SHA-256 et la preuve sont affichés ci-dessous.
+Ce règlement est horodaté via une **preuve blockchain publique décentralisée**,
+garantissant l'authenticité et l'antériorité du texte sans dépendance à un tiers
+commercial. Le hash SHA-256 du règlement est ancré cryptographiquement dans une
+blockchain publique mondiale et peut être vérifié à tout moment via le lien
+"Vérifier la preuve" ci-dessus. La vérification est gratuite, publique et
+opposable à tout tiers (huissier, juge, journaliste).
 
 ## Article 9 — Modifications
 
@@ -83,9 +88,19 @@ export default async function ReglementPage() {
   const svc = createServiceClient()
   const { data: reglement } = await svc
     .from('moksha_reglements')
-    .select('version, content_hash, originstamp_hash, originstamp_proof_url, blockchain, published_at')
+    .select('id, version, content_hash, opentimestamps_proof, originstamp_hash, originstamp_proof_url, blockchain, bitcoin_block_height, bitcoin_block_timestamp, published_at')
     .eq('active', true)
     .maybeSingle()
+
+  const stampStatus: 'confirmed' | 'pending_anchor' | 'legacy_tezos' | 'unstamped' = reglement
+    ? reglement.bitcoin_block_height
+      ? 'confirmed'
+      : reglement.opentimestamps_proof
+      ? 'pending_anchor'
+      : reglement.originstamp_hash
+      ? 'legacy_tezos'
+      : 'unstamped'
+    : 'unstamped'
 
   return (
     <>
@@ -101,27 +116,51 @@ export default async function ReglementPage() {
         {reglement && (
           <div className="glass mt-6 p-5 text-[13px]">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full bg-[#5DCAA5]/20 px-3 py-1 text-[11px] font-semibold text-[#5DCAA5]">
                   Version {reglement.version}
                 </span>
-                <span className="ml-2 text-[11px] text-white/50">
-                  Publié le {new Date(reglement.published_at).toLocaleDateString('fr-FR')}
+                <span className="text-[11px] text-white/50">
+                  Publié le{' '}
+                  {new Date(reglement.published_at).toLocaleDateString('fr-FR', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
                 </span>
               </div>
-              <span className="text-[11px] text-white/45">Blockchain : {reglement.blockchain}</span>
+              <ReglementVerifyBadge
+                reglementId={reglement.id}
+                stampStatus={stampStatus}
+                bitcoinBlockHeight={reglement.bitcoin_block_height}
+                bitcoinBlockTimestamp={reglement.bitcoin_block_timestamp}
+                legacyProofUrl={reglement.originstamp_proof_url}
+              />
             </div>
             <div className="mt-4 space-y-1.5 rounded-lg bg-black/20 p-3 font-mono text-[10.5px] leading-relaxed">
-              <div><span className="text-white/40">SHA-256 :</span> <span className="break-all text-white/80">{reglement.content_hash}</span></div>
-              {reglement.originstamp_hash && (
-                <div><span className="text-white/40">OriginStamp :</span> <span className="break-all text-white/80">{reglement.originstamp_hash}</span></div>
-              )}
-              {reglement.originstamp_proof_url && (
+              <div>
+                <span className="text-white/40">SHA-256 du règlement :</span>{' '}
+                <span className="break-all text-white/80">{reglement.content_hash}</span>
+              </div>
+              {stampStatus === 'confirmed' && reglement.bitcoin_block_height && (
                 <div>
-                  <span className="text-white/40">Preuve :</span>{' '}
-                  <a href={reglement.originstamp_proof_url} target="_blank" rel="noopener noreferrer" className="break-all text-[#FF6B35] underline">
-                    {reglement.originstamp_proof_url}
-                  </a>
+                  <span className="text-white/40">Ancrage blockchain :</span>{' '}
+                  <span className="text-white/80">
+                    bloc #{reglement.bitcoin_block_height.toLocaleString('fr-FR')}
+                    {reglement.bitcoin_block_timestamp &&
+                      ` — ${new Date(reglement.bitcoin_block_timestamp).toLocaleString('fr-FR')}`}
+                  </span>
+                </div>
+              )}
+              {stampStatus === 'pending_anchor' && (
+                <div className="text-amber-300/80">
+                  <span className="text-white/40">Ancrage blockchain :</span> en cours (finalisation ~1-2h après publication)
+                </div>
+              )}
+              {stampStatus === 'legacy_tezos' && reglement.originstamp_hash && (
+                <div>
+                  <span className="text-white/40">Preuve historique Tezos :</span>{' '}
+                  <span className="break-all text-white/80">{reglement.originstamp_hash}</span>
                 </div>
               )}
             </div>
