@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { Check, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { TAX_PROFILES, type TaxProfileType } from '@/lib/tax'
+import SiretLookup from '@/components/wizard/SiretLookup'
+import type { EtablissementInfo } from '@/lib/insee'
 
 interface Props {
   onComplete?: (profile: TaxProfileType) => void
@@ -148,17 +150,20 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
                 : 'Renseigne les infos de ton entreprise pour activer Factur-X et Pennylane.'}
             </p>
             <div className="space-y-3">
-              <div>
-                <label className="block text-xs font-semibold text-white/70">SIRET (14 chiffres)</label>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  value={siret}
-                  onChange={(e) => setSiret(e.target.value)}
-                  placeholder="123 456 789 00012"
-                  className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-[#FF6B35] focus:outline-none"
-                />
-              </div>
+              <SiretLookup
+                defaultValue={siret}
+                label="SIRET (14 chiffres)"
+                helper="Vérification automatique au répertoire INSEE Sirene — pré-remplit ton dossier"
+                onResolved={(info: EtablissementInfo) => {
+                  setSiret(info.siret)
+                  if (chosen === 'entreprise') {
+                    if (!companyName) setCompanyName(info.denomination)
+                    if (!legalForm) setLegalForm(info.forme_juridique)
+                    if (!activity && info.code_naf) setActivity(`Activité NAF ${info.code_naf}`)
+                  }
+                }}
+                onClear={() => setSiret('')}
+              />
               {chosen === 'entreprise' && (
                 <>
                   <div>
