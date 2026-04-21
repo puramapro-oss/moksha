@@ -163,3 +163,67 @@ HELLOASSO_CLIENT_SECRET=[HELLOASSO_PENDING]
 - [x] **Next.js 16.2.4** (HIGH DoS patched via security-agent)
 - [x] **Verdicts agents** : qa-agent après fixes = OK | security-agent = PROD OK grade A
 - [x] Deploy Vercel prod → dpl_FKjwWzMNrTMZSFEk73BJgNkuZm2K → https://moksha.purama.dev (200 sur / /pricing /login /ambassadeur /paiement /fiscal /dashboard + redirects 307/308 corrects + cookie purama_promo validé Secure+HttpOnly+SameSite=lax+7j)
+
+---
+
+## V7.1 / V4.1 MIGRATION — 2026-04-21 — INSEE LIVE + OPENTIMESTAMPS + CONNECT V4.1 🚧 EN COURS
+
+**Sources of truth** : `~/purama/CLAUDE.md` V7.1 §36 + `~/purama/STRIPE_CONNECT_KARMA_V4.md` V4.1
+**Triggers** : OriginStamp retired 31 mai 2025 → OpenTimestamps obligatoire | INSEE Sirene live key disponible | Stripe Connect Embedded 7 components V4.1
+**Pré-requis OK** : `INSEE_API_KEY` présent .env.local + Vercel prod | `@stripe/connect-js` + `@stripe/react-connect-js` installés | VPS SSH OK | Wave C V4 a déjà branché Connect Embedded basique (account_onboarding + payouts + notification_banner)
+
+### CHANTIER 1 — INSEE Sirene live + cache 30j + rate-limit 25/min 🔴
+
+- [ ] **F1.1** Vérifier `INSEE_API_KEY` .env.local + Vercel prod (✅ pré-vérifié)
+- [ ] **F1.2** Installer vitest + @vitest/ui + jsdom + setup `vitest.config.ts`
+- [ ] **F1.3** SQL migration `moksha_siret_cache` (siret PK, payload jsonb, fetched_at, expires_at, source) + RLS service_role only — exec VPS
+- [ ] **F1.4** `src/lib/insee.ts` — `getSiret()`, `getSiren()`, validateSiretLuhn, formatSiret, in-memory token-bucket queue 25/min, normalisation INSEE → shape Purama
+- [ ] **F1.5** `src/lib/insee.test.ts` (vitest) — Luhn valide/invalide, format, parsing payload INSEE, fallback si HTTP 429/500
+- [ ] **F1.6** `src/app/api/siret/[siret]/route.ts` — GET cache → INSEE → cache, 14j TTL configurable
+- [ ] **F1.7** `src/app/api/siren/[siren]/route.ts` — GET (siege uniquement, multi-établissements optionnel)
+- [ ] **F1.8** Migrer `src/lib/pappers.ts` : nouveau `getEntrepriseFromSiret` qui prefer INSEE puis fallback recherche-entreprises gouv. `searchEntrepriseGouv` reste pour recherche par nom (INSEE Sirene n'a pas de full-text public).
+- [ ] **F1.9** `src/components/wizard/SiretLookup.tsx` — input SIRET 14 chiffres, debounce 500ms, affiche dénomination/forme/adresse INSEE, badge "Vérifié INSEE"
+- [ ] **F1.10** Brancher SiretLookup dans `WizardEntreprise` cas reprise + dans `StepDirigeant` (pour SIRET dirigeant existant)
+- [ ] **F1.11** Vitest routes /api/siret + /api/siren (mock fetch INSEE, mock Supabase cache)
+- [ ] **F1.12** Playwright `wizard-siret.spec.ts` — wizard reprise saisit SIRET réel SASU PURAMA → champs pré-remplis
+- [ ] **F1.13** Commit feature-par-feature + deploy preview + test prod
+
+### CHANTIER 2 — OpenTimestamps Bitcoin (remplace OriginStamp) 🔴
+
+- [ ] **F2.1** `npm i javascript-opentimestamps` + types
+- [ ] **F2.2** `src/lib/opentimestamps.ts` — `stampHash(data)`, `verifyProof(data, proofBase64)`, `hashContent(content)` (template CLAUDE.md V7.1 §36.2)
+- [ ] **F2.3** `src/lib/opentimestamps.test.ts` (vitest) — round-trip stamp+verify avec hash mocké, parsing preuve base64
+- [ ] **F2.4** SQL migration : ALTER `moksha_reglements` ADD COLUMN `opentimestamps_proof TEXT`, ALTER `blockchain` DEFAULT 'bitcoin'. Préserver `originstamp_hash` + `originstamp_proof_url` pour rétrocompat (ne pas supprimer en V4.1).
+- [ ] **F2.5** Migrer `src/app/api/reglement/publish/route.ts` → utiliser `stampHash` + insert `opentimestamps_proof`
+- [ ] **F2.6** Créer `src/app/api/reglement/verify/[id]/route.ts` — public, vérifie proof Bitcoin
+- [ ] **F2.7** Mettre à jour `src/app/reglement/page.tsx` — terme UI "Preuve blockchain Purama" (jamais "OpenTimestamps" ni "Bitcoin"), affiche hash + lien `/api/reglement/verify/[id]`
+- [ ] **F2.8** Supprimer `src/lib/originstamp.ts` (après confirmation aucun autre import) + grep -r "originstamp" src/ = 0 (sauf migration SQL backward-compat colonnes)
+- [ ] **F2.9** Playwright `reglement.spec.ts` — page /reglement charge, hash visible, verify endpoint répond 200
+- [ ] **F2.10** Commit + deploy + test prod
+
+### CHANTIER 3 — Stripe Connect Embedded V4.1 (7 components + endpoint dédié + 7 pages /compte/*) 🔴
+
+- [ ] **F3.1** Étendre `src/lib/stripe-connect.ts` — `createAccountSession` ajouter components V4.1 manquants : `account_management`, `payments`, `balances`, `documents` (en plus de `account_onboarding`, `payouts`, `notification_banner` déjà présents)
+- [ ] **F3.2** Créer endpoint dédié `src/app/api/connect/account-session/route.ts` (POST) — auth user, retourne `client_secret` (V4.1 §36.5 pattern)
+- [ ] **F3.3** Refactor `src/app/api/connect/onboard/route.ts` pour appeler le nouvel endpoint (DRY)
+- [ ] **F3.4** `src/components/wallet/ConnectProvider.tsx` — wrapper `loadConnectAndInitialize` + `ConnectComponentsProvider` réutilisable
+- [ ] **F3.5** Créer pages `/compte/{notifications,gestion,virements,paiements,soldes,documents,configuration}` mappées sur les 7 site links Stripe Dashboard (V4.1 §36.5). Chaque page = 1 component embedded + UI Purama wrapper.
+- [ ] **F3.6** Mettre à jour middleware pour /compte/* (auth required redirect /auth?next=)
+- [ ] **F3.7** Vitest `account-session.test.ts` — auth required, retourne client_secret, idempotent
+- [ ] **F3.8** Playwright `compte-pages.spec.ts` — 7 pages chargent (skip si non-onboardé)
+- [ ] **F3.9** Commit + deploy + smoke test 7 pages
+
+### CHANTIERS SECONDAIRES
+
+- [ ] **F4** ZFRR + JEI cochables dans WizardEntreprise (StepRecap nouvelles cases) → mention auto dans statuts SASU générés par JurisIA
+- [ ] **F5** Workflow ACCRE → ARCE → dépôt statuts dans `/dashboard/demarches` (3 étapes pré-remplies, intégration France Travail si API dispo, sinon liens 1-click)
+- [ ] **F6** Audit final 0 placeholder business : `grep -rn "placeholder\|TODO\|FIXME\|coming soon\|Lorem" src/` ne doit retourner que des `placeholder=` HTML inputs (pas de mocks logique)
+
+### 🎯 STRATÉGIE EXÉCUTION
+
+1. Chantier 1 entier (F1.1 → F1.13) → "Phase 1 (Chantier #1) terminée, relance-moi"
+2. Chantier 2 entier → "Phase 2 terminée, relance-moi"
+3. Chantier 3 entier → "Phase 3 terminée, relance-moi"
+4. Secondaires F4 + F5 + F6
+
+Chaque feature : code → tsc 0 → vitest si logique pure → Playwright si UI → commit atomique → next.
