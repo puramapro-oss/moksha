@@ -85,7 +85,7 @@ export default function AdminWallet() {
                       <p className="text-[10px] text-white/40">{new Date(t.created_at).toLocaleString('fr-FR')}</p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-[#FFD700]">{Math.abs(Number(t.amount)).toFixed(2)} €</span>
+                      <span className="font-bold text-[#FFB300]">{Math.abs(Number(t.amount)).toFixed(2)} €</span>
                       <button
                         onClick={() => updateTx(t.id, 'completed')}
                         className="rounded-lg bg-[#5DCAA5]/20 p-2 text-[#5DCAA5] hover:bg-[#5DCAA5]/30"
@@ -131,7 +131,7 @@ export default function AdminWallet() {
                     <td className="px-4 py-3 text-white/40">{i + 1}</td>
                     <td className="px-4 py-3 text-white/80">{b.email}</td>
                     <td className="px-4 py-3 text-white/60">{b.full_name}</td>
-                    <td className="px-4 py-3 text-right font-bold text-[#FFD700]">{b.balance.toFixed(2)} €</td>
+                    <td className="px-4 py-3 text-right font-bold text-[#FFB300]">{b.balance.toFixed(2)} €</td>
                   </tr>
                 ))}
               </tbody>
@@ -146,7 +146,7 @@ export default function AdminWallet() {
 function Card({ label, value, icon, accent }: { label: string; value: string | number; icon: React.ReactNode; accent?: boolean }) {
   return (
     <div className="glass p-5">
-      <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ${accent ? 'bg-gradient-to-br from-[#FF6B35] to-[#FFD700] text-[#070B18]' : 'bg-white/5 text-white/60'}`}>
+      <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ${accent ? 'bg-gradient-to-br from-[#FF3D00] to-[#FFB300] text-[#070B18]' : 'bg-white/5 text-white/60'}`}>
         {icon}
       </div>
       <div className="text-xl font-extrabold">{value}</div>

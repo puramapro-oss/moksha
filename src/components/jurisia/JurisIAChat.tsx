@@ -179,7 +179,7 @@ export default function JurisIAChat() {
       <aside className="hidden w-64 shrink-0 flex-col rounded-3xl border border-white/5 bg-white/[0.02] p-3 lg:flex">
         <button
           onClick={newConversation}
-          className="mb-3 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-2 text-xs font-bold text-[#070B18]"
+          className="mb-3 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-2 text-xs font-bold text-[#070B18]"
         >
           <Plus className="h-3.5 w-3.5" /> Nouvelle conversation
         </button>
@@ -191,7 +191,7 @@ export default function JurisIAChat() {
               <div
                 key={c.id}
                 className={`group flex items-center gap-1 rounded-lg px-2 py-2 text-xs transition ${
-                  activeId === c.id ? 'bg-[#FF6B35]/15 text-white' : 'text-white/60 hover:bg-white/5'
+                  activeId === c.id ? 'bg-[#FF3D00]/15 text-white' : 'text-white/60 hover:bg-white/5'
                 }`}
               >
                 <button onClick={() => openConversation(c.id)} className="min-w-0 flex-1 truncate text-left">
@@ -213,7 +213,7 @@ export default function JurisIAChat() {
       {/* Chat */}
       <div className="flex flex-1 flex-col">
         <div className="mb-6 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD700]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF3D00] to-[#FFB300]">
             <Bot className="h-5 w-5 text-[#070B18]" />
           </div>
           <div className="flex-1">
@@ -240,7 +240,7 @@ export default function JurisIAChat() {
             </div>
           ) : messages.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
-              <Sparkles className="mb-4 h-10 w-10 text-[#FFD700]" />
+              <Sparkles className="mb-4 h-10 w-10 text-[#FFB300]" />
               <h2 className="mb-2 font-display text-2xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>
                 Que veux-tu savoir ?
               </h2>
@@ -280,7 +280,7 @@ export default function JurisIAChat() {
                       </div>
                     ) : (
                       <>
-                        <div className="prose prose-sm prose-invert max-w-none prose-p:my-2 prose-headings:mt-3 prose-headings:mb-2 prose-strong:text-[#FFD700] prose-a:text-[#FFD700] prose-a:underline-offset-2">
+                        <div className="prose prose-sm prose-invert max-w-none prose-p:my-2 prose-headings:mt-3 prose-headings:mb-2 prose-strong:text-[#FFB300] prose-a:text-[#FFB300] prose-a:underline-offset-2">
                           <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{
@@ -289,7 +289,7 @@ export default function JurisIAChat() {
                                   href={href}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="rounded-md bg-[#FFD700]/10 px-1.5 py-0.5 text-[#FFD700] no-underline hover:bg-[#FFD700]/20"
+                                  className="rounded-md bg-[#FFB300]/10 px-1.5 py-0.5 text-[#FFB300] no-underline hover:bg-[#FFB300]/20"
                                 >
                                   {children}
                                 </a>
@@ -334,12 +334,12 @@ export default function JurisIAChat() {
             onKeyDown={handleKey}
             rows={1}
             placeholder="Ta question juridique…"
-            className="max-h-40 flex-1 resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+            className="max-h-40 flex-1 resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
           />
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18] transition hover:opacity-95 disabled:opacity-40"
+            className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18] transition hover:opacity-95 disabled:opacity-40"
           >
             <Send className="h-4 w-4" />
           </button>

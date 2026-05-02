@@ -23,7 +23,7 @@ export default function AmbassadeurPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-10 px-4 py-16">
       <div className="text-center">
-        <Crown className="mx-auto mb-4 h-10 w-10 text-[#FFD700]" />
+        <Crown className="mx-auto mb-4 h-10 w-10 text-[#FFB300]" />
         <h1
           className="font-[family-name:var(--font-display)] text-4xl font-extrabold md:text-5xl"
           style={{ fontFamily: 'var(--font-display)' }}
@@ -32,14 +32,14 @@ export default function AmbassadeurPage() {
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-white/70">
           Recommande MOKSHA à ton audience.{' '}
-          <strong className="text-[#FFD700]">50% de commission à vie</strong> sur les abonnements de
-          tes filleuls + paliers de récompenses jusqu&apos;à <strong className="text-[#FFD700]">200 000€</strong>.
+          <strong className="text-[#FFB300]">50% de commission à vie</strong> sur les abonnements de
+          tes filleuls + paliers de récompenses jusqu&apos;à <strong className="text-[#FFB300]">200 000€</strong>.
           0 investissement, 100% éthique.
         </p>
 
         <Link
           href="/auth?next=/dashboard/ambassadeur"
-          className="mt-8 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-8 py-4 text-base font-bold text-[#070B18] transition active:scale-[0.98]"
+          className="mt-8 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-8 py-4 text-base font-bold text-[#070B18] transition active:scale-[0.98]"
         >
           Postuler comme Ambassadeur <Link2 className="h-4 w-4" />
         </Link>
@@ -48,14 +48,14 @@ export default function AmbassadeurPage() {
       {/* Comment ça marche */}
       <div className="grid gap-6 md:grid-cols-3">
         <div className="glass rounded-2xl p-6">
-          <Users className="mb-3 h-6 w-6 text-[#FF6B35]" />
+          <Users className="mb-3 h-6 w-6 text-[#FF3D00]" />
           <h3 className="font-semibold">1. Crée ton profil</h3>
           <p className="mt-2 text-sm text-white/60">
             Connecte-toi, choisis ton pseudo et reçois ton lien personnalisé moksha.purama.dev/go/[toi].
           </p>
         </div>
         <div className="glass rounded-2xl p-6">
-          <Link2 className="mb-3 h-6 w-6 text-[#FFD700]" />
+          <Link2 className="mb-3 h-6 w-6 text-[#FFB300]" />
           <h3 className="font-semibold">2. Partage ton lien</h3>
           <p className="mt-2 text-sm text-white/60">
             Stories, vidéos, posts, bio. Chaque clic est tracké pendant 30 jours via cookie.
@@ -73,7 +73,7 @@ export default function AmbassadeurPage() {
       {/* Paliers */}
       <div className="glass rounded-2xl p-6">
         <h2 className="mb-5 flex items-center gap-2 text-xl font-bold">
-          <Gift className="h-5 w-5 text-[#FFD700]" />
+          <Gift className="h-5 w-5 text-[#FFB300]" />
           Paliers de récompenses
         </h2>
         <div className="space-y-2">

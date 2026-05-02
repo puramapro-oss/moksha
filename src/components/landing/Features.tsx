@@ -8,13 +8,13 @@ const features = [
     icon: Bot,
     title: 'JurisIA',
     description: "Ton agent juridique IA. Citations Legifrance officielles, indice de confiance, réponses en français simple.",
-    color: '#FF6B35',
+    color: '#FF3D00',
   },
   {
     icon: Rocket,
     title: 'Autopilote',
     description: 'PV AG annuelle, déclarations TVA, rappels URSSAF. Tout se gère automatiquement.',
-    color: '#FFD700',
+    color: '#FFB300',
   },
   {
     icon: Lock,
@@ -26,13 +26,13 @@ const features = [
     icon: Radio,
     title: 'Suivi temps réel',
     description: 'Statut INPI live. Notifications à chaque étape. Kbis reçu directement dans ton vault.',
-    color: '#FF6B35',
+    color: '#FF3D00',
   },
   {
     icon: Camera,
     title: 'ScannerPerfect™',
     description: 'Contrôle qualité automatique : flou, reflet, lisibilité. Zéro refus à la source.',
-    color: '#FFD700',
+    color: '#FFB300',
   },
   {
     icon: BarChart3,

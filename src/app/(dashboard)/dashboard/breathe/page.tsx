@@ -118,8 +118,8 @@ export default function BreathePage() {
     current.phase === 'inhale'
       ? 'rgba(93, 202, 165, 0.3)'
       : current.phase === 'hold'
-        ? 'rgba(255, 215, 0, 0.3)'
-        : 'rgba(255, 107, 53, 0.3)'
+        ? 'rgba(255, 179, 0, 0.3)'
+        : 'rgba(255, 61, 0, 0.3)'
 
   const totalSessions = pastSessions.length
   const totalMinutes = pastSessions.reduce((s, p) => s + p.duration_seconds, 0) / 60
@@ -160,7 +160,7 @@ export default function BreathePage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => setRunning(!running)}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18] shadow-lg transition-all active:scale-95"
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18] shadow-lg transition-all active:scale-95"
         >
           {running ? <Pause className="h-6 w-6" /> : <Play className="ml-0.5 h-6 w-6" />}
         </button>
@@ -179,7 +179,7 @@ export default function BreathePage() {
           <p className="text-xs text-[var(--text-muted)]">Cycles</p>
         </div>
         <div className="glass rounded-xl p-4">
-          <p className="text-2xl font-bold text-[#FFD700]">
+          <p className="text-2xl font-bold text-[#FFB300]">
             {Math.floor(totalTime / 60)}:{String(totalTime % 60).padStart(2, '0')}
           </p>
           <p className="text-xs text-[var(--text-muted)]">Durée</p>

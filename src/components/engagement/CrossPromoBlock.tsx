@@ -93,10 +93,10 @@ export default function CrossPromoBlock() {
 
       <p className="relative mt-3 text-sm text-white/75">{target.description}</p>
 
-      <div className="relative mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-[#FFD700]/20 bg-[#FFD700]/5 p-3">
-        <Sparkles className="h-4 w-4 shrink-0 text-[#FFD700]" />
+      <div className="relative mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-[#FFB300]/20 bg-[#FFB300]/5 p-3">
+        <Sparkles className="h-4 w-4 shrink-0 text-[#FFB300]" />
         <div className="flex-1 text-xs text-white/80">
-          <strong className="text-[#FFD700]">-50% le premier mois</strong> + 100€ de prime de bienvenue.
+          <strong className="text-[#FFB300]">-50% le premier mois</strong> + 100€ de prime de bienvenue.
           <span className="ml-1 text-white/50">Automatique, aucun code à saisir.</span>
         </div>
       </div>

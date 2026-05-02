@@ -14,7 +14,7 @@ const choices = [
     title: 'Créer mon entreprise',
     description: 'SASU, SAS, SARL, EURL, SCI, Micro. Dépôt INPI automatique, Kbis sous 5-10 jours.',
     href: '/creer/entreprise',
-    gradient: 'from-[#FF6B35] to-[#FFD700]',
+    gradient: 'from-[#FF3D00] to-[#FFB300]',
     duration: '10 min',
     price: 'Dès 49€',
   },
@@ -23,7 +23,7 @@ const choices = [
     title: 'Créer mon association',
     description: 'Association loi 1901. Statuts, PV AG constitutive, déclaration préfecture, JOAFE.',
     href: '/creer/association',
-    gradient: 'from-[#FFD700] to-[#5DCAA5]',
+    gradient: 'from-[#FFB300] to-[#5DCAA5]',
     duration: '8 min',
     price: 'Dès 29€',
   },
@@ -32,7 +32,7 @@ const choices = [
     title: 'Je veux être conseillé',
     description: "JurisIA analyse ton projet et te recommande la meilleure forme juridique selon ta situation.",
     href: '/auth?next=/dashboard/jurisia',
-    gradient: 'from-[#5DCAA5] to-[#FF6B35]',
+    gradient: 'from-[#5DCAA5] to-[#FF3D00]',
     duration: '5 min',
     price: 'Gratuit',
   },
@@ -64,7 +64,7 @@ export default function Demarrer() {
                 className="glass glass-hover group relative flex h-full flex-col p-8"
               >
                 <div
-                  className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${c.gradient} shadow-[0_0_30px_-10px_rgba(255,107,53,0.5)] transition-transform group-hover:scale-110`}
+                  className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${c.gradient} shadow-[0_0_30px_-10px_rgba(255, 61, 0,0.5)] transition-transform group-hover:scale-110`}
                 >
                   <c.icon className="h-7 w-7 text-[#070B18]" />
                 </div>
@@ -75,9 +75,9 @@ export default function Demarrer() {
                 <div className="flex items-center justify-between border-t border-white/5 pt-4 text-xs">
                   <div className="flex gap-3">
                     <span className="text-white/50">⏱ {c.duration}</span>
-                    <span className="text-[#FFD700]">{c.price}</span>
+                    <span className="text-[#FFB300]">{c.price}</span>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-[#FF6B35] transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="h-4 w-4 text-[#FF3D00] transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>
             ))}

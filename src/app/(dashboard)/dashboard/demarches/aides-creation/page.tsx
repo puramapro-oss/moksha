@@ -172,7 +172,7 @@ export default function AidesCreationPage() {
       </header>
 
       <div className="glass flex items-center gap-3 p-4 text-[13px] text-white/70">
-        <Info className="h-4 w-4 shrink-0 text-[#FFD700]" />
+        <Info className="h-4 w-4 shrink-0 text-[#FFB300]" />
         <p>
           Dépose ta demande <strong>ACRE dans les 45 jours</strong> suivant l&apos;immatriculation.
           L&apos;<strong>ARCE</strong> nécessite un RDV conseiller France Travail avant la création.
@@ -209,7 +209,7 @@ export default function AidesCreationPage() {
 
                   <div className="min-w-[200px] flex-1">
                     <div className="flex items-center gap-2">
-                      <Icon className="h-4 w-4 text-[#FF6B35]" />
+                      <Icon className="h-4 w-4 text-[#FF3D00]" />
                       <span className="text-[11px] uppercase tracking-wider text-white/40">
                         Étape {idx + 1} / 3
                       </span>
@@ -223,7 +223,7 @@ export default function AidesCreationPage() {
                         href={step.cta.href}
                         target={step.cta.href.startsWith('http') ? '_blank' : undefined}
                         rel={step.cta.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18] transition hover:opacity-95"
+                        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18] transition hover:opacity-95"
                       >
                         {step.cta.label}
                         {step.cta.href.startsWith('http') && <ExternalLink className="h-3.5 w-3.5" />}

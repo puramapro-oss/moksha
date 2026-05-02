@@ -74,7 +74,7 @@ export default function Dashboard() {
           href="/creer/entreprise"
           className="glass glass-hover group flex items-center gap-4 p-5"
         >
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD700]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF3D00] to-[#FFB300]">
             <Plus className="h-5 w-5 text-[#070B18]" />
           </div>
           <div>
@@ -86,8 +86,8 @@ export default function Dashboard() {
           href="/dashboard/jurisia"
           className="glass glass-hover flex items-center gap-4 p-5"
         >
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FF6B35]/20 border border-[#FF6B35]/30">
-            <Bot className="h-5 w-5 text-[#FF6B35]" />
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FF3D00]/20 border border-[#FF3D00]/30">
+            <Bot className="h-5 w-5 text-[#FF3D00]" />
           </div>
           <div>
             <h3 className="font-semibold">Demander à JurisIA</h3>
@@ -133,14 +133,14 @@ export default function Dashboard() {
           </div>
         </Link>
         <Link href="/dashboard/points" className="glass glass-hover flex items-center gap-4 p-6">
-          <Star className="h-8 w-8 text-[#FFD700]" />
+          <Star className="h-8 w-8 text-[#FFB300]" />
           <div>
             <h3 className="font-semibold">Points Purama</h3>
             <p className="text-xs text-white/50">Coffre quotidien + boutique</p>
           </div>
         </Link>
         <Link href="/dashboard/concours" className="glass glass-hover flex items-center gap-4 p-6">
-          <Trophy className="h-8 w-8 text-[#FF6B35]" />
+          <Trophy className="h-8 w-8 text-[#FF3D00]" />
           <div>
             <h3 className="font-semibold">Concours</h3>
             <p className="text-xs text-white/50">Classement hebdo + tirage mensuel</p>
@@ -164,7 +164,7 @@ function StatCard({
 }) {
   return (
     <div className="glass p-5">
-      <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ${accent ? 'bg-gradient-to-br from-[#FF6B35] to-[#FFD700] text-[#070B18]' : 'bg-white/5 text-white/60'}`}>
+      <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ${accent ? 'bg-gradient-to-br from-[#FF3D00] to-[#FFB300] text-[#070B18]' : 'bg-white/5 text-white/60'}`}>
         {icon}
       </div>
       <div className="text-2xl font-extrabold">{value}</div>

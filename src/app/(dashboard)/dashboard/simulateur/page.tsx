@@ -37,7 +37,7 @@ export default function Simulateur() {
     <div className="space-y-6">
       <div>
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-          <BarChart3 className="h-7 w-7 text-[#FFD700]" /> Simulateur fiscal
+          <BarChart3 className="h-7 w-7 text-[#FFB300]" /> Simulateur fiscal
         </h1>
         <p className="mt-1 text-sm text-white/60">Compare SASU, EURL et Micro-entreprise — estimation indicative.</p>
       </div>
@@ -51,7 +51,7 @@ export default function Simulateur() {
               min={0}
               value={ca}
               onChange={(e) => setCa(Number(e.target.value))}
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60"
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60"
             />
           </div>
           <div>
@@ -61,7 +61,7 @@ export default function Simulateur() {
               min={0}
               value={charges}
               onChange={(e) => setCharges(Number(e.target.value))}
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60"
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60"
             />
           </div>
           <div>
@@ -72,7 +72,7 @@ export default function Simulateur() {
                   key={r}
                   onClick={() => setRegime(r)}
                   className={`rounded-xl border py-2 text-sm uppercase ${
-                    regime === r ? 'border-[#FF6B35]/60 bg-[#FF6B35]/10 text-white' : 'border-white/10 bg-white/5 text-white/60'
+                    regime === r ? 'border-[#FF3D00]/60 bg-[#FF3D00]/10 text-white' : 'border-white/10 bg-white/5 text-white/60'
                   }`}
                 >
                   {r}
@@ -105,7 +105,7 @@ function Row({ label, value, negative, highlight }: { label: string; value: numb
   return (
     <div className="flex items-center justify-between">
       <span className="text-white/60">{label}</span>
-      <span className={`font-semibold ${highlight ? 'text-[#FFD700] text-lg' : negative ? 'text-red-300' : 'text-white'}`}>
+      <span className={`font-semibold ${highlight ? 'text-[#FFB300] text-lg' : negative ? 'text-red-300' : 'text-white'}`}>
         {negative ? '-' : ''}{Math.round(value).toLocaleString('fr-FR')} €
       </span>
     </div>

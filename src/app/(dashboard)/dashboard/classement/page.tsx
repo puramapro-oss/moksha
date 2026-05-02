@@ -49,7 +49,7 @@ export default function ClassementPage() {
           className="flex items-center gap-3 font-[family-name:var(--font-display)] text-3xl font-extrabold"
           style={{ fontFamily: 'var(--font-display)' }}
         >
-          <Medal className="h-6 w-6 text-[#FFD700]" />
+          <Medal className="h-6 w-6 text-[#FFB300]" />
           Classement
         </h1>
         <p className="mt-1 text-sm text-white/60">
@@ -74,7 +74,7 @@ export default function ClassementPage() {
           </div>
           <div className="text-right">
             <p className="text-xs text-white/50">Ton score</p>
-            <p className="text-3xl font-extrabold text-[#FFD700]">{myScore}</p>
+            <p className="text-3xl font-extrabold text-[#FFB300]">{myScore}</p>
           </div>
         </div>
 
@@ -86,13 +86,13 @@ export default function ClassementPage() {
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-white/5">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] transition-all"
+                className="h-full rounded-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] transition-all"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
         ) : (
-          <p className="mt-5 text-center text-xs font-semibold text-[#FF6B35]">
+          <p className="mt-5 text-center text-xs font-semibold text-[#FF3D00]">
             Tu es au sommet — Purama. Respect. 🔥
           </p>
         )}
@@ -107,7 +107,7 @@ export default function ClassementPage() {
               key={l.key}
               className={`flex flex-col items-center gap-1 rounded-xl p-3 text-center ${
                 l.key === myLigue.key
-                  ? 'bg-white/[0.06] ring-1 ring-[#FFD700]/40'
+                  ? 'bg-white/[0.06] ring-1 ring-[#FFB300]/40'
                   : 'bg-white/[0.02]'
               }`}
             >
@@ -140,14 +140,14 @@ export default function ClassementPage() {
                 <div
                   key={entry.user_id}
                   className={`flex items-center justify-between gap-3 rounded-xl p-3 ${
-                    mine ? 'bg-[#FF6B35]/10 ring-1 ring-[#FF6B35]/30' : 'bg-white/[0.02]'
+                    mine ? 'bg-[#FF3D00]/10 ring-1 ring-[#FF3D00]/30' : 'bg-white/[0.02]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <span
                       className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${
                         i === 0
-                          ? 'bg-[#FFD700]/20 text-[#FFD700]'
+                          ? 'bg-[#FFB300]/20 text-[#FFB300]'
                           : i === 1
                             ? 'bg-white/10 text-white/70'
                             : i === 2
@@ -162,7 +162,7 @@ export default function ClassementPage() {
                       {ligue.emoji}
                     </span>
                   </div>
-                  <span className="text-sm font-bold text-[#FFD700]">{entry.score} pts</span>
+                  <span className="text-sm font-bold text-[#FFB300]">{entry.score} pts</span>
                 </div>
               )
             })}

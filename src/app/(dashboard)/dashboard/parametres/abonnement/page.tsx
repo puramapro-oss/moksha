@@ -84,7 +84,7 @@ export default function AbonnementPage() {
               </div>
             )}
           </div>
-          <CreditCard className="h-6 w-6 text-[#FFD700]" />
+          <CreditCard className="h-6 w-6 text-[#FFB300]" />
         </div>
 
         {isPremium && (
@@ -100,7 +100,7 @@ export default function AbonnementPage() {
         {!isPremium && (
           <Link
             href="/pricing"
-            className="block rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-3 text-center font-bold text-[#070B18]"
+            className="block rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-3 text-center font-bold text-[#070B18]"
           >
             Passer Premium — 100€ prime bienvenue
           </Link>
@@ -130,7 +130,7 @@ export default function AbonnementPage() {
           <div className="glass max-w-md w-full space-y-4 p-6">
             {cancelStep === 1 && (
               <>
-                <AlertTriangle className="h-8 w-8 text-[#FF6B35]" />
+                <AlertTriangle className="h-8 w-8 text-[#FF3D00]" />
                 <h2 className="text-xl font-bold">En résiliant, tu vas perdre :</h2>
                 <ul className="space-y-2 text-sm text-white/80">
                   <li>• Ta prime wallet non encore retirée</li>
@@ -161,7 +161,7 @@ export default function AbonnementPage() {
                       toast.info('Pause — contacte le support.')
                       setCancelStep(0)
                     }}
-                    className="flex-1 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-3 text-sm font-bold text-[#070B18]"
+                    className="flex-1 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-3 text-sm font-bold text-[#070B18]"
                   >
                     Mettre en pause
                   </button>
@@ -184,7 +184,7 @@ export default function AbonnementPage() {
                       key={r}
                       onClick={() => setCancelReason(r)}
                       className={`w-full rounded-xl border py-2 text-sm ${
-                        cancelReason === r ? 'border-[#FFD700] bg-[#FFD700]/10' : 'border-white/10'
+                        cancelReason === r ? 'border-[#FFB300] bg-[#FFB300]/10' : 'border-white/10'
                       }`}
                     >
                       {r}

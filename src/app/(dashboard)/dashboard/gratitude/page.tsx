@@ -70,7 +70,7 @@ export default function GratitudePage() {
   return (
     <div className="max-w-2xl space-y-6">
       <div className="flex items-center gap-3">
-        <Heart className="h-6 w-6 text-[#FF6B35]" />
+        <Heart className="h-6 w-6 text-[#FF3D00]" />
         <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold">
           Journal de gratitude
         </h1>
@@ -83,13 +83,13 @@ export default function GratitudePage() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4">
         <div className="glass rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-[#FF6B35]">{todayCount}/3</p>
+          <p className="text-2xl font-bold text-[#FF3D00]">{todayCount}/3</p>
           <p className="text-xs text-[var(--text-muted)]">Aujourd&apos;hui</p>
         </div>
         <div className="glass rounded-xl p-4 text-center">
           <div className="flex items-center justify-center gap-1">
-            <Flame className="h-5 w-5 text-[#FFD700]" />
-            <p className="text-2xl font-bold text-[#FFD700]">{streak}</p>
+            <Flame className="h-5 w-5 text-[#FFB300]" />
+            <p className="text-2xl font-bold text-[#FFB300]">{streak}</p>
           </div>
           <p className="text-xs text-[var(--text-muted)]">Jours de suite</p>
         </div>
@@ -106,13 +106,13 @@ export default function GratitudePage() {
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && submit()}
-              className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60"
+              className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60"
               maxLength={280}
             />
             <button
               onClick={submit}
               disabled={!text.trim() || sending}
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18] disabled:opacity-40"
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18] disabled:opacity-40"
             >
               <Send className="h-4 w-4" />
             </button>

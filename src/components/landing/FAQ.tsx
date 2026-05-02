@@ -63,7 +63,7 @@ export default function FAQ() {
                 >
                   <span className="text-[14.5px] font-semibold text-white/90 sm:text-base">{f.q}</span>
                   {isOpen ? (
-                    <Minus className="h-4 w-4 shrink-0 text-[#FF6B35]" />
+                    <Minus className="h-4 w-4 shrink-0 text-[#FF3D00]" />
                   ) : (
                     <Plus className="h-4 w-4 shrink-0 text-white/45" />
                   )}

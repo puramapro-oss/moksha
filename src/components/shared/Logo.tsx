@@ -11,7 +11,7 @@ export default function Logo({ size = 'md', withText = true }: LogoProps) {
   return (
     <Link href="/" className="group flex items-center gap-2.5">
       <div
-        className={`${sizes[size]} relative flex items-center justify-center rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD700] shadow-[0_0_30px_-5px_rgba(255,107,53,0.5)] transition-transform group-hover:scale-105`}
+        className={`${sizes[size]} relative flex items-center justify-center rounded-xl bg-gradient-to-br from-[#FF3D00] to-[#FFB300] shadow-[0_0_30px_-5px_rgba(255, 61, 0,0.5)] transition-transform group-hover:scale-105`}
       >
         <svg viewBox="0 0 24 24" fill="none" className="h-[60%] w-[60%] text-[#070B18]">
           <path
@@ -29,7 +29,7 @@ export default function Logo({ size = 'md', withText = true }: LogoProps) {
           className={`font-display font-extrabold tracking-tight ${textSizes[size]}`}
           style={{ fontFamily: 'var(--font-display)' }}
         >
-          <span className="bg-gradient-to-r from-[#FF6B35] to-[#FFD700] bg-clip-text text-transparent">MOKSHA</span>
+          <span className="bg-gradient-to-r from-[#FF3D00] to-[#FFB300] bg-clip-text text-transparent">MOKSHA</span>
         </span>
       )}
     </Link>

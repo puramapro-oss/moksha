@@ -147,7 +147,7 @@ export default function WizardEntreprise() {
             <button
               type="button"
               onClick={next}
-              className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 text-sm font-bold text-[#070B18] transition hover:opacity-95"
+              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18] transition hover:opacity-95"
             >
               Suivant →
             </button>
@@ -156,7 +156,7 @@ export default function WizardEntreprise() {
               type="button"
               onClick={submit}
               disabled={submitting}
-              className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 text-sm font-bold text-[#070B18] transition hover:opacity-95 disabled:opacity-50"
+              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18] transition hover:opacity-95 disabled:opacity-50"
             >
               {submitting ? 'Envoi...' : '🔥 Déposer mon dossier'}
             </button>

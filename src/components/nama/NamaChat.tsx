@@ -111,7 +111,7 @@ export default function NamaChat() {
             <div
               className={`max-w-2xl rounded-2xl px-4 py-3 text-[14px] leading-relaxed ${
                 m.role === 'user'
-                  ? 'bg-gradient-to-br from-[#FF6B35]/20 to-[#FFD700]/10 text-white'
+                  ? 'bg-gradient-to-br from-[#FF3D00]/20 to-[#FFB300]/10 text-white'
                   : 'bg-white/[0.04] text-white/90'
               }`}
             >
@@ -140,12 +140,12 @@ export default function NamaChat() {
             }}
             placeholder="Pose ta question (Entrée pour envoyer, Shift+Entrée pour ligne)..."
             rows={1}
-            className="max-h-40 min-h-[44px] flex-1 resize-none rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-[14px] text-white placeholder:text-white/30 focus:border-[#FF6B35] focus:outline-none"
+            className="max-h-40 min-h-[44px] flex-1 resize-none rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-[14px] text-white placeholder:text-white/30 focus:border-[#FF3D00] focus:outline-none"
           />
           <button
             type="submit"
             disabled={streaming || !input.trim()}
-            className="rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] p-3 text-[#070B18] disabled:opacity-40"
+            className="rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] p-3 text-[#070B18] disabled:opacity-40"
           >
             {streaming ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
           </button>

@@ -118,7 +118,7 @@ export default function AuthForm() {
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             required
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
           />
         )}
         <input
@@ -128,7 +128,7 @@ export default function AuthForm() {
           onChange={(e) => setEmail(e.target.value)}
           required
           autoComplete="email"
-          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
         />
         <input
           type="password"
@@ -138,12 +138,12 @@ export default function AuthForm() {
           required
           minLength={6}
           autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+          className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
         />
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-3 text-sm font-bold text-[#070B18] transition hover:opacity-95 disabled:opacity-50"
+          className="w-full rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-3 text-sm font-bold text-[#070B18] transition hover:opacity-95 disabled:opacity-50"
         >
           {loading ? '...' : mode === 'login' ? 'Se connecter' : 'Créer mon compte'}
         </button>
@@ -154,7 +154,7 @@ export default function AuthForm() {
         <button
           type="button"
           onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
-          className="font-semibold text-[#FFD700] transition hover:text-[#FF6B35]"
+          className="font-semibold text-[#FFB300] transition hover:text-[#FF3D00]"
         >
           {mode === 'login' ? "S'inscrire" : 'Se connecter'}
         </button>

@@ -12,7 +12,7 @@ export default function OfflinePage() {
         </p>
         <Link
           href="/dashboard"
-          className="mt-4 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 text-sm font-bold text-[#070B18]"
+          className="mt-4 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18]"
         >
           Réessayer
         </Link>

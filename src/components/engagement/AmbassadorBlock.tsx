@@ -16,10 +16,10 @@ type Tier = {
 const TIERS: Tier[] = [
   { name: 'Bronze', filleuls: 10, prime: 200, color: '#CD7F32' },
   { name: 'Argent', filleuls: 25, prime: 500, color: '#C0C0C0' },
-  { name: 'Or', filleuls: 50, prime: 1000, color: '#FFD700' },
+  { name: 'Or', filleuls: 50, prime: 1000, color: '#FFB300' },
   { name: 'Platine', filleuls: 100, prime: 2500, color: '#E5E4E2' },
   { name: 'Diamant', filleuls: 250, prime: 6000, color: '#B9F2FF' },
-  { name: 'Légende', filleuls: 500, prime: 12000, color: '#FF6B35' },
+  { name: 'Légende', filleuls: 500, prime: 12000, color: '#FF3D00' },
   { name: 'Titan', filleuls: 1000, prime: 25000, color: '#7C3AED' },
   { name: 'Dieu', filleuls: 5000, prime: 100000, color: '#F472B6' },
   { name: 'Éternel', filleuls: 10000, prime: 200000, color: '#FFFFFF' },
@@ -81,16 +81,16 @@ export default function AmbassadorBlock() {
     : 100
 
   return (
-    <div className="glass relative overflow-hidden rounded-2xl border-[#FFD700]/20 p-6">
+    <div className="glass relative overflow-hidden rounded-2xl border-[#FFB300]/20 p-6">
       {/* Orbe dorée */}
       <div
         className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full opacity-25 blur-3xl"
-        style={{ background: 'radial-gradient(circle, #FFD700, transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, #FFB300, transparent 70%)' }}
         aria-hidden="true"
       />
 
       <div className="relative flex items-start gap-3">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#FFD700] to-[#FF6B35]">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#FFB300] to-[#FF3D00]">
           <Crown className="h-5 w-5 text-[#070B18]" />
         </div>
         <div className="flex-1">
@@ -159,7 +159,7 @@ export default function AmbassadorBlock() {
               className="h-full rounded-full transition-all duration-700"
               style={{
                 width: `${progress}%`,
-                background: `linear-gradient(90deg, ${currentTier?.color || '#FF6B35'}, ${nextTier.color})`,
+                background: `linear-gradient(90deg, ${currentTier?.color || '#FF3D00'}, ${nextTier.color})`,
               }}
             />
           </div>
@@ -168,7 +168,7 @@ export default function AmbassadorBlock() {
 
       <Link
         href="/ambassadeur"
-        className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FFD700] to-[#FF6B35] px-4 py-2.5 text-sm font-bold text-[#070B18] transition active:scale-[0.98]"
+        className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FFB300] to-[#FF3D00] px-4 py-2.5 text-sm font-bold text-[#070B18] transition active:scale-[0.98]"
       >
         Postuler comme Ambassadeur
         <ChevronRight className="h-4 w-4" />

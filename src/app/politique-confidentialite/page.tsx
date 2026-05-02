@@ -43,7 +43,7 @@ export default function Politique() {
           </section>
           <section>
             <h2 className="mb-2 text-xl font-bold text-white">Tes droits</h2>
-            <p>Conformément au RGPD (art. 15 à 22), tu disposes d&apos;un droit d&apos;accès, de rectification, d&apos;effacement, de portabilité, de limitation et d&apos;opposition. Exerce ces droits par email à <a className="text-[#FFD700]" href="mailto:matiss.frasne@gmail.com">matiss.frasne@gmail.com</a>.</p>
+            <p>Conformément au RGPD (art. 15 à 22), tu disposes d&apos;un droit d&apos;accès, de rectification, d&apos;effacement, de portabilité, de limitation et d&apos;opposition. Exerce ces droits par email à <a className="text-[#FFB300]" href="mailto:matiss.frasne@gmail.com">matiss.frasne@gmail.com</a>.</p>
           </section>
           <section>
             <h2 className="mb-2 text-xl font-bold text-white">Sécurité</h2>

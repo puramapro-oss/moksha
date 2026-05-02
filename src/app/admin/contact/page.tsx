@@ -29,7 +29,7 @@ export default function AdminContact() {
   return (
     <div className="space-y-6">
       <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-        <Mail className="h-6 w-6 text-[#FF6B35]" /> Messages de contact
+        <Mail className="h-6 w-6 text-[#FF3D00]" /> Messages de contact
       </h1>
 
       <div className="grid gap-4 md:grid-cols-2">

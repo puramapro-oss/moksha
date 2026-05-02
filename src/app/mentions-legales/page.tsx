@@ -37,7 +37,7 @@ export default function MentionsLegales() {
 
           <div>
             <h2 className="mb-2 text-xl font-bold text-white">Contact</h2>
-            <p>Pour toute question relative aux présentes mentions légales, vous pouvez contacter : <a className="text-[#FFD700]" href="mailto:matiss.frasne@gmail.com">matiss.frasne@gmail.com</a></p>
+            <p>Pour toute question relative aux présentes mentions légales, vous pouvez contacter : <a className="text-[#FFB300]" href="mailto:matiss.frasne@gmail.com">matiss.frasne@gmail.com</a></p>
           </div>
         </section>
       </article>

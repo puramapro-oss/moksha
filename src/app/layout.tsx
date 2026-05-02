@@ -75,7 +75,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#FF6B35',
+  themeColor: '#FF3D00',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -97,8 +97,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <div className="aurora" />
           <div className="grid-bg" />
           <div className="noise" />
-          <div className="fire-orb fixed left-[8%] top-[12%] h-[420px] w-[420px] bg-[#FF6B35]" />
-          <div className="fire-orb fixed right-[10%] top-[55%] h-[360px] w-[360px] bg-[#FFD700]" style={{ animationDelay: '-7s' }} />
+          <div className="fire-orb fixed left-[8%] top-[12%] h-[420px] w-[420px] bg-[#FF3D00]" />
+          <div className="fire-orb fixed right-[10%] top-[55%] h-[360px] w-[360px] bg-[#FFB300]" style={{ animationDelay: '-7s' }} />
           <div className="fire-orb fixed left-[55%] top-[8%] h-[300px] w-[300px] bg-[#5DCAA5]" style={{ animationDelay: '-14s' }} />
           <ErrorBoundary>{children}</ErrorBoundary>
           <CinematicIntro />
@@ -110,7 +110,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               style: {
                 background: 'rgba(13, 18, 37, 0.9)',
                 backdropFilter: 'blur(24px)',
-                border: '1px solid rgba(255, 107, 53, 0.25)',
+                border: '1px solid rgba(255, 61, 0, 0.25)',
                 color: '#F8FAFC',
               },
             }}

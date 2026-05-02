@@ -55,7 +55,7 @@ export default function PointsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-          <Star className="h-6 w-6 text-[#FFD700]" /> Points Purama
+          <Star className="h-6 w-6 text-[#FFB300]" /> Points Purama
         </h1>
         <p className="mt-1 text-sm text-white/60">Cumule des points, échange-les contre des réductions ou du cash.</p>
       </div>
@@ -63,8 +63,8 @@ export default function PointsPage() {
       {/* Stats row */}
       <div className="grid gap-4 md:grid-cols-4">
         <div className="glass p-5 text-center">
-          <Star className="mx-auto mb-2 h-6 w-6 text-[#FFD700]" />
-          <p className="text-3xl font-extrabold text-[#FFD700]">{data?.balance ?? 0}</p>
+          <Star className="mx-auto mb-2 h-6 w-6 text-[#FFB300]" />
+          <p className="text-3xl font-extrabold text-[#FFB300]">{data?.balance ?? 0}</p>
           <p className="text-[10px] text-white/50">Points disponibles</p>
         </div>
         <div className="glass p-5 text-center">
@@ -73,7 +73,7 @@ export default function PointsPage() {
           <p className="text-[10px] text-white/50">Points gagnés au total</p>
         </div>
         <div className="glass p-5 text-center">
-          <Trophy className="mx-auto mb-2 h-6 w-6 text-[#FF6B35]" />
+          <Trophy className="mx-auto mb-2 h-6 w-6 text-[#FF3D00]" />
           <p className="text-3xl font-extrabold">#{data?.rank ?? '—'}</p>
           <p className="text-[10px] text-white/50">Classement</p>
         </div>
@@ -87,22 +87,22 @@ export default function PointsPage() {
       <div className="glass overflow-hidden p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Gift className="h-8 w-8 text-[#FFD700]" />
+            <Gift className="h-8 w-8 text-[#FFB300]" />
             <div>
               <h2 className="font-semibold">Coffre quotidien</h2>
               <p className="text-xs text-white/50">Ouvre ton coffre chaque jour pour gagner des récompenses</p>
             </div>
           </div>
           {giftResult ? (
-            <div className="rounded-xl bg-gradient-to-r from-[#FF6B35]/20 to-[#FFD700]/20 border border-[#FFD700]/30 px-4 py-2 text-center">
-              <p className="text-sm font-bold text-[#FFD700]">{giftResult.gift.value}</p>
+            <div className="rounded-xl bg-gradient-to-r from-[#FF3D00]/20 to-[#FFB300]/20 border border-[#FFB300]/30 px-4 py-2 text-center">
+              <p className="text-sm font-bold text-[#FFB300]">{giftResult.gift.value}</p>
               <p className="text-[10px] text-white/50">Streak : {giftResult.streak} jours</p>
             </div>
           ) : (
             <button
               onClick={openGift}
               disabled={giftLoading}
-              className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
+              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
             >
               {giftLoading ? 'Ouverture...' : 'Ouvrir le coffre'}
             </button>
@@ -114,13 +114,13 @@ export default function PointsPage() {
       <div className="flex gap-2">
         <button
           onClick={() => setTab('historique')}
-          className={`rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'historique' ? 'bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30' : 'text-white/50 hover:bg-white/5'}`}
+          className={`rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'historique' ? 'bg-[#FF3D00]/20 text-[#FF3D00] border border-[#FF3D00]/30' : 'text-white/50 hover:bg-white/5'}`}
         >
           Historique
         </button>
         <button
           onClick={() => setTab('boutique')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'boutique' ? 'bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30' : 'text-white/50 hover:bg-white/5'}`}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'boutique' ? 'bg-[#FF3D00]/20 text-[#FF3D00] border border-[#FF3D00]/30' : 'text-white/50 hover:bg-white/5'}`}
         >
           <ShoppingBag className="h-4 w-4" /> Boutique
         </button>
@@ -160,7 +160,7 @@ export default function PointsPage() {
               </div>
               <button
                 disabled={(data?.balance ?? 0) < item.cost}
-                className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-2 text-xs font-bold text-[#070B18] disabled:opacity-30"
+                className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-4 py-2 text-xs font-bold text-[#070B18] disabled:opacity-30"
               >
                 Échanger
               </button>

@@ -32,7 +32,7 @@ export default async function PartagePage({ params }: { params: Promise<{ token:
   return (
     <div className="mx-auto max-w-3xl space-y-6 p-6 md:p-10">
       <div className="text-center">
-        <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FF6B35] to-[#FFD700]">
+        <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FF3D00] to-[#FFB300]">
           <Lock className="h-6 w-6 text-[#070B18]" />
         </div>
         <h1 className="font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
@@ -53,7 +53,7 @@ export default async function PartagePage({ params }: { params: Promise<{ token:
             className="glass glass-hover flex items-center gap-4 p-4 transition"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/5">
-              <FileText className="h-6 w-6 text-[#FFD700]" />
+              <FileText className="h-6 w-6 text-[#FFB300]" />
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate font-medium">{d.nom}</p>

@@ -62,7 +62,7 @@ export default function ShareButtons({ referralCode }: { referralCode: string })
         {typeof navigator !== 'undefined' && 'share' in navigator && (
           <button
             onClick={nativeShare}
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-2 text-xs font-bold text-[#070B18]"
+            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-4 py-2 text-xs font-bold text-[#070B18]"
           >
             <Share2 className="h-4 w-4" /> Partager
           </button>

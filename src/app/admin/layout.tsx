@@ -36,7 +36,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-white/5 bg-[#0A0F1E]/60 p-5 backdrop-blur-xl md:flex md:flex-col">
         <div className="mb-6 flex items-center gap-2">
           <Logo size="sm" />
-          <span className="rounded-full bg-[#FF6B35]/20 px-2 py-0.5 text-[10px] font-bold text-[#FF6B35]">ADMIN</span>
+          <span className="rounded-full bg-[#FF3D00]/20 px-2 py-0.5 text-[10px] font-bold text-[#FF3D00]">ADMIN</span>
         </div>
         <nav className="space-y-1">
           {links.map((l) => {
@@ -46,7 +46,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 key={l.href}
                 href={l.href}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition ${
-                  active ? 'border border-[#FF6B35]/30 bg-[#FF6B35]/10 text-white' : 'text-white/60 hover:bg-white/5'
+                  active ? 'border border-[#FF3D00]/30 bg-[#FF3D00]/10 text-white' : 'text-white/60 hover:bg-white/5'
                 }`}
               >
                 <l.icon className="h-4 w-4" />

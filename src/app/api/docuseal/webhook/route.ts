@@ -102,11 +102,11 @@ export async function POST(req: NextRequest) {
 <!DOCTYPE html>
 <html><body style="font-family:'DM Sans',Arial,sans-serif;background:#070B18;color:#F8FAFC;padding:40px 20px;">
 <div style="max-width:560px;margin:0 auto;background:#0D1225;border-radius:16px;padding:40px;">
-  <h1 style="color:#FF6B35;">${result.ok ? '🔥 Dossier déposé' : '⏳ Dossier en attente'}</h1>
+  <h1 style="color:#FF3D00;">${result.ok ? '🔥 Dossier déposé' : '⏳ Dossier en attente'}</h1>
   <p>Ta signature pour <strong>${demarche.titre}</strong> est enregistrée.</p>
   ${result.ok ? `<p>Référence INPI : <code>${result.reference}</code></p><p>Tu recevras ton Kbis sous 5 à 10 jours ouvrés.</p>` : `<p>Nous déposons ton dossier dans quelques instants. Tu recevras une confirmation rapidement.</p>`}
   <div style="text-align:center;margin:24px 0;">
-    <a href="https://moksha.purama.dev/dashboard/demarches/${demarche.id}" style="display:inline-block;background:linear-gradient(135deg,#FF6B35,#FFD700);color:#070B18;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;">Voir mon dossier</a>
+    <a href="https://moksha.purama.dev/dashboard/demarches/${demarche.id}" style="display:inline-block;background:linear-gradient(135deg,#FF3D00,#FFB300);color:#070B18;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;">Voir mon dossier</a>
   </div>
 </div></body></html>`,
         })

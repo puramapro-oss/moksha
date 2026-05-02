@@ -89,7 +89,7 @@ export default function Pricing() {
               type="button"
               onClick={() => setInterval('annuel')}
               className={`relative rounded-full px-4 py-1.5 text-[13px] font-medium transition sm:px-5 sm:py-2 sm:text-sm ${
-                interval === 'annuel' ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18]' : 'text-white/50 hover:text-white/75'
+                interval === 'annuel' ? 'bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18]' : 'text-white/50 hover:text-white/75'
               }`}
             >
               Annuel
@@ -112,11 +112,11 @@ export default function Pricing() {
             <div
               key={p.id}
               className={`glass relative flex flex-col p-7 sm:p-8 ${
-                p.featured ? 'border-[#FF6B35]/35 shadow-[0_0_60px_-20px_rgba(255,107,53,0.55)] md:-my-3 md:py-10' : ''
+                p.featured ? 'border-[#FF3D00]/35 shadow-[0_0_60px_-20px_rgba(255, 61, 0,0.55)] md:-my-3 md:py-10' : ''
               }`}
             >
               {p.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-3 py-1 text-[10px] font-bold tracking-wide text-[#070B18]">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-3 py-1 text-[10px] font-bold tracking-wide text-[#070B18]">
                   {p.badge}
                 </div>
               )}
@@ -148,7 +148,7 @@ export default function Pricing() {
                 href={p.href}
                 className={`mt-auto inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[13.5px] font-bold transition ${
                   p.featured
-                    ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18] shadow-[0_8px_30px_-12px_rgba(255,215,0,0.55)] hover:opacity-95'
+                    ? 'bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18] shadow-[0_8px_30px_-12px_rgba(255, 179, 0,0.55)] hover:opacity-95'
                     : 'border border-white/10 bg-white/[0.04] text-white hover:border-white/20 hover:bg-white/[0.08]'
                 }`}
               >

@@ -30,7 +30,7 @@ export default function CookieBanner() {
           <p className="text-sm font-medium">Ce site utilise des cookies</p>
           <p className="mt-1 text-xs text-white/50">
             Nous utilisons des cookies essentiels et analytiques pour améliorer ton expérience.{' '}
-            <Link href="/politique-cookies" className="text-[#FF6B35] underline">
+            <Link href="/politique-cookies" className="text-[#FF3D00] underline">
               En savoir plus
             </Link>
           </p>
@@ -44,7 +44,7 @@ export default function CookieBanner() {
           </button>
           <button
             onClick={accept}
-            className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-2 text-xs font-bold text-[#070B18]"
+            className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-4 py-2 text-xs font-bold text-[#070B18]"
           >
             Accepter
           </button>

@@ -6,24 +6,25 @@
   --bg-card: rgba(255,255,255,0.035);
   --bg-card-hover: rgba(255,255,255,0.06);
 
-  /* MOKSHA palette: feu + or + vert */
-  --primary: #FF6B35;
-  --secondary: #FFD700;
-  --accent: #5DCAA5;
+  /* MOKSHA palette V2 — incandescent / feu pur / or chaud */
+  --primary: #FF3D00;          /* rouge feu vif */
+  --primary-glow: #FF6B00;     /* feu pur intermédiaire */
+  --secondary: #FFB300;        /* or chaud */
+  --accent: #5DCAA5;           /* vert nature, conservé */
 
   /* Aliases pour compat avec les UI components partagés */
-  --cyan: #FF6B35;
-  --pink: #FF6B35;
-  --purple: #FFD700;
-  --gold: #FFD700;
+  --cyan: #FF3D00;
+  --pink: #FF3D00;
+  --purple: #FFB300;
+  --gold: #FFB300;
   --green: #5DCAA5;
-  --orange: #FF6B35;
+  --orange: #FF6B00;
 
   --text-primary: #F8FAFC;
   --text-secondary: rgba(248, 250, 252, 0.65);
   --text-muted: rgba(248, 250, 252, 0.35);
   --border: rgba(255,255,255,0.08);
-  --border-glow: rgba(255, 107, 53, 0.35);
+  --border-glow: rgba(255, 61, 0, 0.4);
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
@@ -31,6 +32,11 @@
 
   --font-display: 'Syne', 'DM Sans', system-ui, sans-serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
+
+  /* Shadows stratifiées pour CTAs premium */
+  --shadow-fire-sm: 0 4px 16px -4px rgba(255, 61, 0, 0.35), 0 2px 8px -2px rgba(255, 179, 0, 0.25);
+  --shadow-fire-md: 0 8px 32px -8px rgba(255, 61, 0, 0.55), 0 4px 16px -4px rgba(255, 107, 0, 0.4);
+  --shadow-fire-lg: 0 14px 48px -10px rgba(255, 61, 0, 0.7), 0 8px 24px -6px rgba(255, 179, 0, 0.5), 0 0 0 1px rgba(255, 107, 0, 0.15) inset;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -52,17 +58,17 @@ body::before {
   content: '';
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.08), transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.05), transparent 50%),
+    radial-gradient(circle at 20% 20%, rgba(255, 61, 0, 0.10), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 179, 0, 0.06), transparent 50%),
     radial-gradient(circle at 50% 50%, rgba(93, 202, 165, 0.04), transparent 60%);
 }
 
-::selection { background: rgba(255, 107, 53, 0.4); color: #fff; }
+::selection { background: rgba(255, 61, 0, 0.4); color: #fff; }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255, 107, 53, 0.2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 107, 53, 0.4); }
+::-webkit-scrollbar-thumb { background: rgba(255, 61, 0, 0.25); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 61, 0, 0.45); }
 
 /* --- MOKSHA classes utilitaires --- */
 .glass {
@@ -76,23 +82,23 @@ body::before {
 .glass-hover:hover {
   background: var(--bg-card-hover);
   border-color: var(--border-glow);
-  box-shadow: 0 0 40px rgba(255, 107, 53, 0.12);
+  box-shadow: 0 0 40px rgba(255, 61, 0, 0.14);
   transform: translateY(-2px);
 }
 
 .moksha-gradient {
-  background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
+  background: linear-gradient(135deg, #FF3D00 0%, #FF6B00 45%, #FFB300 100%);
 }
 
 .moksha-gradient-text {
-  background: linear-gradient(135deg, #FF6B35 0%, #FFD700 100%);
+  background: linear-gradient(135deg, #FF3D00 0%, #FF6B00 45%, #FFB300 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #FF6B35, #FFD700);
+  background: linear-gradient(135deg, #FF3D00 0%, #FF6B00 45%, #FFB300 100%);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -121,15 +127,15 @@ body::before {
 
 .glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 30px -5px rgba(255, 107, 53, 0.45); }
-  50% { box-shadow: 0 0 55px -5px rgba(255, 215, 0, 0.55); }
+  0%, 100% { box-shadow: 0 0 30px -5px rgba(255, 61, 0, 0.5); }
+  50% { box-shadow: 0 0 55px -5px rgba(255, 179, 0, 0.55); }
 }
 
 .fire-orb {
   position: fixed;
   border-radius: 50%;
   filter: blur(120px);
-  opacity: 0.22;
+  opacity: 0.24;
   pointer-events: none;
   z-index: 0;
   animation: drift 22s ease-in-out infinite;
@@ -159,10 +165,10 @@ body::before {
   transition: all 0.3s;
 }
 .stepper-dot.active {
-  background: linear-gradient(135deg, #FF6B35, #FFD700);
+  background: linear-gradient(135deg, #FF3D00, #FF6B00, #FFB300);
   color: #070B18;
   border-color: transparent;
-  box-shadow: 0 0 28px rgba(255, 107, 53, 0.5);
+  box-shadow: 0 0 28px rgba(255, 61, 0, 0.55);
 }
 .stepper-dot.done {
   background: rgba(93, 202, 165, 0.2);
@@ -227,9 +233,9 @@ input, textarea, select { font-family: inherit; }
   background: conic-gradient(
     from 0deg at 50% 50%,
     transparent 0deg,
-    rgba(255, 107, 53, 0.06) 60deg,
+    rgba(255, 61, 0, 0.07) 60deg,
     transparent 120deg,
-    rgba(255, 215, 0, 0.04) 180deg,
+    rgba(255, 179, 0, 0.045) 180deg,
     transparent 240deg,
     rgba(93, 202, 165, 0.05) 300deg,
     transparent 360deg
@@ -270,7 +276,7 @@ input, textarea, select { font-family: inherit; }
     width: 300px;
     height: 300px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 107, 53, 0.08), transparent 70%);
+    background: radial-gradient(circle, rgba(255, 61, 0, 0.10), transparent 70%);
     pointer-events: none;
     z-index: 0;
     transform: translate(-50%, -50%);
@@ -309,13 +315,234 @@ input, textarea, select { font-family: inherit; }
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255, 107, 53, 0.3), rgba(255, 215, 0, 0.3), rgba(93, 202, 165, 0.3));
+  background: linear-gradient(135deg, rgba(255, 61, 0, 0.35), rgba(255, 179, 0, 0.35), rgba(93, 202, 165, 0.3));
   z-index: -1;
   opacity: 0;
   transition: opacity 0.3s;
 }
 .glow-border:hover::after {
   opacity: 1;
+}
+
+/* ==========================================================================
+   MOKSHA V2 — Composants premium (refonte design system 2026-05-02)
+   ========================================================================== */
+
+/* Mesh background pour landing/écran d'accueil — radial multi-layers + halo */
+.moksha-mesh-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 25% 30%, rgba(255, 61, 0, 0.18), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 75% 70%, rgba(255, 179, 0, 0.12), transparent 60%),
+    radial-gradient(ellipse 90% 70% at 50% 50%, rgba(255, 107, 0, 0.08), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(93, 202, 165, 0.05), transparent 60%);
+  filter: saturate(1.1);
+}
+
+/* Halo conique subtil derrière les CTAs hero */
+.moksha-halo {
+  position: absolute;
+  inset: -40%;
+  pointer-events: none;
+  z-index: -1;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(255, 61, 0, 0.10) 60deg,
+    rgba(255, 107, 0, 0.08) 120deg,
+    rgba(255, 179, 0, 0.06) 180deg,
+    transparent 240deg
+  );
+  animation: halo-rotate 30s linear infinite;
+  filter: blur(40px);
+}
+@keyframes halo-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* CTA primary premium — gradient stratifié + magnetic hover + glow */
+.moksha-btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1.85rem;
+  border-radius: 16px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.005em;
+  color: #1a0500;
+  background: linear-gradient(135deg, #FF3D00 0%, #FF6B00 50%, #FFB300 100%);
+  background-size: 180% 180%;
+  background-position: 0% 50%;
+  box-shadow: var(--shadow-fire-md);
+  transition: background-position 0.6s ease, box-shadow 0.3s ease, transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+  isolation: isolate;
+}
+.moksha-btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+}
+.moksha-btn-primary > * { position: relative; z-index: 2; }
+.moksha-btn-primary:hover {
+  background-position: 100% 50%;
+  box-shadow: var(--shadow-fire-lg);
+  transform: translateY(-1px) scale(1.015);
+}
+.moksha-btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-fire-sm);
+}
+
+/* CTA secondary — glass border premium */
+.moksha-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1.85rem;
+  border-radius: 16px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: rgba(248, 250, 252, 0.92);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: background 0.3s, border-color 0.3s, transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.moksha-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 61, 0, 0.4);
+  transform: translateY(-1px);
+}
+.moksha-btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* Card featured — grande card avec glow conique animé (pour /demarrer Entreprise) */
+.moksha-card-featured {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.025) 100%);
+  border: 1px solid rgba(255, 61, 0, 0.18);
+  border-radius: 28px;
+  overflow: hidden;
+  transition: border-color 0.4s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  isolation: isolate;
+}
+.moksha-card-featured::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  z-index: -1;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(255, 61, 0, 0.18) 0deg,
+    transparent 90deg,
+    rgba(255, 179, 0, 0.14) 180deg,
+    transparent 270deg,
+    rgba(255, 61, 0, 0.18) 360deg
+  );
+  animation: featured-glow 12s linear infinite;
+  opacity: 0.7;
+  filter: blur(30px);
+}
+.moksha-card-featured::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 27px;
+  background: linear-gradient(180deg, rgba(13, 18, 37, 0.85) 0%, rgba(7, 11, 24, 0.95) 100%);
+  z-index: -1;
+}
+.moksha-card-featured:hover {
+  border-color: rgba(255, 61, 0, 0.4);
+  transform: translateY(-4px);
+}
+@keyframes featured-glow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Card standard — pour /demarrer Asso/Conseil */
+.moksha-card-standard {
+  position: relative;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: background 0.3s, border-color 0.3s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.moksha-card-standard:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255, 61, 0, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -12px rgba(255, 61, 0, 0.18);
+}
+
+/* Trust strip — bandeau réassurance premium */
+.moksha-trust-strip {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  font-size: 12.5px;
+  color: rgba(248, 250, 252, 0.7);
+}
+
+/* Badge "Le plus choisi" — featured badge pour cards */
+.moksha-badge-featured {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #FF3D00, #FF6B00, #FFB300);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1a0500;
+  box-shadow: 0 4px 16px -4px rgba(255, 61, 0, 0.5);
+}
+
+/* Eyebrow chip — pour Hero/AppEntrance */
+.moksha-eyebrow-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 61, 0, 0.08);
+  border: 1px solid rgba(255, 61, 0, 0.2);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255, 200, 150, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 /* --- Light Theme --- */
@@ -328,13 +555,13 @@ input, textarea, select { font-family: inherit; }
   --text-secondary: rgba(26, 26, 46, 0.65);
   --text-muted: rgba(26, 26, 46, 0.4);
   --border: rgba(0,0,0,0.08);
-  --border-glow: rgba(255, 107, 53, 0.25);
+  --border-glow: rgba(255, 61, 0, 0.3);
 }
 [data-theme="light"] body { background: var(--bg-void); color: var(--text-primary); }
 [data-theme="light"] body::before {
   background:
-    radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.06), transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.04), transparent 50%),
+    radial-gradient(circle at 20% 20%, rgba(255, 61, 0, 0.08), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 179, 0, 0.05), transparent 50%),
     radial-gradient(circle at 50% 50%, rgba(93, 202, 165, 0.03), transparent 60%);
 }
 [data-theme="light"] .fire-orb { opacity: 0.06; }
@@ -351,10 +578,27 @@ input, textarea, select { font-family: inherit; }
 }
 [data-theme="light"] .glass-hover:hover {
   background: rgba(255,255,255,0.8);
-  box-shadow: 0 0 40px rgba(255, 107, 53, 0.08);
+  box-shadow: 0 0 40px rgba(255, 61, 0, 0.10);
 }
-[data-theme="light"] ::selection { background: rgba(255, 107, 53, 0.25); color: #1A1A2E; }
-[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(255, 107, 53, 0.15); }
+[data-theme="light"] ::selection { background: rgba(255, 61, 0, 0.25); color: #1A1A2E; }
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(255, 61, 0, 0.18); }
+[data-theme="light"] .moksha-card-featured::after {
+  background: linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(245,243,239,0.95) 100%);
+}
+[data-theme="light"] .moksha-btn-secondary {
+  color: rgba(26, 26, 46, 0.92);
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.08);
+}
+[data-theme="light"] .moksha-btn-secondary:hover {
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(255, 61, 0, 0.4);
+}
+[data-theme="light"] .moksha-trust-strip {
+  background: rgba(255,255,255,0.6);
+  border-color: rgba(0,0,0,0.06);
+  color: rgba(26, 26, 46, 0.7);
+}
 
 /* --- OLED Theme --- */
 [data-theme="oled"] {
@@ -370,15 +614,18 @@ input, textarea, select { font-family: inherit; }
 [data-theme="oled"] body { background: #000000; }
 [data-theme="oled"] body::before {
   background:
-    radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.05), transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.03), transparent 50%);
+    radial-gradient(circle at 20% 20%, rgba(255, 61, 0, 0.06), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 179, 0, 0.04), transparent 50%);
 }
-[data-theme="oled"] .fire-orb { opacity: 0.12; }
+[data-theme="oled"] .fire-orb { opacity: 0.14; }
 [data-theme="oled"] .aurora::before { opacity: 0.6; }
 [data-theme="oled"] .grid-bg {
   background-image:
     linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+}
+[data-theme="oled"] .moksha-card-featured::after {
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.92) 0%, rgba(0, 0, 0, 0.96) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {

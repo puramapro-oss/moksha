@@ -114,7 +114,7 @@ export default function TutorialOverlay() {
         </button>
 
         <div className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-[#FFD700]" />
+          <Sparkles className="h-5 w-5 text-[#FFB300]" />
           <span className="text-[10px] uppercase tracking-wider text-white/50">
             Étape {step + 1} / {STEPS.length}
           </span>
@@ -127,7 +127,7 @@ export default function TutorialOverlay() {
 
         <div className="h-1 w-full overflow-hidden rounded-full bg-white/5">
           <div
-            className="h-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] transition-all"
+            className="h-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -150,7 +150,7 @@ export default function TutorialOverlay() {
             )}
             <button
               onClick={next}
-              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2 text-xs font-bold text-[#070B18]"
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2 text-xs font-bold text-[#070B18]"
             >
               {step === STEPS.length - 1 ? 'Terminer' : 'Suivant'}
               <ArrowRight className="h-3 w-3" />

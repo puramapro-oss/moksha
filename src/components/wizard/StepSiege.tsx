@@ -60,7 +60,7 @@ export default function StepSiege({
               onFocus={() => setFocused(true)}
               onBlur={() => setTimeout(() => setFocused(false), 200)}
               placeholder="8 rue de la Chapelle, Frasne"
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-11 pr-10 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-11 pr-10 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
             />
             {loading && <Loader2 className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-white/40" />}
           </div>
@@ -100,7 +100,7 @@ export default function StepSiege({
                 onClick={() => update({ type_local: t.id })}
                 className={`rounded-xl border p-4 text-center text-sm transition ${
                   data.type_local === t.id
-                    ? 'border-[#FF6B35]/60 bg-[#FF6B35]/10'
+                    ? 'border-[#FF3D00]/60 bg-[#FF3D00]/10'
                     : 'border-white/10 bg-white/5 hover:bg-white/10'
                 }`}
               >

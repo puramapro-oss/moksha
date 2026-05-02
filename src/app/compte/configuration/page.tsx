@@ -19,8 +19,8 @@ export default function CompteConfigurationPage() {
   return (
     <div className="space-y-6">
       <header className="flex items-center gap-3">
-        <div className="rounded-full bg-[#FF6B35]/15 p-2.5">
-          <Cog className="h-5 w-5 text-[#FF6B35]" />
+        <div className="rounded-full bg-[#FF3D00]/15 p-2.5">
+          <Cog className="h-5 w-5 text-[#FF3D00]" />
         </div>
         <div>
           <h2 className="font-display text-2xl font-extrabold">Configuration</h2>

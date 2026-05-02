@@ -13,7 +13,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', loading, icon, children, disabled, ...props }, ref) => {
     const variants = {
-      primary: 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18] hover:opacity-95 shadow-[0_0_30px_-5px_rgba(255,107,53,0.6)] font-semibold',
+      primary: 'bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18] hover:opacity-95 shadow-[0_0_30px_-5px_rgba(255, 61, 0,0.6)] font-semibold',
       secondary: 'bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20',
       ghost: 'text-white/70 hover:text-white hover:bg-white/5',
       danger: 'bg-red-500/10 text-red-400 hover:bg-red-500/20',

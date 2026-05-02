@@ -85,12 +85,12 @@ export default function ReferralBlock() {
       {/* Orbe décorative */}
       <div
         className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full opacity-20 blur-3xl"
-        style={{ background: 'radial-gradient(circle, #FF6B35, transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, #FF3D00, transparent 70%)' }}
         aria-hidden="true"
       />
 
       <div className="relative flex items-start gap-3">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD700]">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF3D00] to-[#FFB300]">
           <Users className="h-5 w-5 text-[#070B18]" />
         </div>
         <div className="flex-1">
@@ -123,7 +123,7 @@ export default function ReferralBlock() {
         <button
           onClick={handleShare}
           disabled={!link}
-          className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-2 text-sm font-bold text-[#070B18] transition active:scale-[0.98] disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-4 py-2 text-sm font-bold text-[#070B18] transition active:scale-[0.98] disabled:opacity-50"
         >
           <Share2 className="h-4 w-4" />
           Partager mon lien

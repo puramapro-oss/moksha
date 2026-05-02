@@ -23,7 +23,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
       <div className="flex gap-3">
         <button
           onClick={() => reset()}
-          className="rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 font-bold text-[#070B18] transition hover:scale-[1.03]"
+          className="rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 font-bold text-[#070B18] transition hover:scale-[1.03]"
         >
           Réessayer
         </button>

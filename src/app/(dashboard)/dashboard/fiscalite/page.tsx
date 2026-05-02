@@ -65,7 +65,7 @@ export default async function FiscalitePage() {
       {!profileDef && (
         <div className="glass mb-6 p-6">
           <div className="flex items-start gap-3">
-            <Info className="mt-0.5 h-5 w-5 text-[#FFD700]" />
+            <Info className="mt-0.5 h-5 w-5 text-[#FFB300]" />
             <div className="flex-1">
               <h3 className="font-semibold">Complète ton profil fiscal</h3>
               <p className="mt-1 text-[13px] text-white/60">
@@ -73,7 +73,7 @@ export default async function FiscalitePage() {
               </p>
               <Link
                 href="/dashboard/parametres"
-                className="mt-3 inline-block rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-2 text-xs font-bold text-[#070B18]"
+                className="mt-3 inline-block rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-4 py-2 text-xs font-bold text-[#070B18]"
               >
                 Définir mon profil
               </Link>
@@ -160,7 +160,7 @@ export default async function FiscalitePage() {
               </p>
               <Link
                 href="/dashboard/fiscalite/urssaf"
-                className="mt-3 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-2.5 text-[13px] font-bold text-[#070B18]"
+                className="mt-3 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-4 py-2.5 text-[13px] font-bold text-[#070B18]"
               >
                 Signer le mandat URSSAF
               </Link>
@@ -174,7 +174,7 @@ export default async function FiscalitePage() {
               </p>
               <Link
                 href="/dashboard/fiscalite/pennylane"
-                className="mt-3 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-2.5 text-[13px] font-bold text-[#070B18]"
+                className="mt-3 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-4 py-2.5 text-[13px] font-bold text-[#070B18]"
               >
                 Connecter Pennylane
               </Link>

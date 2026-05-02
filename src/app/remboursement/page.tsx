@@ -74,7 +74,7 @@ export default function RemboursementPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white focus:border-[#FF6B35] focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white focus:border-[#FF3D00] focus:outline-none"
               />
             </div>
             <div>
@@ -84,7 +84,7 @@ export default function RemboursementPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white focus:border-[#FF6B35] focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white focus:border-[#FF3D00] focus:outline-none"
               />
             </div>
             <div>
@@ -95,7 +95,7 @@ export default function RemboursementPage() {
                 onChange={(e) => setIban(e.target.value)}
                 placeholder="FR76 ..."
                 required
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 font-mono text-xs text-white focus:border-[#FF6B35] focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 font-mono text-xs text-white focus:border-[#FF3D00] focus:outline-none"
               />
             </div>
             <div>
@@ -107,7 +107,7 @@ export default function RemboursementPage() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 required
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white focus:border-[#FF6B35] focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white focus:border-[#FF3D00] focus:outline-none"
               />
             </div>
             <div>
@@ -118,13 +118,13 @@ export default function RemboursementPage() {
                 rows={4}
                 required
                 placeholder="Ex: 2 timbres à 1,29€ pour envoi courrier participation concours du 15/04/2026..."
-                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-[#FF6B35] focus:outline-none"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-[#FF3D00] focus:outline-none"
               />
             </div>
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
+              className="w-full rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
             >
               {submitting ? <Clock className="mx-auto h-4 w-4 animate-spin" /> : 'Envoyer ma demande'}
             </button>

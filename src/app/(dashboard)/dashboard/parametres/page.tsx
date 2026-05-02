@@ -18,7 +18,7 @@ function ThemeSelector() {
   return (
     <div className="glass p-6 space-y-4">
       <h2 className="flex items-center gap-2 font-semibold">
-        <Sun className="h-4 w-4 text-[#FFD700]" /> Apparence
+        <Sun className="h-4 w-4 text-[#FFB300]" /> Apparence
       </h2>
       <div className="grid grid-cols-3 gap-3">
         {themes.map((t) => {
@@ -29,11 +29,11 @@ function ThemeSelector() {
               onClick={() => setTheme(t.value)}
               className={`flex flex-col items-center gap-2 rounded-xl p-4 text-center transition-all ${
                 active
-                  ? 'border border-[#FF6B35]/50 bg-[#FF6B35]/10 text-white'
+                  ? 'border border-[#FF3D00]/50 bg-[#FF3D00]/10 text-white'
                   : 'border border-white/5 bg-white/[0.03] text-white/60 hover:bg-white/5'
               }`}
             >
-              <t.icon className={`h-5 w-5 ${active ? 'text-[#FF6B35]' : ''}`} />
+              <t.icon className={`h-5 w-5 ${active ? 'text-[#FF3D00]' : ''}`} />
               <span className="text-sm font-medium">{t.label}</span>
               <span className="text-[10px] text-[var(--text-muted)]">{t.desc}</span>
             </button>
@@ -72,7 +72,7 @@ export default function Parametres() {
     <div className="space-y-6 max-w-2xl">
       <div>
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-          <Settings className="h-6 w-6 text-[#FFD700]" /> Paramètres
+          <Settings className="h-6 w-6 text-[#FFB300]" /> Paramètres
         </h1>
       </div>
 
@@ -83,7 +83,7 @@ export default function Parametres() {
           <input
             value={displayName}
             onChange={(e) => setFullName(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60"
           />
         </div>
         <div>
@@ -96,14 +96,14 @@ export default function Parametres() {
         </div>
         <div>
           <label className="mb-2 block text-sm font-medium text-white/80">Plan actuel</label>
-          <p className="rounded-xl border border-[#FFD700]/30 bg-[#FFD700]/5 px-4 py-3 text-sm font-semibold text-[#FFD700] capitalize">
+          <p className="rounded-xl border border-[#FFB300]/30 bg-[#FFB300]/5 px-4 py-3 text-sm font-semibold text-[#FFB300] capitalize">
             {profile?.plan || 'gratuit'}
           </p>
         </div>
         <button
           onClick={save}
           disabled={saving}
-          className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18] disabled:opacity-50"
+          className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18] disabled:opacity-50"
         >
           {saving ? 'Enregistrement...' : 'Enregistrer'}
         </button>
@@ -115,7 +115,7 @@ export default function Parametres() {
       {/* Notifications */}
       <div className="glass p-6 space-y-4">
         <h2 className="flex items-center gap-2 font-semibold">
-          <Bell className="h-4 w-4 text-[#FFD700]" /> Notifications
+          <Bell className="h-4 w-4 text-[#FFB300]" /> Notifications
         </h2>
         <div className="space-y-3">
           {[
@@ -130,7 +130,7 @@ export default function Parametres() {
               <input
                 type="checkbox"
                 defaultChecked
-                className="h-4 w-4 rounded border-white/20 bg-white/5 accent-[#FF6B35]"
+                className="h-4 w-4 rounded border-white/20 bg-white/5 accent-[#FF3D00]"
               />
             </label>
           ))}

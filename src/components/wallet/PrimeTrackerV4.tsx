@@ -88,19 +88,19 @@ export default async function PrimeTrackerV4() {
                 versé
                   ? 'border-[#5DCAA5]/30 bg-[#5DCAA5]/5'
                   : éligible
-                  ? 'border-[#FFD700]/30 bg-[#FFD700]/5'
+                  ? 'border-[#FFB300]/30 bg-[#FFB300]/5'
                   : 'border-white/10 bg-white/[0.02]'
               }`}
             >
               <div
                 className={`flex h-10 w-10 items-center justify-center rounded-full ${
-                  versé ? 'bg-[#5DCAA5]/20' : éligible ? 'bg-[#FFD700]/20' : 'bg-white/5'
+                  versé ? 'bg-[#5DCAA5]/20' : éligible ? 'bg-[#FFB300]/20' : 'bg-white/5'
                 }`}
               >
                 {versé ? (
                   <CheckCircle2 className="h-5 w-5 text-[#5DCAA5]" />
                 ) : éligible ? (
-                  <Euro className="h-5 w-5 text-[#FFD700]" />
+                  <Euro className="h-5 w-5 text-[#FFB300]" />
                 ) : (
                   <Clock className="h-5 w-5 text-white/40" />
                 )}
@@ -130,7 +130,7 @@ export default async function PrimeTrackerV4() {
       {!connectReady && !prime.recuperee && (
         <a
           href="/dashboard/wallet/connect"
-          className="mt-5 block rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-3 text-center text-sm font-bold text-[#070B18]"
+          className="mt-5 block rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-3 text-center text-sm font-bold text-[#070B18]"
         >
           Activer Stripe Connect pour recevoir mes euros
         </a>

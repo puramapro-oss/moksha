@@ -112,7 +112,7 @@ export default function ConversionPopup() {
 
   return (
     <div className="fixed bottom-4 right-4 z-[9998] w-[calc(100%-2rem)] max-w-sm animate-fade-in md:bottom-6 md:right-6">
-      <div className="glass relative overflow-hidden rounded-2xl border border-[#FFD700]/20 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+      <div className="glass relative overflow-hidden rounded-2xl border border-[#FFB300]/20 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
         <button
           onClick={dismiss}
           aria-label="Fermer"
@@ -122,7 +122,7 @@ export default function ConversionPopup() {
         </button>
 
         <div className="flex items-start gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD700] shadow-[0_0_24px_rgba(255,215,0,0.3)]">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF3D00] to-[#FFB300] shadow-[0_0_24px_rgba(255, 179, 0,0.3)]">
             <Sparkles className="h-5 w-5 text-[#070B18]" />
           </div>
 
@@ -137,7 +137,7 @@ export default function ConversionPopup() {
         <Link
           href={trigger.href}
           onClick={() => setOpen(false)}
-          className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-2.5 text-xs font-bold text-[#070B18] transition active:scale-[0.98]"
+          className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-4 py-2.5 text-xs font-bold text-[#070B18] transition active:scale-[0.98]"
         >
           {trigger.cta}
           <ArrowRight className="h-3 w-3" />

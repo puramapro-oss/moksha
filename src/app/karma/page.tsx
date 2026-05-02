@@ -37,7 +37,7 @@ export default async function KarmaPage() {
       <LandingNav />
       <main className="relative z-10 mx-auto max-w-5xl px-6 pt-28 pb-20">
         <div className="text-center">
-          <span className="inline-block rounded-full bg-[#FFD700]/10 px-4 py-1.5 text-xs font-bold text-[#FFD700]">
+          <span className="inline-block rounded-full bg-[#FFB300]/10 px-4 py-1.5 text-xs font-bold text-[#FFB300]">
             🎰 JEUX-CONCOURS GRATUITS
           </span>
           <h1 className="mt-4 font-display text-5xl font-extrabold">
@@ -52,8 +52,8 @@ export default async function KarmaPage() {
         <div className="mt-10 grid gap-4 md:grid-cols-2">
           <div className="glass p-6">
             <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-[#FF6B35]/20 p-2.5">
-                <Zap className="h-6 w-6 text-[#FF6B35]" />
+              <div className="rounded-xl bg-[#FF3D00]/20 p-2.5">
+                <Zap className="h-6 w-6 text-[#FF3D00]" />
               </div>
               <div>
                 <p className="text-[11px] uppercase tracking-wide text-white/45">Tirage hebdomadaire</p>
@@ -68,8 +68,8 @@ export default async function KarmaPage() {
 
           <div className="glass p-6">
             <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-[#FFD700]/20 p-2.5">
-                <Trophy className="h-6 w-6 text-[#FFD700]" />
+              <div className="rounded-xl bg-[#FFB300]/20 p-2.5">
+                <Trophy className="h-6 w-6 text-[#FFB300]" />
               </div>
               <div>
                 <p className="text-[11px] uppercase tracking-wide text-white/45">Tirage mensuel</p>
@@ -93,7 +93,7 @@ export default async function KarmaPage() {
             { icon: Globe, title: 'Jackpot Terre', desc: 'Mensuel — 20% ONG (reçu fiscal 66%)' },
           ].map((g) => (
             <div key={g.title} className="glass p-5">
-              <g.icon className="h-6 w-6 text-[#FFD700]" />
+              <g.icon className="h-6 w-6 text-[#FFB300]" />
               <h3 className="mt-3 font-display text-lg font-bold">{g.title}</h3>
               <p className="mt-1 text-[13px] text-white/55">{g.desc}</p>
             </div>
@@ -122,8 +122,8 @@ export default async function KarmaPage() {
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-3 text-[12px] text-white/50">
-          <Link href="/reglement" className="text-[#FF6B35] underline">Règlement complet + hash blockchain</Link>
-          <Link href="/remboursement" className="text-[#FF6B35] underline">Remboursement des frais</Link>
+          <Link href="/reglement" className="text-[#FF3D00] underline">Règlement complet + hash blockchain</Link>
+          <Link href="/remboursement" className="text-[#FF3D00] underline">Remboursement des frais</Link>
         </div>
 
         <p className="mt-6 text-center text-[11px] text-white/35">

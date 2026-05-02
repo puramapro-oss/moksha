@@ -41,7 +41,7 @@ export default function PartagePage() {
     return (
       <div className="space-y-6">
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-          <Share2 className="h-6 w-6 text-[#FFD700]" /> Partage
+          <Share2 className="h-6 w-6 text-[#FFB300]" /> Partage
         </h1>
         <div className="glass space-y-3 p-8 text-center">
           <p className="text-sm text-white/70">
@@ -49,7 +49,7 @@ export default function PartagePage() {
           </p>
           <a
             href="/paiement?plan=pro_mensuel"
-            className="inline-block rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 text-sm font-bold text-[#070B18]"
+            className="inline-block rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18]"
           >
             Passer au plan Pro
           </a>
@@ -62,7 +62,7 @@ export default function PartagePage() {
     <div className="space-y-6">
       <div>
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-          <Share2 className="h-6 w-6 text-[#FFD700]" /> Partage sécurisé
+          <Share2 className="h-6 w-6 text-[#FFB300]" /> Partage sécurisé
         </h1>
         <p className="mt-1 text-sm text-white/60">Génère des liens temporaires pour ta banque, ton auditeur ou tes partenaires.</p>
       </div>
@@ -80,7 +80,7 @@ export default function PartagePage() {
           onClick={() => setOpenModal('auditeur')}
           className="glass glass-hover p-6 text-left"
         >
-          <FileSignature className="mb-3 h-7 w-7 text-[#FFD700]" />
+          <FileSignature className="mb-3 h-7 w-7 text-[#FFB300]" />
           <h3 className="font-semibold">Lien auditeur</h3>
           <p className="mt-1 text-xs text-white/50">Comptable, expert, contrôle fiscal.</p>
         </button>
@@ -88,7 +88,7 @@ export default function PartagePage() {
           onClick={() => setOpenModal('partenaire')}
           className="glass glass-hover p-6 text-left"
         >
-          <Share2 className="mb-3 h-7 w-7 text-[#FF6B35]" />
+          <Share2 className="mb-3 h-7 w-7 text-[#FF3D00]" />
           <h3 className="font-semibold">Partenaire</h3>
           <p className="mt-1 text-xs text-white/50">Investisseur, fournisseur, client.</p>
         </button>
@@ -147,7 +147,7 @@ function ShareRow({ share, onRevoked }: { share: Share; onRevoked: () => void })
   return (
     <div className="glass p-4 text-sm">
       <div className="mb-2 flex items-center justify-between">
-        <span className="rounded-full bg-[#FF6B35]/15 px-2 py-0.5 text-[10px] uppercase text-[#FF6B35]">{share.audience}</span>
+        <span className="rounded-full bg-[#FF3D00]/15 px-2 py-0.5 text-[10px] uppercase text-[#FF3D00]">{share.audience}</span>
         <span className="text-[10px] text-white/40">expire le {new Date(share.expire).toLocaleDateString('fr-FR')}</span>
       </div>
       <p className="text-[11px] text-white/60">
@@ -161,7 +161,7 @@ function ShareRow({ share, onRevoked }: { share: Share; onRevoked: () => void })
         />
         <button
           onClick={copy}
-          className="rounded-lg bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-3 text-[#070B18]"
+          className="rounded-lg bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-3 text-[#070B18]"
         >
           {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
         </button>
@@ -240,7 +240,7 @@ function CreateShareModal({
                     type="checkbox"
                     checked={selected.includes(d.id)}
                     onChange={() => toggle(d.id)}
-                    className="accent-[#FF6B35]"
+                    className="accent-[#FF3D00]"
                   />
                   <span className="flex-1 truncate">{d.nom}</span>
                   <span className="text-[10px] text-white/40">{d.type}</span>
@@ -265,7 +265,7 @@ function CreateShareModal({
         <button
           onClick={submit}
           disabled={submitting || selected.length === 0}
-          className="w-full rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
+          className="w-full rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
         >
           {submitting ? 'Génération...' : 'Générer le lien sécurisé'}
         </button>

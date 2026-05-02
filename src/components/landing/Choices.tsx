@@ -11,7 +11,7 @@ const choices = [
     description: 'SASU, SAS, SARL, EURL, SCI, Micro — 10 minutes chrono, dépôt INPI automatique.',
     cta: 'Démarrer',
     href: '/creer/entreprise',
-    color: '#FF6B35',
+    color: '#FF3D00',
   },
   {
     icon: Users,
@@ -19,7 +19,7 @@ const choices = [
     description: 'Association loi 1901, statuts types, déclaration préfecture, JOAFE auto.',
     cta: 'Démarrer',
     href: '/creer/association',
-    color: '#FFD700',
+    color: '#FFB300',
   },
   {
     icon: Bot,

@@ -92,7 +92,7 @@ export default function ProofVault() {
         <button
           onClick={() => fileRef.current?.click()}
           disabled={uploading}
-          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18] disabled:opacity-50"
+          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18] disabled:opacity-50"
         >
           <Upload className="h-4 w-4" />
           {uploading ? 'Upload...' : 'Ajouter un document'}
@@ -115,7 +115,7 @@ export default function ProofVault() {
           {docs.map((d) => (
             <div key={d.id} className="glass glass-hover p-5">
               <div className="mb-4 flex items-start justify-between">
-                <FileText className="h-6 w-6 text-[#FFD700]" />
+                <FileText className="h-6 w-6 text-[#FFB300]" />
                 {d.scanner_score === 'parfait' && (
                   <div className="flex items-center gap-1 rounded-full bg-[#5DCAA5]/15 px-2 py-0.5 text-[10px] text-[#5DCAA5]">
                     <Check className="h-3 w-3" /> Parfait

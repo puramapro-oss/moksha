@@ -52,7 +52,7 @@ export default function FeedbackPage() {
   if (submitted) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-20">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFD700]">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#FF3D00] to-[#FFB300]">
           <MessageSquare className="h-8 w-8 text-[#070B18]" />
         </div>
         <h2 className="text-2xl font-extrabold">Merci pour ton retour !</h2>
@@ -65,7 +65,7 @@ export default function FeedbackPage() {
     <div className="mx-auto max-w-2xl space-y-6">
       <div>
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-          <MessageSquare className="h-6 w-6 text-[#FF6B35]" /> Feedback
+          <MessageSquare className="h-6 w-6 text-[#FF3D00]" /> Feedback
         </h1>
         <p className="mt-1 text-sm text-white/60">Aide-nous à améliorer MOKSHA. +{POINTS_REWARDS.feedback} points par feedback.</p>
       </div>
@@ -86,7 +86,7 @@ export default function FeedbackPage() {
               >
                 <Star
                   className={`h-8 w-8 ${
-                    n <= (hoverRating || rating) ? 'fill-[#FFD700] text-[#FFD700]' : 'text-white/20'
+                    n <= (hoverRating || rating) ? 'fill-[#FFB300] text-[#FFB300]' : 'text-white/20'
                   }`}
                 />
               </button>
@@ -105,7 +105,7 @@ export default function FeedbackPage() {
                 onClick={() => setCategory(c.id)}
                 className={`rounded-lg px-3 py-1.5 text-xs transition ${
                   category === c.id
-                    ? 'bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30'
+                    ? 'bg-[#FF3D00]/20 text-[#FF3D00] border border-[#FF3D00]/30'
                     : 'bg-white/5 text-white/50 hover:bg-white/10'
                 }`}
               >
@@ -123,7 +123,7 @@ export default function FeedbackPage() {
             onChange={(e) => setComment(e.target.value)}
             rows={4}
             placeholder="Ce qui fonctionne bien, ce qu'on pourrait améliorer..."
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60"
             maxLength={2000}
           />
         </div>
@@ -131,7 +131,7 @@ export default function FeedbackPage() {
         <button
           type="submit"
           disabled={submitting || rating === 0}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
         >
           <Send className="h-4 w-4" />
           {submitting ? 'Envoi...' : 'Envoyer mon feedback'}

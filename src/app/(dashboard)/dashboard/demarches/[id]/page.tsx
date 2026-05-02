@@ -45,7 +45,7 @@ export default function DemarcheDetail() {
     return (
       <div className="glass p-10 text-center text-white/60">
         Démarche introuvable —{' '}
-        <Link href="/dashboard/demarches" className="text-[#FFD700] underline">
+        <Link href="/dashboard/demarches" className="text-[#FFB300] underline">
           retour à la liste
         </Link>
       </div>
@@ -82,7 +82,7 @@ export default function DemarcheDetail() {
         <h2 className="mb-4 font-semibold">Progression</h2>
         <div className="mb-2 h-2 overflow-hidden rounded-full bg-white/5">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] transition-all"
+            className="h-full rounded-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] transition-all"
             style={{ width: `${demarche.avancement}%` }}
           />
         </div>
@@ -96,11 +96,11 @@ export default function DemarcheDetail() {
               <div
                 key={s.key}
                 className={`flex items-center gap-3 rounded-xl border p-3 ${
-                  active ? 'border-[#FF6B35]/40 bg-[#FF6B35]/5' : done ? 'border-[#5DCAA5]/30 bg-[#5DCAA5]/5' : 'border-white/5 bg-white/[0.02]'
+                  active ? 'border-[#FF3D00]/40 bg-[#FF3D00]/5' : done ? 'border-[#5DCAA5]/30 bg-[#5DCAA5]/5' : 'border-white/5 bg-white/[0.02]'
                 }`}
               >
                 <s.icon
-                  className={`h-5 w-5 ${done ? 'text-[#5DCAA5]' : active ? 'text-[#FF6B35]' : 'text-white/30'}`}
+                  className={`h-5 w-5 ${done ? 'text-[#5DCAA5]' : active ? 'text-[#FF3D00]' : 'text-white/30'}`}
                 />
                 <span className={done || active ? 'font-medium' : 'text-white/50'}>{s.label}</span>
               </div>
@@ -115,7 +115,7 @@ export default function DemarcheDetail() {
           className="glass glass-hover flex items-center justify-between gap-4 p-6"
         >
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD700]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF3D00] to-[#FFB300]">
               <PenTool className="h-5 w-5 text-[#070B18]" />
             </div>
             <div>
@@ -123,7 +123,7 @@ export default function DemarcheDetail() {
               <p className="text-xs text-white/50">Dernière étape avant le dépôt INPI</p>
             </div>
           </div>
-          <span className="text-sm font-bold text-[#FFD700]">Signer →</span>
+          <span className="text-sm font-bold text-[#FFB300]">Signer →</span>
         </Link>
       )}
 
@@ -140,7 +140,7 @@ export default function DemarcheDetail() {
                 className="glass glass-hover flex items-center justify-between p-4 text-sm"
               >
                 <div className="flex items-center gap-3">
-                  <FileText className="h-4 w-4 text-[#FFD700]" />
+                  <FileText className="h-4 w-4 text-[#FFB300]" />
                   <span>{d.nom}</span>
                 </div>
                 <span className="text-xs text-white/50">Ouvrir ↗</span>
@@ -153,7 +153,7 @@ export default function DemarcheDetail() {
       {demarche.inpi_reference && (
         <div className="glass p-5 text-sm">
           <p className="text-white/50">Référence INPI</p>
-          <p className="mt-1 font-mono text-[#FFD700]">{demarche.inpi_reference}</p>
+          <p className="mt-1 font-mono text-[#FFB300]">{demarche.inpi_reference}</p>
         </div>
       )}
 

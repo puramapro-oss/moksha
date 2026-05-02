@@ -66,7 +66,7 @@ export default function EligibilitePage() {
                 onClick={() => toggle(key)}
                 className={`flex w-full items-center gap-3 rounded-xl border p-4 text-left transition ${
                   active
-                    ? 'border-[#FF6B35] bg-[#FF6B35]/5'
+                    ? 'border-[#FF3D00] bg-[#FF3D00]/5'
                     : 'border-white/10 bg-white/[0.02] hover:border-white/20'
                 }`}
               >
@@ -75,7 +75,7 @@ export default function EligibilitePage() {
                   <span className="block text-sm font-semibold text-white">{def.label}</span>
                   <span className="mt-0.5 block text-[12px] text-white/55">jusqu&apos;à {def.montant}€</span>
                 </div>
-                {active && <Check className="h-5 w-5 text-[#FF6B35]" />}
+                {active && <Check className="h-5 w-5 text-[#FF3D00]" />}
               </button>
             )
           })}
@@ -85,7 +85,7 @@ export default function EligibilitePage() {
       <button
         onClick={submit}
         disabled={submitting}
-        className="mt-6 w-full rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-4 text-base font-bold text-[#070B18] disabled:opacity-50"
+        className="mt-6 w-full rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-4 text-base font-bold text-[#070B18] disabled:opacity-50"
       >
         {submitting ? 'Activation...' : 'Activer ma bourse'}
       </button>

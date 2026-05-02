@@ -85,7 +85,7 @@ export default function Parrainage() {
     <div className="space-y-6">
       <div>
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-          <Users className="h-6 w-6 text-[#FFD700]" /> Parrainage
+          <Users className="h-6 w-6 text-[#FFB300]" /> Parrainage
         </h1>
         <p className="mt-1 text-sm text-white/60">Parrainage 3 niveaux à vie : N1 = 50% · N2 = 15% · N3 = 7%. Versement auto à chaque facturation filleul.</p>
       </div>
@@ -93,12 +93,12 @@ export default function Parrainage() {
       <div className="glass p-6">
         <p className="mb-2 text-xs uppercase tracking-wider text-white/50">Ton code</p>
         <div className="flex items-center gap-3">
-          <code className="flex-1 rounded-xl border border-[#FF6B35]/30 bg-[#FF6B35]/5 px-4 py-3 font-mono text-lg font-bold text-[#FFD700]">
+          <code className="flex-1 rounded-xl border border-[#FF3D00]/30 bg-[#FF3D00]/5 px-4 py-3 font-mono text-lg font-bold text-[#FFB300]">
             {profile?.referral_code || '—'}
           </code>
           <button
             onClick={copy}
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-3 text-sm font-bold text-[#070B18]"
+            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-4 py-3 text-sm font-bold text-[#070B18]"
           >
             {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
             {copied ? 'Copié' : 'Copier'}
@@ -114,20 +114,20 @@ export default function Parrainage() {
         </div>
         <div className="glass p-6">
           <p className="text-xs uppercase tracking-wider text-white/50">Gains cumulés</p>
-          <p className="mt-2 text-4xl font-extrabold text-[#FFD700]">{gains.toFixed(2)} €</p>
+          <p className="mt-2 text-4xl font-extrabold text-[#FFB300]">{gains.toFixed(2)} €</p>
         </div>
       </div>
 
       {/* Arbre 3 niveaux */}
       <div className="glass p-6">
         <h2 className="mb-4 flex items-center gap-2 font-semibold">
-          <Users className="h-4 w-4 text-[#FFD700]" /> Ta descendance
+          <Users className="h-4 w-4 text-[#FFB300]" /> Ta descendance
         </h2>
         <div className="grid gap-3 md:grid-cols-3">
           {([1, 2, 3] as const).map((lvl) => {
             const meta = {
-              1: { label: 'N1 — Direct', rate: '50%', accent: '#FFD700' },
-              2: { label: 'N2 — Indirect', rate: '15%', accent: '#FF6B35' },
+              1: { label: 'N1 — Direct', rate: '50%', accent: '#FFB300' },
+              2: { label: 'N2 — Indirect', rate: '15%', accent: '#FF3D00' },
               3: { label: 'N3 — Profond', rate: '7%', accent: '#5DCAA5' },
             }[lvl]
             const s = levels[lvl]
@@ -164,7 +164,7 @@ export default function Parrainage() {
 
       <div className="glass p-6">
         <h2 className="mb-4 flex items-center gap-2 font-semibold">
-          <Gift className="h-4 w-4 text-[#FF6B35]" /> Paliers
+          <Gift className="h-4 w-4 text-[#FF3D00]" /> Paliers
         </h2>
         <div className="space-y-3">
           {REFERRAL_MILESTONES.map((m) => {
@@ -180,7 +180,7 @@ export default function Parrainage() {
                   <p className={`font-semibold ${reached ? 'text-[#5DCAA5]' : ''}`}>{m.label}</p>
                   <p className="text-xs text-white/50">{m.filleuls} filleuls</p>
                 </div>
-                <p className="text-lg font-bold text-[#FFD700]">+{m.bonus} €</p>
+                <p className="text-lg font-bold text-[#FFB300]">+{m.bonus} €</p>
               </div>
             )
           })}

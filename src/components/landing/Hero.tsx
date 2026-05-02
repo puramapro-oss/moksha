@@ -17,7 +17,7 @@ export default function Hero() {
           transition={{ duration: 0.5 }}
           className="mx-auto mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-[12px] text-white/75 backdrop-blur-xl sm:text-[13px]"
         >
-          <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#FFD700]" />
+          <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#FFB300]" />
           <span className="truncate">{t('badge')}</span>
         </motion.div>
 
@@ -49,7 +49,7 @@ export default function Hero() {
         >
           <Link
             href="/demarrer"
-            className="group relative inline-flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-7 py-3.5 text-[15px] font-semibold text-[#070B18] shadow-[0_8px_40px_-10px_rgba(255,107,53,0.7)] transition hover:shadow-[0_12px_50px_-8px_rgba(255,215,0,0.6)] sm:w-auto"
+            className="group relative inline-flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-7 py-3.5 text-[15px] font-semibold text-[#070B18] shadow-[0_8px_40px_-10px_rgba(255, 61, 0,0.7)] transition hover:shadow-[0_12px_50px_-8px_rgba(255, 179, 0,0.6)] sm:w-auto"
           >
             {t('cta_primary')}
             <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
@@ -74,12 +74,12 @@ export default function Hero() {
           </div>
           <span className="hidden h-1 w-1 rounded-full bg-white/15 sm:block" />
           <div className="flex items-center gap-1.5">
-            <Zap className="h-3.5 w-3.5 text-[#FFD700]" />
+            <Zap className="h-3.5 w-3.5 text-[#FFB300]" />
             <span>{t('trust_2')}</span>
           </div>
           <span className="hidden h-1 w-1 rounded-full bg-white/15 sm:block" />
           <div className="flex items-center gap-1.5">
-            <Sparkles className="h-3.5 w-3.5 text-[#FF6B35]" />
+            <Sparkles className="h-3.5 w-3.5 text-[#FF3D00]" />
             <span>{t('trust_3')}</span>
           </div>
         </motion.div>

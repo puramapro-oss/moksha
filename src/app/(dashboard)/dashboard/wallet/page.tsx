@@ -43,14 +43,14 @@ export default function Wallet() {
     <div className="space-y-6">
       <div>
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-          <WalletIcon className="h-6 w-6 text-[#FFD700]" /> Wallet
+          <WalletIcon className="h-6 w-6 text-[#FFB300]" /> Wallet
         </h1>
         <p className="mt-1 text-sm text-white/60">Gains de parrainage, bonus concours et retraits.</p>
       </div>
 
       <div className="glass p-8 text-center">
         <p className="text-xs uppercase tracking-wider text-white/50">Solde disponible</p>
-        <p className="mt-3 text-6xl font-extrabold text-[#FFD700]">{solde.toFixed(2)} €</p>
+        <p className="mt-3 text-6xl font-extrabold text-[#FFB300]">{solde.toFixed(2)} €</p>
         <button
           onClick={() => {
             if (solde < WALLET_MIN_WITHDRAWAL) {
@@ -59,7 +59,7 @@ export default function Wallet() {
             }
             setOpenModal(true)
           }}
-          className="mt-6 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 text-sm font-bold text-[#070B18]"
+          className="mt-6 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18]"
         >
           Demander un retrait (IBAN)
         </button>
@@ -181,7 +181,7 @@ function WithdrawModal({
             value={titulaire}
             onChange={(e) => setTitulaire(e.target.value)}
             placeholder="Prénom NOM"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF6B35]/60"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF3D00]/60"
           />
         </label>
 
@@ -193,7 +193,7 @@ function WithdrawModal({
             value={iban}
             onChange={(e) => setIban(e.target.value.toUpperCase())}
             placeholder="FR76 ..."
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 font-mono text-xs outline-none focus:border-[#FF6B35]/60"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 font-mono text-xs outline-none focus:border-[#FF3D00]/60"
           />
         </label>
 
@@ -205,7 +205,7 @@ function WithdrawModal({
             value={bic}
             onChange={(e) => setBic(e.target.value.toUpperCase())}
             placeholder="BNPAFRPP"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 font-mono text-xs outline-none focus:border-[#FF6B35]/60"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 font-mono text-xs outline-none focus:border-[#FF3D00]/60"
           />
         </label>
 
@@ -219,7 +219,7 @@ function WithdrawModal({
             step="0.01"
             value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF6B35]/60"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF3D00]/60"
           />
         </label>
 
@@ -230,7 +230,7 @@ function WithdrawModal({
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
+          className="w-full rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
         >
           {submitting ? 'Envoi...' : 'Confirmer la demande'}
         </button>

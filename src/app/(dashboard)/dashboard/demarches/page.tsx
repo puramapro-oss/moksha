@@ -9,9 +9,9 @@ import type { Demarche } from '@/types'
 
 const statutLabel: Record<Demarche['statut'], { label: string; color: string }> = {
   brouillon: { label: 'Brouillon', color: 'bg-white/10 text-white/70' },
-  documents_generes: { label: 'Documents générés', color: 'bg-[#FFD700]/15 text-[#FFD700]' },
-  en_traitement: { label: 'En traitement', color: 'bg-[#FF6B35]/15 text-[#FF6B35]' },
-  depose_inpi: { label: 'Déposé INPI', color: 'bg-[#FF6B35]/20 text-[#FF6B35]' },
+  documents_generes: { label: 'Documents générés', color: 'bg-[#FFB300]/15 text-[#FFB300]' },
+  en_traitement: { label: 'En traitement', color: 'bg-[#FF3D00]/15 text-[#FF3D00]' },
+  depose_inpi: { label: 'Déposé INPI', color: 'bg-[#FF3D00]/20 text-[#FF3D00]' },
   accepte: { label: 'Accepté', color: 'bg-[#5DCAA5]/15 text-[#5DCAA5]' },
   refuse: { label: 'Refusé', color: 'bg-red-500/15 text-red-400' },
   regularisation: { label: 'Régularisation', color: 'bg-amber-500/15 text-amber-300' },
@@ -55,7 +55,7 @@ export default function Demarches() {
           </Link>
           <Link
             href="/creer/entreprise"
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]"
+            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18]"
           >
             <Plus className="h-4 w-4" /> Nouvelle démarche
           </Link>
@@ -72,7 +72,7 @@ export default function Demarches() {
           <p className="text-white/60">Aucune démarche pour l&apos;instant.</p>
           <Link
             href="/creer/entreprise"
-            className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]"
+            className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18]"
           >
             Démarrer ma première création
           </Link>
@@ -86,7 +86,7 @@ export default function Demarches() {
               className="glass glass-hover flex items-center justify-between gap-4 p-5"
             >
               <div className="flex items-center gap-4">
-                <FileText className="h-6 w-6 text-[#FF6B35]" />
+                <FileText className="h-6 w-6 text-[#FF3D00]" />
                 <div>
                   <h3 className="font-semibold">{d.titre}</h3>
                   <p className="text-xs text-white/50">

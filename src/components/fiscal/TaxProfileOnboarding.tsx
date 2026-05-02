@@ -103,7 +103,7 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
                   onClick={() => setChosen(p.type)}
                   className={`flex w-full items-start gap-3 rounded-xl border p-4 text-left transition ${
                     chosen === p.type
-                      ? 'border-[#FF6B35] bg-[#FF6B35]/5'
+                      ? 'border-[#FF3D00] bg-[#FF3D00]/5'
                       : 'border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.05]'
                   }`}
                 >
@@ -113,7 +113,7 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
                     <span className="mt-0.5 block text-[12px] text-white/55">{p.description}</span>
                     <span className="mt-1 block text-[11px] italic text-white/40">{p.whenToChoose}</span>
                   </span>
-                  {chosen === p.type && <Check className="h-5 w-5 text-[#FF6B35]" />}
+                  {chosen === p.type && <Check className="h-5 w-5 text-[#FF3D00]" />}
                 </button>
               ))}
             </div>
@@ -134,7 +134,7 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
                   else void submit()
                 }}
                 disabled={!chosen || submitting}
-                className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18] disabled:opacity-50"
+                className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18] disabled:opacity-50"
               >
                 {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Continuer'}
               </button>
@@ -173,7 +173,7 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
                       value={companyName}
                       onChange={(e) => setCompanyName(e.target.value)}
                       placeholder="SASU Example"
-                      className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-[#FF6B35] focus:outline-none"
+                      className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-[#FF3D00] focus:outline-none"
                     />
                   </div>
                   <div>
@@ -181,7 +181,7 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
                     <select
                       value={legalForm}
                       onChange={(e) => setLegalForm(e.target.value)}
-                      className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white focus:border-[#FF6B35] focus:outline-none"
+                      className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white focus:border-[#FF3D00] focus:outline-none"
                     >
                       <option value="">Choisir...</option>
                       <option value="SASU">SASU</option>
@@ -199,7 +199,7 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
                       value={activity}
                       onChange={(e) => setActivity(e.target.value)}
                       placeholder="Conseil, édition logicielle, ..."
-                      className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-[#FF6B35] focus:outline-none"
+                      className="mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-[#FF3D00] focus:outline-none"
                     />
                   </div>
                 </>
@@ -215,7 +215,7 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
               <button
                 onClick={submit}
                 disabled={!siret.trim() || submitting}
-                className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18] disabled:opacity-50"
+                className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18] disabled:opacity-50"
               >
                 {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Enregistrer'}
               </button>

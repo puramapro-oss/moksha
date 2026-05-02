@@ -64,11 +64,11 @@ export default function ConnectOnboarding({ publishableKey }: Props) {
         appearance: {
           overlays: 'dialog',
           variables: {
-            colorPrimary: '#FF6B35',
+            colorPrimary: '#FF3D00',
             colorText: '#ffffff',
             colorBackground: '#0D1225',
             colorDanger: '#ef4444',
-            buttonPrimaryColorBackground: '#FF6B35',
+            buttonPrimaryColorBackground: '#FF3D00',
             buttonPrimaryColorText: '#070B18',
             fontFamily: 'DM Sans, system-ui, sans-serif',
             borderRadius: '12px',
@@ -124,7 +124,7 @@ export default function ConnectOnboarding({ publishableKey }: Props) {
   if (!instance) {
     return (
       <div className="glass p-8 text-center">
-        <Shield className="mx-auto mb-4 h-10 w-10 text-[#FF6B35]" />
+        <Shield className="mx-auto mb-4 h-10 w-10 text-[#FF3D00]" />
         <h3 className="font-display text-xl font-bold">Active ton compte Stripe Connect</h3>
         <p className="mt-2 text-sm text-white/60">
           Nécessaire pour recevoir tes primes et tes gains en euros réels sur ton compte bancaire.
@@ -138,7 +138,7 @@ export default function ConnectOnboarding({ publishableKey }: Props) {
         <button
           onClick={startOnboarding}
           disabled={starting}
-          className="mt-6 rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
+          className="mt-6 rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
         >
           {starting ? 'Démarrage...' : 'Vérifier mon identité'}
         </button>

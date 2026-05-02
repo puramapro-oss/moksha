@@ -69,7 +69,7 @@ export default function PrimeTracker() {
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <Gift className="h-4 w-4 text-[#FFD700]" />
+            <Gift className="h-4 w-4 text-[#FFB300]" />
             <h3 className="font-semibold">Prime de bienvenue</h3>
           </div>
           <p className="mt-1 text-xs text-white/60">
@@ -79,7 +79,7 @@ export default function PrimeTracker() {
           </p>
         </div>
         <div className="text-right">
-          <p className="font-display text-2xl font-extrabold text-[#FFD700]" style={{ fontFamily: 'var(--font-display)' }}>
+          <p className="font-display text-2xl font-extrabold text-[#FFB300]" style={{ fontFamily: 'var(--font-display)' }}>
             {totalReleased}€
           </p>
           <p className="text-[10px] text-white/40">/ {totalMax}€</p>
@@ -88,7 +88,7 @@ export default function PrimeTracker() {
 
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/5">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] transition-all duration-700"
+          className="h-full rounded-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] transition-all duration-700"
           style={{ width: `${progress}%` }}
         />
       </div>

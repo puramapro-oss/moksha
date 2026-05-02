@@ -75,7 +75,7 @@ export default function AdminUsers() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Email, nom, code parrain…"
-            className="w-full rounded-xl border border-white/10 bg-white/5 py-2 pl-9 pr-3 text-sm outline-none focus:border-[#FF6B35]/60"
+            className="w-full rounded-xl border border-white/10 bg-white/5 py-2 pl-9 pr-3 text-sm outline-none focus:border-[#FF3D00]/60"
           />
         </div>
       </div>
@@ -103,7 +103,7 @@ export default function AdminUsers() {
                 <tr key={u.id} className="border-b border-white/5 last:border-0">
                   <td className="px-4 py-3 text-white/80">
                     {u.email}
-                    {u.is_super_admin && <span className="ml-2 rounded-full bg-[#FF6B35]/20 px-2 py-0.5 text-[9px] text-[#FF6B35]">SUPER</span>}
+                    {u.is_super_admin && <span className="ml-2 rounded-full bg-[#FF3D00]/20 px-2 py-0.5 text-[9px] text-[#FF3D00]">SUPER</span>}
                     {u.is_admin && !u.is_super_admin && <span className="ml-2 rounded-full bg-amber-500/20 px-2 py-0.5 text-[9px] text-amber-300">ADMIN</span>}
                   </td>
                   <td className="px-4 py-3 text-white/70">{u.full_name || '—'}</td>
@@ -119,7 +119,7 @@ export default function AdminUsers() {
                       <option value="pro">Pro</option>
                     </select>
                   </td>
-                  <td className="px-4 py-3 font-mono text-[11px] text-[#FFD700]">{u.referral_code}</td>
+                  <td className="px-4 py-3 font-mono text-[11px] text-[#FFB300]">{u.referral_code}</td>
                   <td className="px-4 py-3 text-white/60">{u.jurisia_questions_today}</td>
                   <td className="px-4 py-3 text-white/50">{new Date(u.created_at).toLocaleDateString('fr-FR')}</td>
                   <td className="px-4 py-3">

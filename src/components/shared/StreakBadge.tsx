@@ -46,12 +46,12 @@ export default function StreakBadge() {
     <div
       className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition ${
         active
-          ? 'bg-gradient-to-r from-[#FF6B35]/20 to-[#FFD700]/20 text-[#FFD700] shadow-[0_0_16px_rgba(255,215,0,0.2)]'
+          ? 'bg-gradient-to-r from-[#FF3D00]/20 to-[#FFB300]/20 text-[#FFB300] shadow-[0_0_16px_rgba(255, 179, 0,0.2)]'
           : 'border border-white/10 bg-white/5 text-white/50'
       }`}
       title={active ? 'Streak actif — ouvre ton coffre demain pour continuer' : 'Streak en pause — ouvre ton coffre pour la relancer'}
     >
-      <Flame className={`h-3.5 w-3.5 ${active ? 'text-[#FF6B35]' : 'text-white/40'}`} />
+      <Flame className={`h-3.5 w-3.5 ${active ? 'text-[#FF3D00]' : 'text-white/40'}`} />
       <span>{streak}</span>
       <span className="text-[10px] opacity-70">j</span>
     </div>

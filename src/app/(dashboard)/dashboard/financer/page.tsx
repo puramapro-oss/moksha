@@ -70,7 +70,7 @@ const SITUATIONS: { id: SituationType; label: string }[] = [
 function BadgeAide({ badge }: { badge: Aide['badge'] }) {
   const styles = {
     probable: 'bg-[#5DCAA5]/20 text-[#5DCAA5]',
-    possible: 'bg-[#FFD700]/20 text-[#FFD700]',
+    possible: 'bg-[#FFB300]/20 text-[#FFB300]',
     verifier: 'bg-blue-500/20 text-blue-400',
   }
   const labels = { probable: '✅ Probable', possible: '🟡 Possible', verifier: '🔵 À vérifier' }
@@ -192,7 +192,7 @@ export default function FinancerPage() {
 
       // En-tête
       doc.setFontSize(22)
-      doc.setTextColor(255, 107, 53)
+      doc.setTextColor(255, 61, 0)
       doc.text('MOKSHA — Dossier Financement', 20, 25)
 
       doc.setFontSize(10)
@@ -298,7 +298,7 @@ export default function FinancerPage() {
             <div
               className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
                 s === step
-                  ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18]'
+                  ? 'bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18]'
                   : s < step
                     ? 'bg-[#5DCAA5]/20 text-[#5DCAA5]'
                     : 'bg-white/5 text-[var(--text-muted)]'
@@ -325,7 +325,7 @@ export default function FinancerPage() {
                   onClick={() => setProfil(p.id)}
                   className={`flex items-center gap-3 rounded-xl border p-4 text-left transition ${
                     profil === p.id
-                      ? 'border-[#FF6B35]/50 bg-[#FF6B35]/10'
+                      ? 'border-[#FF3D00]/50 bg-[#FF3D00]/10'
                       : 'border-white/5 bg-white/[0.03] hover:bg-white/5'
                   }`}
                 >
@@ -345,7 +345,7 @@ export default function FinancerPage() {
                   onClick={() => setSituation(s.id)}
                   className={`rounded-xl border px-4 py-3 text-left text-sm transition ${
                     situation === s.id
-                      ? 'border-[#FF6B35]/50 bg-[#FF6B35]/10 font-medium'
+                      ? 'border-[#FF3D00]/50 bg-[#FF3D00]/10 font-medium'
                       : 'border-white/5 bg-white/[0.03] hover:bg-white/5'
                   }`}
                 >
@@ -361,7 +361,7 @@ export default function FinancerPage() {
                 type="checkbox"
                 checked={handicap}
                 onChange={(e) => setHandicap(e.target.checked)}
-                className="h-5 w-5 rounded border-white/20 bg-white/5 accent-[#FF6B35]"
+                className="h-5 w-5 rounded border-white/20 bg-white/5 accent-[#FF3D00]"
               />
               <span className="text-sm">Situation de handicap (RQTH)</span>
             </label>
@@ -374,7 +374,7 @@ export default function FinancerPage() {
         <div className="animate-fade-in space-y-4">
           {loading ? (
             <div className="glass flex items-center justify-center rounded-xl p-12">
-              <Loader2 className="h-8 w-8 animate-spin text-[#FF6B35]/50" />
+              <Loader2 className="h-8 w-8 animate-spin text-[#FF3D00]/50" />
               <span className="ml-3 text-sm text-[var(--text-secondary)]">
                 Analyse de tes droits en cours...
               </span>
@@ -412,7 +412,7 @@ export default function FinancerPage() {
                       )}
                     </div>
                     <div className="shrink-0 text-right">
-                      <p className="text-lg font-bold text-[#FFD700]">
+                      <p className="text-lg font-bold text-[#FFB300]">
                         {aide.montant_max.toLocaleString('fr-FR')} €
                       </p>
                       {aide.taux_remboursement && (
@@ -446,7 +446,7 @@ export default function FinancerPage() {
       {step === 3 && (
         <div className="animate-fade-in space-y-4">
           <div className="glass rounded-xl p-6 text-center">
-            <FileText className="mx-auto mb-4 h-12 w-12 text-[#FF6B35]/50" />
+            <FileText className="mx-auto mb-4 h-12 w-12 text-[#FF3D00]/50" />
             <h2 className="text-lg font-semibold">Ton dossier est prêt</h2>
             <p className="mt-2 text-sm text-[var(--text-secondary)]">
               Télécharge le PDF avec toutes les aides identifiées, les liens officiels et les
@@ -454,7 +454,7 @@ export default function FinancerPage() {
             </p>
             <button
               onClick={generatePDF}
-              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 text-sm font-bold text-[#070B18] transition active:scale-[0.98]"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18] transition active:scale-[0.98]"
             >
               <Download className="h-4 w-4" />
               Télécharger le dossier PDF
@@ -480,7 +480,7 @@ export default function FinancerPage() {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-[var(--text-secondary)]">Cumul potentiel</span>
-                <span className="font-bold text-[#FFD700]">
+                <span className="font-bold text-[#FFB300]">
                   {cumul.toLocaleString('fr-FR')} €
                 </span>
               </div>
@@ -527,7 +527,7 @@ export default function FinancerPage() {
                           refuse: AlertCircle,
                         }
                         const colors = {
-                          en_cours: 'text-[#FFD700]',
+                          en_cours: 'text-[#FFB300]',
                           accepte: 'text-[#5DCAA5]',
                           refuse: 'text-red-400',
                         }
@@ -589,7 +589,7 @@ export default function FinancerPage() {
           <button
             onClick={handleNext}
             disabled={!canNext() || loading}
-            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18] disabled:opacity-40"
+            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18] disabled:opacity-40"
           >
             Suivant <ArrowRight className="h-4 w-4" />
           </button>

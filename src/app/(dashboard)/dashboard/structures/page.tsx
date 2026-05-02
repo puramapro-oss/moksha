@@ -32,13 +32,13 @@ export default function Structures() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-            <Building2 className="h-6 w-6 text-[#FFD700]" /> Mes structures
+            <Building2 className="h-6 w-6 text-[#FFB300]" /> Mes structures
           </h1>
           <p className="mt-1 text-sm text-white/60">Entreprises et associations que tu gères.</p>
         </div>
         <Link
           href="/demarrer"
-          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]"
+          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18]"
         >
           <Plus className="h-4 w-4" /> Nouvelle structure
         </Link>
@@ -51,7 +51,7 @@ export default function Structures() {
           <p className="text-white/60">Aucune structure pour l&apos;instant.</p>
           <Link
             href="/demarrer"
-            className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]"
+            className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18]"
           >
             Créer ma première structure
           </Link>
@@ -62,13 +62,13 @@ export default function Structures() {
             <div key={s.id} className="glass p-5">
               <div className="mb-2 flex items-center gap-2 text-[11px] uppercase tracking-wider text-white/50">
                 <span className="rounded-full bg-white/5 px-2 py-0.5">{s.type}</span>
-                {s.forme && <span className="rounded-full bg-[#FF6B35]/10 px-2 py-0.5 text-[#FF6B35]">{s.forme.toUpperCase()}</span>}
+                {s.forme && <span className="rounded-full bg-[#FF3D00]/10 px-2 py-0.5 text-[#FF3D00]">{s.forme.toUpperCase()}</span>}
               </div>
               <h3 className="font-display text-xl font-bold" style={{ fontFamily: 'var(--font-display)' }}>
                 {s.denomination || 'Sans nom'}
               </h3>
               <p className="mt-2 text-xs text-white/50">{s.activite || '—'}</p>
-              {s.siren && <p className="mt-2 font-mono text-xs text-[#FFD700]">SIREN {s.siren}</p>}
+              {s.siren && <p className="mt-2 font-mono text-xs text-[#FFB300]">SIREN {s.siren}</p>}
             </div>
           ))}
         </div>

@@ -62,7 +62,7 @@ export default function AdminHome() {
 function Card({ label, value, icon, accent }: { label: string; value: string | number; icon: React.ReactNode; accent?: boolean }) {
   return (
     <div className="glass p-5">
-      <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ${accent ? 'bg-gradient-to-br from-[#FF6B35] to-[#FFD700] text-[#070B18]' : 'bg-white/5 text-white/60'}`}>
+      <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ${accent ? 'bg-gradient-to-br from-[#FF3D00] to-[#FFB300] text-[#070B18]' : 'bg-white/5 text-white/60'}`}>
         {icon}
       </div>
       <div className="text-2xl font-extrabold">{value}</div>

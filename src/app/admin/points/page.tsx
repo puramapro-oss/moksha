@@ -28,12 +28,12 @@ export default function AdminPoints() {
   return (
     <div className="space-y-6">
       <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-        <Star className="h-6 w-6 text-[#FFD700]" /> Points Purama
+        <Star className="h-6 w-6 text-[#FFB300]" /> Points Purama
       </h1>
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="glass p-5 text-center">
-          <p className="text-3xl font-extrabold text-[#FFD700]">{totalPoints.toLocaleString()}</p>
+          <p className="text-3xl font-extrabold text-[#FFB300]">{totalPoints.toLocaleString()}</p>
           <p className="text-xs text-white/50">Points en circulation</p>
         </div>
         <div className="glass p-5 text-center">
@@ -56,7 +56,7 @@ export default function AdminPoints() {
           {balances.map((b) => (
             <div key={b.user_id} className="grid grid-cols-4 gap-4 border-b border-white/5 px-4 py-3 text-sm">
               <span className="truncate">{b.moksha_profiles?.full_name || b.moksha_profiles?.email}</span>
-              <span className="flex items-center gap-1"><Star className="h-3 w-3 text-[#FFD700]" />{b.balance}</span>
+              <span className="flex items-center gap-1"><Star className="h-3 w-3 text-[#FFB300]" />{b.balance}</span>
               <span className="flex items-center gap-1"><TrendingUp className="h-3 w-3 text-[#5DCAA5]" />{b.lifetime_earned}</span>
               <span>{(b.balance * 0.01).toFixed(2)} €</span>
             </div>

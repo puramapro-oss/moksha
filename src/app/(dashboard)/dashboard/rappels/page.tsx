@@ -59,13 +59,13 @@ export default function Rappels() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-            <Bell className="h-6 w-6 text-[#FFD700]" /> Rappels
+            <Bell className="h-6 w-6 text-[#FFB300]" /> Rappels
           </h1>
           <p className="mt-1 text-sm text-white/60">Échéances fiscales, sociales et juridiques.</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]"
+          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18]"
         >
           <Plus className="h-4 w-4" /> Ajouter
         </button>
@@ -77,17 +77,17 @@ export default function Rappels() {
             placeholder="Titre du rappel"
             value={newTitre}
             onChange={(e) => setNewTitre(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60"
           />
           <input
             type="date"
             value={newDate}
             onChange={(e) => setNewDate(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60"
           />
           <button
             onClick={add}
-            className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]"
+            className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18]"
           >
             Ajouter
           </button>

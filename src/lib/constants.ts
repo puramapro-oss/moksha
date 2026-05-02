@@ -9,12 +9,12 @@ export const SUPER_ADMIN_EMAIL = 'matiss.frasne@gmail.com'
 
 // Colors
 export const COLORS = {
-  primary: '#FF6B35', // feu
-  secondary: '#FFD700', // or
+  primary: '#FF3D00', // feu
+  secondary: '#FFB300', // or
   accent: '#5DCAA5', // vert
   bg: '#070B18',
   card: '#0D1225',
-  gradient: 'linear-gradient(135deg, #FF6B35, #FFD700)',
+  gradient: 'linear-gradient(135deg, #FF3D00, #FFB300)',
 } as const
 
 // Referral

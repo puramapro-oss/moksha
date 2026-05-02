@@ -13,7 +13,7 @@ export default function Merci() {
         </div>
       </header>
       <section className="mx-auto max-w-2xl px-6 pt-20 text-center">
-        <PartyPopper className="mx-auto mb-4 h-14 w-14 text-[#FFD700]" />
+        <PartyPopper className="mx-auto mb-4 h-14 w-14 text-[#FFB300]" />
         <h1 className="font-display text-5xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
           Merci <span className="moksha-gradient-text">infiniment</span>
         </h1>
@@ -22,7 +22,7 @@ export default function Merci() {
         </p>
         <Link
           href="/dashboard"
-          className="mt-10 inline-block rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-8 py-4 font-bold text-[#070B18]"
+          className="mt-10 inline-block rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-8 py-4 font-bold text-[#070B18]"
         >
           Accéder à mon dashboard
         </Link>

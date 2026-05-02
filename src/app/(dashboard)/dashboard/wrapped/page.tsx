@@ -100,7 +100,7 @@ export default function WrappedPage() {
           className="flex items-center gap-3 font-[family-name:var(--font-display)] text-3xl font-extrabold capitalize"
           style={{ fontFamily: 'var(--font-display)' }}
         >
-          <Calendar className="h-6 w-6 text-[#FFD700]" />
+          <Calendar className="h-6 w-6 text-[#FFB300]" />
           Wrapped {stats.month}
         </h1>
         <p className="mt-1 text-sm text-white/60">Ton mois en chiffres. Tu vois ? Tu es capable de tout.</p>
@@ -108,10 +108,10 @@ export default function WrappedPage() {
 
       {/* Big number — points */}
       <div className="glass relative overflow-hidden rounded-2xl p-8 text-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#FF6B35]/10 to-[#FFD700]/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FF3D00]/10 to-[#FFB300]/5" />
         <div className="relative">
           <p className="text-xs uppercase tracking-wider text-white/50">Points gagnés ce mois</p>
-          <p className="mt-2 font-[family-name:var(--font-display)] text-6xl font-extrabold text-[#FFD700]">
+          <p className="mt-2 font-[family-name:var(--font-display)] text-6xl font-extrabold text-[#FFB300]">
             {stats.points.toLocaleString('fr-FR')}
           </p>
           <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs">
@@ -126,7 +126,7 @@ export default function WrappedPage() {
       {/* Stats grid */}
       <div className="grid gap-4 md:grid-cols-3">
         <div className="glass rounded-2xl p-5 text-center">
-          <Heart className="mx-auto mb-2 h-6 w-6 text-[#FF6B35]" />
+          <Heart className="mx-auto mb-2 h-6 w-6 text-[#FF3D00]" />
           <p className="text-3xl font-extrabold">{stats.gratitudes}</p>
           <p className="text-xs text-white/50">Gratitudes écrites</p>
         </div>
@@ -136,7 +136,7 @@ export default function WrappedPage() {
           <p className="text-xs text-white/50">Minutes de respiration</p>
         </div>
         <div className="glass rounded-2xl p-5 text-center">
-          <Sparkles className="mx-auto mb-2 h-6 w-6 text-[#FFD700]" />
+          <Sparkles className="mx-auto mb-2 h-6 w-6 text-[#FFB300]" />
           <p className="text-3xl font-extrabold">
             {stats.intentions_done}
             <span className="text-lg text-white/40">/{stats.intentions}</span>
@@ -149,13 +149,13 @@ export default function WrappedPage() {
           <p className="text-xs text-white/50">Dossiers financement</p>
         </div>
         <div className="glass rounded-2xl p-5 text-center">
-          <Star className="mx-auto mb-2 h-6 w-6 text-[#FF6B35]" />
+          <Star className="mx-auto mb-2 h-6 w-6 text-[#FF3D00]" />
           <p className="text-3xl font-extrabold">{stats.streak}</p>
           <p className="text-xs text-white/50">Jours de streak</p>
         </div>
         <div className="glass rounded-2xl p-5 text-center">
-          <p className="text-xs uppercase tracking-wider text-[#FFD700]">Valeur</p>
-          <p className="mt-1 text-3xl font-extrabold text-[#FFD700]">
+          <p className="text-xs uppercase tracking-wider text-[#FFB300]">Valeur</p>
+          <p className="mt-1 text-3xl font-extrabold text-[#FFB300]">
             {(stats.points * 0.01).toFixed(2)} €
           </p>
           <p className="text-xs text-white/50">Équivalent en boutique</p>

@@ -71,10 +71,10 @@ export async function GET(req: NextRequest) {
           subject,
           html: `
             <div style="font-family:DM Sans,system-ui,sans-serif;max-width:520px;margin:0 auto;padding:24px">
-              <h1 style="color:#FF6B35;margin:0 0 12px">Information fiscale</h1>
+              <h1 style="color:#FF3D00;margin:0 0 12px">Information fiscale</h1>
               <p style="color:#333;line-height:1.6">${alert.message}</p>
               <p style="color:#666;line-height:1.6;font-size:14px">${alert.action}</p>
-              <a href="https://moksha.purama.dev/dashboard/fiscalite" style="display:inline-block;margin-top:16px;padding:12px 20px;background:linear-gradient(135deg,#FF6B35,#FFD700);color:#070B18;border-radius:12px;font-weight:700;text-decoration:none">Voir mon dashboard fiscal</a>
+              <a href="https://moksha.purama.dev/dashboard/fiscalite" style="display:inline-block;margin-top:16px;padding:12px 20px;background:linear-gradient(135deg,#FF3D00,#FFB300);color:#070B18;border-radius:12px;font-weight:700;text-decoration:none">Voir mon dashboard fiscal</a>
               <p style="color:#999;font-size:11px;margin-top:24px">Purama est tiers déclarant (mandat), pas expert-comptable.</p>
             </div>
           `,

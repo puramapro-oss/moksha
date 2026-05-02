@@ -33,12 +33,12 @@ export default function AdminFeedback() {
   return (
     <div className="space-y-6">
       <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-        <MessageSquare className="h-6 w-6 text-[#FF6B35]" /> Feedback utilisateurs
+        <MessageSquare className="h-6 w-6 text-[#FF3D00]" /> Feedback utilisateurs
       </h1>
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="glass p-5 text-center">
-          <p className="text-3xl font-extrabold text-[#FFD700]">{avg}/5</p>
+          <p className="text-3xl font-extrabold text-[#FFB300]">{avg}/5</p>
           <p className="text-xs text-white/50">Note moyenne</p>
         </div>
         <div className="glass p-5 text-center">
@@ -61,7 +61,7 @@ export default function AdminFeedback() {
             <div key={f.id} className="glass flex items-start gap-4 p-4">
               <div className="flex gap-0.5">
                 {[1, 2, 3, 4, 5].map((n) => (
-                  <Star key={n} className={`h-4 w-4 ${n <= f.rating ? 'fill-[#FFD700] text-[#FFD700]' : 'text-white/20'}`} />
+                  <Star key={n} className={`h-4 w-4 ${n <= f.rating ? 'fill-[#FFB300] text-[#FFB300]' : 'text-white/20'}`} />
                 ))}
               </div>
               <div className="flex-1">

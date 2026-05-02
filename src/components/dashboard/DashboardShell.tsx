@@ -76,7 +76,7 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
       href={item.href}
       className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
         active
-          ? 'bg-gradient-to-r from-[#FF6B35]/15 to-[#FFD700]/5 text-white border border-[#FF6B35]/30'
+          ? 'bg-gradient-to-r from-[#FF3D00]/15 to-[#FFB300]/5 text-white border border-[#FF3D00]/30'
           : 'text-white/60 hover:bg-white/5 hover:text-white'
       }`}
     >
@@ -118,7 +118,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         </nav>
         <div className="mt-auto rounded-xl border border-white/10 bg-white/5 p-4">
           <div className="mb-3 flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFD700] text-[10px] font-bold text-[#070B18]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#FF3D00] to-[#FFB300] text-[10px] font-bold text-[#070B18]">
               {(profile?.full_name || profile?.email || '?').split(' ').map((p) => p[0]).join('').toUpperCase().slice(0, 2)}
             </div>
             <div className="min-w-0 flex-1">
@@ -164,7 +164,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
               key={item.href}
               href={item.href}
               className={`flex flex-col items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] ${
-                active ? 'text-[#FF6B35]' : 'text-white/50'
+                active ? 'text-[#FF3D00]' : 'text-white/50'
               }`}
             >
               <item.icon className="h-5 w-5" />

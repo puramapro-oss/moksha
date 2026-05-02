@@ -69,14 +69,14 @@ export default function WelcomeBonus() {
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md animate-fade-in">
       <div className="glass relative w-full max-w-md space-y-5 p-7 text-center">
         {/* Icon glow */}
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#FF6B35] to-[#FFD700] shadow-[0_0_40px_rgba(255,215,0,0.4)]">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#FF3D00] to-[#FFB300] shadow-[0_0_40px_rgba(255, 179, 0,0.4)]">
           <Sparkles className="h-8 w-8 text-[#070B18]" />
         </div>
 
         {!claimed ? (
           <>
             <div>
-              <p className="text-xs uppercase tracking-wider text-[#FFD700]">Bienvenue chez toi</p>
+              <p className="text-xs uppercase tracking-wider text-[#FFB300]">Bienvenue chez toi</p>
               <h2
                 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold"
                 style={{ fontFamily: 'var(--font-display)' }}
@@ -92,7 +92,7 @@ export default function WelcomeBonus() {
             <button
               onClick={claim}
               disabled={loading}
-              className="w-full rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-3 text-sm font-bold text-[#070B18] transition active:scale-[0.98] disabled:opacity-50"
+              className="w-full rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-3 text-sm font-bold text-[#070B18] transition active:scale-[0.98] disabled:opacity-50"
             >
               {loading ? 'Un instant...' : 'Recevoir mes 100 points de départ'}
             </button>
@@ -108,7 +108,7 @@ export default function WelcomeBonus() {
           <>
             <div>
               <p className="text-xs uppercase tracking-wider text-[#5DCAA5]">Accueilli</p>
-              <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-extrabold text-[#FFD700]">
+              <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-extrabold text-[#FFB300]">
                 +{awarded} points
               </h2>
               <p className="mt-2 text-sm text-white/70">
@@ -117,7 +117,7 @@ export default function WelcomeBonus() {
             </div>
 
             <div className="flex items-center justify-center gap-2 rounded-xl bg-[#5DCAA5]/10 py-2">
-              <Star className="h-4 w-4 text-[#FFD700]" />
+              <Star className="h-4 w-4 text-[#FFB300]" />
               <span className="text-xs text-[#5DCAA5]">Crédités sur ton compte</span>
             </div>
 

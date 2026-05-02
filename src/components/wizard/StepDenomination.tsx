@@ -48,7 +48,7 @@ export default function StepDenomination({
               value={data.denomination}
               onChange={(e) => update({ denomination: e.target.value })}
               placeholder="Ex: Luminos Conseil"
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
             />
             {checking && (
               <Loader2 className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-white/40" />
@@ -86,7 +86,7 @@ export default function StepDenomination({
             value={data.nom_commercial}
             onChange={(e) => update({ nom_commercial: e.target.value })}
             placeholder="Ex: Luminos"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
           />
         </div>
 
@@ -97,7 +97,7 @@ export default function StepDenomination({
             onChange={(e) => update({ activite: e.target.value })}
             rows={3}
             placeholder="Décris en quelques phrases ce que fera ton entreprise"
-            className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+            className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
           />
           <p className="mt-1 text-xs text-white/40">JurisIA générera automatiquement l&apos;objet social détaillé à partir de cette description.</p>
         </div>
@@ -107,7 +107,7 @@ export default function StepDenomination({
           <select
             value={data.code_ape}
             onChange={(e) => update({ code_ape: e.target.value })}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
           >
             <option value="">Sélectionne un code APE</option>
             {CODES_APE.map((c) => (

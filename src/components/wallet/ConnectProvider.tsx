@@ -61,11 +61,11 @@ export default function ConnectProvider({
           appearance: {
             overlays: 'dialog',
             variables: {
-              colorPrimary: '#FF6B35',
+              colorPrimary: '#FF3D00',
               colorText: '#ffffff',
               colorBackground: '#0D1225',
               colorDanger: '#ef4444',
-              buttonPrimaryColorBackground: '#FF6B35',
+              buttonPrimaryColorBackground: '#FF3D00',
               buttonPrimaryColorText: '#070B18',
               fontFamily: 'DM Sans, system-ui, sans-serif',
               borderRadius: '12px',
@@ -113,7 +113,7 @@ export default function ConnectProvider({
         </p>
         <Link
           href="/auth?next=/dashboard/wallet/connect"
-          className="mt-5 inline-block rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-2.5 text-sm font-bold text-[#070B18]"
+          className="mt-5 inline-block rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-2.5 text-sm font-bold text-[#070B18]"
         >
           Se connecter
         </Link>
@@ -124,12 +124,12 @@ export default function ConnectProvider({
   if (state === 'not_onboarded') {
     return (
       <div className="glass p-8 text-center">
-        <Wallet className="mx-auto mb-3 h-8 w-8 text-[#FF6B35]" />
+        <Wallet className="mx-auto mb-3 h-8 w-8 text-[#FF3D00]" />
         <h2 className="font-display text-lg font-bold">{notOnboardedTitle}</h2>
         <p className="mt-2 text-sm text-white/60">{notOnboardedHint}</p>
         <Link
           href="/dashboard/wallet/connect"
-          className="mt-5 inline-block rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-2.5 text-sm font-bold text-[#070B18]"
+          className="mt-5 inline-block rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-2.5 text-sm font-bold text-[#070B18]"
         >
           Activer mon compte
         </Link>

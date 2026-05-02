@@ -76,7 +76,7 @@ export default function PaiementClient() {
     <section className="mx-auto max-w-xl px-6 pt-32 pb-20">
       <div className="glass p-10">
         <div className="text-center">
-          <Flame className="mx-auto mb-4 h-10 w-10 text-[#FF6B35]" />
+          <Flame className="mx-auto mb-4 h-10 w-10 text-[#FF3D00]" />
           <h1 className="font-display text-4xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
             MOKSHA <span className="moksha-gradient-text">Premium</span>
           </h1>
@@ -100,7 +100,7 @@ export default function PaiementClient() {
             onClick={() => setIntervalState('annuel')}
             className={`relative flex-1 rounded-full px-4 py-2 text-[13px] font-medium transition ${
               interval === 'annuel'
-                ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18]'
+                ? 'bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18]'
                 : 'text-white/50 hover:text-white/75'
             }`}
           >
@@ -139,7 +139,7 @@ export default function PaiementClient() {
         <button
           onClick={checkout}
           disabled={redirecting || loading}
-          className="w-full rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-4 text-base font-bold text-[#070B18] disabled:opacity-50"
+          className="w-full rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-4 text-base font-bold text-[#070B18] disabled:opacity-50"
         >
           {redirecting ? 'Redirection...' : 'Démarrer & recevoir ma prime'}
         </button>

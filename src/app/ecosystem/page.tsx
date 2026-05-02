@@ -37,7 +37,7 @@ export default function EcosystemPage() {
           Écosystème <span className="gradient-text">Purama</span>
         </h1>
         <p className="mt-3 text-white/60">19 apps interconnectées. Un compte. Des points partagés.</p>
-        <p className="mt-1 text-xs text-[#FF6B35]">-50% avec le code CROSS50 sur toute l&apos;offre Purama</p>
+        <p className="mt-1 text-xs text-[#FF3D00]">-50% avec le code CROSS50 sur toute l&apos;offre Purama</p>
 
         <h2 className="mb-4 mt-10 text-xl font-bold">Recommandé pour toi</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

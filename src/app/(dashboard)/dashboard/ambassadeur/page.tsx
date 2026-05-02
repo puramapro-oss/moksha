@@ -81,7 +81,7 @@ export default function AmbassadeurDashboardPage() {
           className="flex items-center gap-3 font-[family-name:var(--font-display)] text-3xl font-extrabold"
           style={{ fontFamily: 'var(--font-display)' }}
         >
-          <Crown className="h-6 w-6 text-[#FFD700]" />
+          <Crown className="h-6 w-6 text-[#FFB300]" />
           Espace Ambassadeur
         </h1>
         <p className="mt-1 text-sm text-white/60">
@@ -119,14 +119,14 @@ export default function AmbassadeurDashboardPage() {
                 onChange={(e) => setBio(e.target.value)}
                 placeholder="Tu peux présenter ton contenu, ton audience, ton positionnement..."
                 rows={3}
-                className="w-full resize-none rounded-xl border border-white/10 bg-white/5 p-3 text-sm outline-none focus:border-[#FFD700]/40"
+                className="w-full resize-none rounded-xl border border-white/10 bg-white/5 p-3 text-sm outline-none focus:border-[#FFB300]/40"
                 maxLength={500}
               />
             </div>
             <button
               onClick={createProfile}
               disabled={creating}
-              className="w-full rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
+              className="w-full rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
             >
               {creating ? 'Création...' : 'Créer mon profil Ambassadeur'}
             </button>
@@ -137,9 +137,9 @@ export default function AmbassadeurDashboardPage() {
           {/* Lien */}
           <div className="glass rounded-2xl p-5">
             <div className="mb-3 flex items-center gap-2">
-              <Link2 className="h-4 w-4 text-[#FFD700]" />
+              <Link2 className="h-4 w-4 text-[#FFB300]" />
               <span className="text-xs uppercase tracking-wider text-white/50">Ton lien</span>
-              <span className="ml-auto rounded-full bg-[#FFD700]/10 px-2 py-0.5 text-[10px] font-bold text-[#FFD700] uppercase">
+              <span className="ml-auto rounded-full bg-[#FFB300]/10 px-2 py-0.5 text-[10px] font-bold text-[#FFB300] uppercase">
                 {profile.tier}
               </span>
             </div>
@@ -160,7 +160,7 @@ export default function AmbassadeurDashboardPage() {
           {/* Stats */}
           <div className="grid gap-4 md:grid-cols-3">
             <div className="glass rounded-2xl p-5 text-center">
-              <MousePointerClick className="mx-auto mb-2 h-5 w-5 text-[#FF6B35]" />
+              <MousePointerClick className="mx-auto mb-2 h-5 w-5 text-[#FF3D00]" />
               <p className="text-3xl font-extrabold">{stats.clicks}</p>
               <p className="text-xs text-white/50">Clics</p>
             </div>
@@ -170,8 +170,8 @@ export default function AmbassadeurDashboardPage() {
               <p className="text-xs text-white/50">Conversions</p>
             </div>
             <div className="glass rounded-2xl p-5 text-center">
-              <TrendingUp className="mx-auto mb-2 h-5 w-5 text-[#FFD700]" />
-              <p className="text-3xl font-extrabold text-[#FFD700]">{conversionRate}%</p>
+              <TrendingUp className="mx-auto mb-2 h-5 w-5 text-[#FFB300]" />
+              <p className="text-3xl font-extrabold text-[#FFB300]">{conversionRate}%</p>
               <p className="text-xs text-white/50">Taux conversion</p>
             </div>
           </div>

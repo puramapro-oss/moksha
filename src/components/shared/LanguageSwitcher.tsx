@@ -61,7 +61,7 @@ export default function LanguageSwitcher({ compact = false }: { compact?: boolea
                 disabled={pending}
                 data-testid={`lang-${loc}`}
                 className={`flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition ${
-                  active ? 'bg-gradient-to-r from-[#FF6B35]/20 to-[#FFD700]/10 text-white' : 'text-white/80 hover:bg-white/5'
+                  active ? 'bg-gradient-to-r from-[#FF3D00]/20 to-[#FFB300]/10 text-white' : 'text-white/80 hover:bg-white/5'
                 }`}
               >
                 <span className="flex items-center gap-3">

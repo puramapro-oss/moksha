@@ -108,7 +108,7 @@ export default function BourseClient({ missions, submittedSlugs }: Props) {
                             value={proofUrl}
                             onChange={(e) => setProofUrl(e.target.value)}
                             placeholder="https://..."
-                            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-white placeholder:text-white/30 focus:border-[#FF6B35] focus:outline-none"
+                            className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-white placeholder:text-white/30 focus:border-[#FF3D00] focus:outline-none"
                           />
                         </div>
                       )}
@@ -120,7 +120,7 @@ export default function BourseClient({ missions, submittedSlugs }: Props) {
                           value={proofText}
                           onChange={(e) => setProofText(e.target.value)}
                           rows={3}
-                          className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-white placeholder:text-white/30 focus:border-[#FF6B35] focus:outline-none"
+                          className="mt-1 w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-white placeholder:text-white/30 focus:border-[#FF3D00] focus:outline-none"
                           placeholder="Décris brièvement ton action..."
                         />
                       </div>
@@ -134,7 +134,7 @@ export default function BourseClient({ missions, submittedSlugs }: Props) {
                         <button
                           onClick={() => submit(m.slug)}
                           disabled={submittingSlug === m.slug}
-                          className="flex-1 rounded-lg bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-2 text-xs font-bold text-[#070B18] disabled:opacity-50"
+                          className="flex-1 rounded-lg bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-2 text-xs font-bold text-[#070B18] disabled:opacity-50"
                         >
                           {submittingSlug === m.slug ? <Clock className="mx-auto h-4 w-4 animate-spin" /> : <><Upload className="mx-auto h-3.5 w-3.5" /></>}
                         </button>

@@ -57,8 +57,8 @@ export default function CinematicIntro() {
             className="pointer-events-none absolute inset-0"
             aria-hidden
           >
-            <div className="absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,#FF6B35_0%,transparent_60%)] blur-3xl" />
-            <div className="absolute left-[40%] top-[40%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_at_center,#FFD700_0%,transparent_55%)] opacity-70 blur-3xl" />
+            <div className="absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,#FF3D00_0%,transparent_60%)] blur-3xl" />
+            <div className="absolute left-[40%] top-[40%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_at_center,#FFB300_0%,transparent_55%)] opacity-70 blur-3xl" />
             <div className="absolute right-[20%] top-[55%] h-[400px] w-[400px] rounded-full bg-[radial-gradient(circle_at_center,#5DCAA5_0%,transparent_55%)] opacity-50 blur-3xl" />
           </motion.div>
 
@@ -73,7 +73,7 @@ export default function CinematicIntro() {
             {[...Array(12)].map((_, i) => (
               <div
                 key={i}
-                className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] shadow-[0_0_20px_#FF6B35]"
+                className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] shadow-[0_0_20px_#FF3D00]"
                 style={{ transform: `rotate(${i * 30}deg) translateY(-240px)` }}
               />
             ))}
@@ -85,7 +85,7 @@ export default function CinematicIntro() {
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: 'spring', stiffness: 220, damping: 18, delay: 0.15 }}
-              className="mb-8 flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-[#FF6B35] to-[#FFD700] shadow-[0_0_80px_-10px_rgba(255,107,53,0.8)]"
+              className="mb-8 flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-[#FF3D00] to-[#FFB300] shadow-[0_0_80px_-10px_rgba(255, 61, 0,0.8)]"
             >
               <Flame className="h-12 w-12 text-[#070B18]" />
             </motion.div>
@@ -104,7 +104,7 @@ export default function CinematicIntro() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 1.0 }}
-              className="bg-gradient-to-r from-[#FF6B35] via-[#FFD700] to-[#5DCAA5] bg-clip-text text-xl font-bold text-transparent sm:text-2xl"
+              className="bg-gradient-to-r from-[#FF3D00] via-[#FFB300] to-[#5DCAA5] bg-clip-text text-xl font-bold text-transparent sm:text-2xl"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               {t('tagline')}

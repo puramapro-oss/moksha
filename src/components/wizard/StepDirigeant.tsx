@@ -26,7 +26,7 @@ export default function StepDirigeant({
             type="text"
             value={data.dirigeant.prenom}
             onChange={(e) => setDirigeant({ prenom: e.target.value })}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
           />
         </div>
         <div>
@@ -35,7 +35,7 @@ export default function StepDirigeant({
             type="text"
             value={data.dirigeant.nom}
             onChange={(e) => setDirigeant({ nom: e.target.value })}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
           />
         </div>
         <div>
@@ -44,7 +44,7 @@ export default function StepDirigeant({
             type="date"
             value={data.dirigeant.date_naissance}
             onChange={(e) => setDirigeant({ date_naissance: e.target.value })}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
           />
         </div>
         <div>
@@ -53,7 +53,7 @@ export default function StepDirigeant({
             type="text"
             value={data.dirigeant.nationalite}
             onChange={(e) => setDirigeant({ nationalite: e.target.value })}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
           />
         </div>
         <div className="md:col-span-2">
@@ -63,12 +63,12 @@ export default function StepDirigeant({
             value={data.dirigeant.adresse}
             onChange={(e) => setDirigeant({ adresse: e.target.value })}
             placeholder="Numéro, rue, code postal, ville"
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
           />
         </div>
       </div>
 
-      <div className="mt-6 rounded-xl border border-[#FFD700]/20 bg-[#FFD700]/5 p-4 text-xs text-white/70">
+      <div className="mt-6 rounded-xl border border-[#FFB300]/20 bg-[#FFB300]/5 p-4 text-xs text-white/70">
         📎 Tu pourras uploader ta pièce d&apos;identité et un justificatif de domicile dans l&apos;écran suivant, après création du dossier.
       </div>
     </div>

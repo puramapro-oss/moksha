@@ -73,7 +73,7 @@ export default function NotificationBell() {
       >
         <Bell className="h-4 w-4" />
         {unread > 0 && (
-          <span className="absolute -right-1 -top-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-[#FF6B35] px-1 text-[9px] font-bold text-white">
+          <span className="absolute -right-1 -top-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-[#FF3D00] px-1 text-[9px] font-bold text-white">
             {unread > 9 ? '9+' : unread}
           </span>
         )}
@@ -84,7 +84,7 @@ export default function NotificationBell() {
           <div className="flex items-center justify-between border-b border-white/5 p-3">
             <p className="text-xs font-semibold text-white/80">Notifications</p>
             {unread > 0 && (
-              <button onClick={markAll} className="flex items-center gap-1 text-[10px] text-[#FFD700] hover:underline">
+              <button onClick={markAll} className="flex items-center gap-1 text-[10px] text-[#FFB300] hover:underline">
                 <Check className="h-3 w-3" /> Tout marquer lu
               </button>
             )}
@@ -110,7 +110,7 @@ export default function NotificationBell() {
                   >
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-xs font-semibold">{n.titre}</p>
-                      {!n.lu && <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#FF6B35]" />}
+                      {!n.lu && <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#FF3D00]" />}
                     </div>
                     {n.message && <p className="text-[11px] text-white/60">{n.message}</p>}
                     <p className="text-[9px] text-white/40">{new Date(n.created_at).toLocaleString('fr-FR')}</p>

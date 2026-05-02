@@ -100,7 +100,7 @@ export default function SiretLookup({
   const stateForBorder = (() => {
     if (state.kind === 'success') return 'border-emerald-500/60 ring-1 ring-emerald-500/30'
     if (state.kind === 'invalid' || state.kind === 'error') return 'border-amber-500/60 ring-1 ring-amber-500/20'
-    return 'border-white/10 focus-within:border-[#FF6B35]/60 focus-within:ring-1 focus-within:ring-[#FF6B35]/30'
+    return 'border-white/10 focus-within:border-[#FF3D00]/60 focus-within:ring-1 focus-within:ring-[#FF3D00]/30'
   })()
 
   return (

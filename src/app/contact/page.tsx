@@ -55,7 +55,7 @@ export default function ContactPage() {
         ) : (
           <form onSubmit={submit} className="glass space-y-4 p-6">
             <div className="flex items-center gap-3">
-              <Mail className="h-6 w-6 text-[#FF6B35]" />
+              <Mail className="h-6 w-6 text-[#FF3D00]" />
               <h1 className="text-2xl font-extrabold">Nous contacter</h1>
             </div>
             <p className="text-sm text-white/60">Une question ? Un problème ? Écris-nous.</p>
@@ -67,7 +67,7 @@ export default function ContactPage() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF6B35]/60"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF3D00]/60"
               />
             </label>
 
@@ -78,7 +78,7 @@ export default function ContactPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF6B35]/60"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF3D00]/60"
               />
             </label>
 
@@ -89,7 +89,7 @@ export default function ContactPage() {
                 required
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF6B35]/60"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF3D00]/60"
               />
             </label>
 
@@ -100,7 +100,7 @@ export default function ContactPage() {
                 rows={5}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm outline-none focus:border-[#FF6B35]/60"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm outline-none focus:border-[#FF3D00]/60"
                 maxLength={5000}
               />
             </label>
@@ -108,7 +108,7 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
             >
               <Send className="h-4 w-4" />
               {submitting ? 'Envoi...' : 'Envoyer'}

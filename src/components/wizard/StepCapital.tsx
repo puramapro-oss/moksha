@@ -31,7 +31,7 @@ export default function StepCapital({
               step={100}
               value={data.capital}
               onChange={(e) => update({ capital: Number(e.target.value) })}
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
             />
             <div className="mt-3 flex flex-wrap gap-2">
               {[1000, 5000, 10000, 50000].map((v) => (
@@ -61,7 +61,7 @@ export default function StepCapital({
                   onClick={() => update({ apport_type: t.id as WizardData['apport_type'] })}
                   className={`rounded-xl border p-4 text-center text-sm transition ${
                     data.apport_type === t.id
-                      ? 'border-[#FF6B35]/60 bg-[#FF6B35]/10'
+                      ? 'border-[#FF3D00]/60 bg-[#FF3D00]/10'
                       : 'border-white/10 bg-white/5 hover:bg-white/10'
                   }`}
                 >

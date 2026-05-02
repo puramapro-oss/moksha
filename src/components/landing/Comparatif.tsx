@@ -61,7 +61,7 @@ export default function Comparatif() {
               className="glass glass-hover p-6"
             >
               <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
-                <r.icon className="h-[18px] w-[18px] text-[#FFD700]" />
+                <r.icon className="h-[18px] w-[18px] text-[#FFB300]" />
               </div>
               <h3 className="mb-2 font-display text-base font-bold tracking-tight text-white sm:text-lg">
                 {r.title}

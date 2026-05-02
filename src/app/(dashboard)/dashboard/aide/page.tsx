@@ -55,7 +55,7 @@ export default function Aide() {
     <div className="space-y-6">
       <div>
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-          <HelpCircle className="h-6 w-6 text-[#FFD700]" /> Aide & FAQ
+          <HelpCircle className="h-6 w-6 text-[#FFB300]" /> Aide & FAQ
         </h1>
         <p className="mt-1 text-sm text-white/60">Réponses aux questions les plus fréquentes.</p>
       </div>
@@ -67,7 +67,7 @@ export default function Aide() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Rechercher dans la FAQ..."
-          className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-11 pr-4 text-sm outline-none focus:border-[#FF6B35]/60"
+          className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-11 pr-4 text-sm outline-none focus:border-[#FF3D00]/60"
         />
         {search && (
           <button onClick={() => setSearch('')} className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -78,14 +78,14 @@ export default function Aide() {
 
       <div className="grid gap-4 md:grid-cols-3">
         <Link href="/dashboard/jurisia" className="glass glass-hover flex items-center gap-4 p-5">
-          <Bot className="h-7 w-7 text-[#FF6B35]" />
+          <Bot className="h-7 w-7 text-[#FF3D00]" />
           <div>
             <h3 className="font-semibold">Demander à JurisIA</h3>
             <p className="text-xs text-white/50">Question juridique précise</p>
           </div>
         </Link>
         <a href="mailto:matiss.frasne@gmail.com" className="glass glass-hover flex items-center gap-4 p-5">
-          <Mail className="h-7 w-7 text-[#FFD700]" />
+          <Mail className="h-7 w-7 text-[#FFB300]" />
           <div>
             <h3 className="font-semibold">Contacter le support</h3>
             <p className="text-xs text-white/50">matiss.frasne@gmail.com</p>
@@ -106,7 +106,7 @@ export default function Aide() {
             <p className="text-sm text-white/50">Aucun résultat pour &quot;{search}&quot;</p>
             <button
               onClick={() => setChatOpen(true)}
-              className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-4 py-2 text-xs font-bold text-[#070B18]"
+              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-4 py-2 text-xs font-bold text-[#070B18]"
             >
               Poser ma question au chatbot
             </button>
@@ -119,7 +119,7 @@ export default function Aide() {
                 className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left"
               >
                 <span className="text-sm font-semibold">{f.q}</span>
-                {open === i ? <Minus className="h-4 w-4 text-[#FF6B35]" /> : <Plus className="h-4 w-4 text-white/50" />}
+                {open === i ? <Minus className="h-4 w-4 text-[#FF3D00]" /> : <Plus className="h-4 w-4 text-white/50" />}
               </button>
               {open === i && <div className="border-t border-white/5 px-6 py-4 text-sm text-white/70">{f.r}</div>}
             </div>
@@ -131,7 +131,7 @@ export default function Aide() {
       {!chatOpen && (
         <button
           onClick={() => setChatOpen(true)}
-          className="fixed bottom-24 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] shadow-lg shadow-[#FF6B35]/20 md:bottom-8"
+          className="fixed bottom-24 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] shadow-lg shadow-[#FF3D00]/20 md:bottom-8"
         >
           <Bot className="h-6 w-6 text-[#070B18]" />
         </button>
@@ -178,7 +178,7 @@ function AideChatbot({ onClose }: { onClose: () => void }) {
     <div className="fixed bottom-24 right-6 z-50 flex h-[28rem] w-[22rem] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0D1225]/95 shadow-2xl backdrop-blur-xl md:bottom-8">
       <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
         <div className="flex items-center gap-2">
-          <Bot className="h-5 w-5 text-[#FF6B35]" />
+          <Bot className="h-5 w-5 text-[#FF3D00]" />
           <span className="text-sm font-semibold">Assistant MOKSHA</span>
         </div>
         <button onClick={onClose} className="rounded-lg p-1 hover:bg-white/10">
@@ -194,7 +194,7 @@ function AideChatbot({ onClose }: { onClose: () => void }) {
           <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm ${
               m.role === 'user'
-                ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18]'
+                ? 'bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18]'
                 : 'bg-white/10 text-white/80'
             }`}>
               {m.content}
@@ -218,12 +218,12 @@ function AideChatbot({ onClose }: { onClose: () => void }) {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ta question..."
             maxLength={1000}
-            className="flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF6B35]/60"
+            className="flex-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF3D00]/60"
           />
           <button
             type="submit"
             disabled={sending || !input.trim()}
-            className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] p-2 disabled:opacity-50"
+            className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] p-2 disabled:opacity-50"
           >
             <Send className="h-4 w-4 text-[#070B18]" />
           </button>

@@ -84,7 +84,7 @@ export default function IntentionsPage() {
   return (
     <div className="max-w-2xl space-y-6">
       <div className="flex items-center gap-3">
-        <Sparkles className="h-6 w-6 text-[#FFD700]" />
+        <Sparkles className="h-6 w-6 text-[#FFB300]" />
         <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold">
           Intention du jour
         </h1>
@@ -98,7 +98,7 @@ export default function IntentionsPage() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3">
         <div className="glass rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-[#FFD700]">{streak}</p>
+          <p className="text-2xl font-bold text-[#FFB300]">{streak}</p>
           <p className="text-[10px] text-[var(--text-muted)]">Jours de suite</p>
         </div>
         <div className="glass rounded-xl p-4 text-center">
@@ -106,7 +106,7 @@ export default function IntentionsPage() {
           <p className="text-[10px] text-[var(--text-muted)]">Accomplies</p>
         </div>
         <div className="glass rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-[#FF6B35]">{intentions.length}</p>
+          <p className="text-2xl font-bold text-[#FF3D00]">{intentions.length}</p>
           <p className="text-[10px] text-[var(--text-muted)]">Total</p>
         </div>
       </div>
@@ -117,7 +117,7 @@ export default function IntentionsPage() {
           className={`glass rounded-xl p-6 ${todayIntention.completed ? 'border-[#5DCAA5]/30 bg-[#5DCAA5]/5' : ''}`}
         >
           <div className="mb-2 flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-[#FFD700]" />
+            <Sparkles className="h-4 w-4 text-[#FFB300]" />
             <span className="text-xs font-medium text-[var(--text-muted)]">
               Intention d&apos;aujourd&apos;hui
             </span>
@@ -152,13 +152,13 @@ export default function IntentionsPage() {
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && submit()}
-              className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FFD700]/60"
+              className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FFB300]/60"
               maxLength={200}
             />
             <button
               onClick={submit}
               disabled={!text.trim() || sending}
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] text-[#070B18] disabled:opacity-40"
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18] disabled:opacity-40"
             >
               <Send className="h-4 w-4" />
             </button>

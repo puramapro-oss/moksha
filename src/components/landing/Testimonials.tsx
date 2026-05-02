@@ -8,13 +8,13 @@ const principles = [
     icon: HeartHandshake,
     title: 'Honnêteté radicale',
     text: "Pas de témoignages inventés, pas de chiffres gonflés. Tu vois exactement ce que tu paies, ce que tu obtiens, et ce qui est en cours de construction.",
-    color: '#FF6B35',
+    color: '#FF3D00',
   },
   {
     icon: Eye,
     title: 'Transparence totale',
     text: "Frais de greffe, annonce légale, délais réels du greffe : tout est annoncé avant paiement. Aucune surprise, aucune option masquée.",
-    color: '#FFD700',
+    color: '#FFB300',
   },
   {
     icon: Lock,
@@ -26,7 +26,7 @@ const principles = [
     icon: Sparkles,
     title: 'JurisIA, pas un avocat',
     text: "JurisIA cite les sources officielles et indique son indice de confiance. Sur les cas complexes, il te redirige vers un professionnel — c'est la règle.",
-    color: '#FF6B35',
+    color: '#FF3D00',
   },
 ]
 

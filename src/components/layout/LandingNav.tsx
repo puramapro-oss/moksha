@@ -38,7 +38,7 @@ export default function LandingNav() {
           <Link href="/auth" className="text-sm text-white/80 transition hover:text-white">{t('login')}</Link>
           <Link
             href="/demarrer"
-            className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-semibold text-[#070B18] transition hover:opacity-95"
+            className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-semibold text-[#070B18] transition hover:opacity-95"
           >
             {t('start')} →
           </Link>
@@ -71,7 +71,7 @@ export default function LandingNav() {
             <Link
               href="/demarrer"
               onClick={() => setOpen(false)}
-              className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-3 text-center font-semibold text-[#070B18]"
+              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-3 text-center font-semibold text-[#070B18]"
             >
               {t('start')} →
             </Link>

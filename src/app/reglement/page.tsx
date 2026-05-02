@@ -179,7 +179,7 @@ export default async function ReglementPage() {
 
         <div className="mt-10 rounded-xl border border-white/10 bg-white/[0.02] p-5 text-[12px] text-white/55">
           🌱 Participation gratuite et sans obligation d&apos;achat. Remboursement des frais sur demande :{' '}
-          <Link href="/remboursement" className="text-[#FF6B35] underline">/remboursement</Link>.
+          <Link href="/remboursement" className="text-[#FF3D00] underline">/remboursement</Link>.
           Les tirages sont certifiés random.org signed. Conformité ANJ, RGPD, Code de la consommation.
         </div>
       </main>

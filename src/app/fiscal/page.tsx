@@ -13,7 +13,7 @@ export default function FiscalPage() {
       <LandingNav />
       <section className="mx-auto max-w-3xl px-6 pt-32 pb-20 space-y-8">
         <header>
-          <FileText className="h-8 w-8 text-[#FFD700]" />
+          <FileText className="h-8 w-8 text-[#FFB300]" />
           <h1 className="mt-3 font-display text-4xl font-extrabold">Fiscalité & déclaration</h1>
           <p className="mt-2 text-white/60">
             Tout ce qu&apos;il faut savoir sur les gains perçus via MOKSHA.
@@ -66,7 +66,7 @@ export default function FiscalPage() {
 
         <div className="glass space-y-2 p-6 text-xs text-white/60">
           <div className="flex items-start gap-2">
-            <AlertCircle className="h-4 w-4 shrink-0 text-[#FF6B35] mt-0.5" />
+            <AlertCircle className="h-4 w-4 shrink-0 text-[#FF3D00] mt-0.5" />
             <p>
               Les gains perçus via MOKSHA peuvent être soumis à l&apos;impôt sur le revenu selon ta situation fiscale et le montant perçu. MOKSHA ne saurait être tenu responsable des obligations fiscales individuelles. Pour une situation complexe, consulte un conseiller fiscal.
             </p>

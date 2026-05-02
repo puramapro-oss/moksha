@@ -40,16 +40,16 @@ export default function ConcoursPage() {
     <div className="space-y-6">
       <div>
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-          <Trophy className="h-6 w-6 text-[#FFD700]" /> Concours
+          <Trophy className="h-6 w-6 text-[#FFB300]" /> Concours
         </h1>
         <p className="mt-1 text-sm text-white/60">Classement hebdo + tirage mensuel. 10 gagnants chaque fois.</p>
       </div>
 
       {/* Tickets count */}
       <div className="glass flex items-center gap-4 p-5">
-        <Ticket className="h-8 w-8 text-[#FF6B35]" />
+        <Ticket className="h-8 w-8 text-[#FF3D00]" />
         <div>
-          <p className="text-2xl font-extrabold text-[#FFD700]">{tickets}</p>
+          <p className="text-2xl font-extrabold text-[#FFB300]">{tickets}</p>
           <p className="text-xs text-white/50">Tickets pour le prochain tirage mensuel</p>
         </div>
       </div>
@@ -58,13 +58,13 @@ export default function ConcoursPage() {
       <div className="flex gap-2">
         <button
           onClick={() => setTab('classement')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'classement' ? 'bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30' : 'text-white/50 hover:bg-white/5'}`}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'classement' ? 'bg-[#FF3D00]/20 text-[#FF3D00] border border-[#FF3D00]/30' : 'text-white/50 hover:bg-white/5'}`}
         >
           <Medal className="h-4 w-4" /> Classement hebdo
         </button>
         <button
           onClick={() => setTab('tirage')}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'tirage' ? 'bg-[#FF6B35]/20 text-[#FF6B35] border border-[#FF6B35]/30' : 'text-white/50 hover:bg-white/5'}`}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'tirage' ? 'bg-[#FF3D00]/20 text-[#FF3D00] border border-[#FF3D00]/30' : 'text-white/50 hover:bg-white/5'}`}
         >
           <Calendar className="h-4 w-4" /> Tirage mensuel
         </button>
@@ -85,12 +85,12 @@ export default function ConcoursPage() {
                   <div
                     key={entry.user_id}
                     className={`flex items-center justify-between rounded-xl p-3 ${
-                      entry.user_id === profile?.id ? 'bg-[#FF6B35]/10 border border-[#FF6B35]/20' : 'bg-white/[0.02]'
+                      entry.user_id === profile?.id ? 'bg-[#FF3D00]/10 border border-[#FF3D00]/20' : 'bg-white/[0.02]'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <span className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
-                        i === 0 ? 'bg-[#FFD700]/20 text-[#FFD700]' :
+                        i === 0 ? 'bg-[#FFB300]/20 text-[#FFB300]' :
                         i === 1 ? 'bg-white/10 text-white/70' :
                         i === 2 ? 'bg-[#CD7F32]/20 text-[#CD7F32]' :
                         'bg-white/5 text-white/40'
@@ -99,7 +99,7 @@ export default function ConcoursPage() {
                       </span>
                       <span className="text-sm font-medium">{entry.full_name || 'Anonyme'}</span>
                     </div>
-                    <span className="font-semibold text-[#FFD700]">{entry.score} pts</span>
+                    <span className="font-semibold text-[#FFB300]">{entry.score} pts</span>
                   </div>
                 ))}
               </div>

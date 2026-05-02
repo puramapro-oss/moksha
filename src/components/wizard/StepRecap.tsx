@@ -60,12 +60,12 @@ export default function StepRecap({
           </div>
         </section>
 
-        <section className="rounded-2xl border border-[#FFD700]/20 bg-[#FFD700]/5 p-5">
+        <section className="rounded-2xl border border-[#FFB300]/20 bg-[#FFB300]/5 p-5">
           <h3 className="mb-3 text-sm font-semibold text-white">💰 Tarification</h3>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between"><span>Création {forme?.label}</span><strong>{tarifBase} €</strong></div>
             {tarifExpress > 0 && <div className="flex justify-between"><span>Option Express 24h</span><strong>+{tarifExpress} €</strong></div>}
-            <div className="flex justify-between border-t border-white/10 pt-2 text-base"><span>Total MOKSHA</span><strong className="text-[#FFD700]">{total} €</strong></div>
+            <div className="flex justify-between border-t border-white/10 pt-2 text-base"><span>Total MOKSHA</span><strong className="text-[#FFB300]">{total} €</strong></div>
             <div className="mt-3 rounded-lg bg-white/5 p-3 text-xs text-white/60">
               ⚠️ Frais officiels obligatoires en plus (non encaissés par MOKSHA) :
               <ul className="ml-4 mt-1 list-disc">
@@ -127,12 +127,12 @@ export default function StepRecap({
             type="checkbox"
             checked={data.accept_cgv}
             onChange={(e) => update({ accept_cgv: e.target.checked })}
-            className="mt-0.5 h-4 w-4 accent-[#FF6B35]"
+            className="mt-0.5 h-4 w-4 accent-[#FF3D00]"
           />
           <span className="text-white/80">
             J&apos;accepte les{' '}
-            <Link href="/cgv" target="_blank" className="text-[#FFD700] underline">CGV</Link> et reconnais avoir pris connaissance des{' '}
-            <Link href="/politique-confidentialite" target="_blank" className="text-[#FFD700] underline">règles de confidentialité</Link>. Je certifie l&apos;exactitude des informations fournies.
+            <Link href="/cgv" target="_blank" className="text-[#FFB300] underline">CGV</Link> et reconnais avoir pris connaissance des{' '}
+            <Link href="/politique-confidentialite" target="_blank" className="text-[#FFB300] underline">règles de confidentialité</Link>. Je certifie l&apos;exactitude des informations fournies.
           </span>
         </label>
       </div>

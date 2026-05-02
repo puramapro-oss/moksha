@@ -45,7 +45,7 @@ export default function SignerClient({ demarcheId }: Props) {
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-    ctx.strokeStyle = '#FFD700'
+    ctx.strokeStyle = '#FFB300'
     ctx.lineWidth = 2.5
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
@@ -160,7 +160,7 @@ export default function SignerClient({ demarcheId }: Props) {
   if (loading || loadingData) {
     return (
       <main className="relative z-10 flex min-h-screen items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-[#FFD700]" />
+        <Loader2 className="h-6 w-6 animate-spin text-[#FFB300]" />
       </main>
     )
   }
@@ -171,7 +171,7 @@ export default function SignerClient({ demarcheId }: Props) {
           <p className="mb-4 text-white/60">Connexion requise pour signer.</p>
           <Link
             href={`/auth?next=/signer/${demarcheId}`}
-            className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]"
+            className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18]"
           >
             Se connecter
           </Link>
@@ -185,7 +185,7 @@ export default function SignerClient({ demarcheId }: Props) {
         <div className="glass flex flex-col items-center gap-3 p-10 text-center">
           <AlertTriangle className="h-10 w-10 text-amber-300" />
           <p className="text-white/70">Dossier introuvable.</p>
-          <Link href="/dashboard/demarches" className="text-[#FFD700] underline text-sm">
+          <Link href="/dashboard/demarches" className="text-[#FFB300] underline text-sm">
             Retour aux démarches
           </Link>
         </div>
@@ -206,7 +206,7 @@ export default function SignerClient({ demarcheId }: Props) {
           </p>
           <Link
             href={`/dashboard/demarches/${demarcheId}`}
-            className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 font-bold text-[#070B18]"
+            className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 font-bold text-[#070B18]"
           >
             Voir le suivi
           </Link>
@@ -226,7 +226,7 @@ export default function SignerClient({ demarcheId }: Props) {
 
       <div className="mx-auto max-w-3xl px-6 pt-10">
         <div className="mb-6 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#FFD700]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#FF3D00] to-[#FFB300]">
             <PenTool className="h-5 w-5 text-[#070B18]" />
           </div>
           <div>
@@ -252,7 +252,7 @@ export default function SignerClient({ demarcheId }: Props) {
                   className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm transition hover:bg-white/5"
                 >
                   <span>{d.nom}</span>
-                  <span className="text-[11px] text-[#FFD700]">Ouvrir ↗</span>
+                  <span className="text-[11px] text-[#FFB300]">Ouvrir ↗</span>
                 </a>
               ))}
               {docs.length === 0 && (
@@ -289,7 +289,7 @@ export default function SignerClient({ demarcheId }: Props) {
                 type="checkbox"
                 checked={accept}
                 onChange={(e) => setAccept(e.target.checked)}
-                className="mt-0.5 h-4 w-4 accent-[#FF6B35]"
+                className="mt-0.5 h-4 w-4 accent-[#FF3D00]"
               />
               <span className="text-white/80">
                 Je certifie l&apos;exactitude des informations et donne mon consentement à la signature électronique
@@ -303,7 +303,7 @@ export default function SignerClient({ demarcheId }: Props) {
             type="button"
             onClick={submit}
             disabled={signing || !accept || !signature || docs.length === 0}
-            className="w-full rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] py-4 text-base font-bold text-[#070B18] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-40"
+            className="w-full rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] py-4 text-base font-bold text-[#070B18] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {signing ? 'Enregistrement...' : '🔥 Signer et déposer'}
           </button>

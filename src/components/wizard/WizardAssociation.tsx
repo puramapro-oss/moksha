@@ -111,7 +111,7 @@ export default function WizardAssociation() {
                       onClick={() => update({ type: t.id })}
                       className={`flex items-start gap-3 rounded-2xl border p-5 text-left transition ${
                         data.type === t.id
-                          ? 'border-[#FF6B35]/60 bg-[#FF6B35]/10'
+                          ? 'border-[#FF3D00]/60 bg-[#FF3D00]/10'
                           : 'border-white/10 bg-white/5 hover:bg-white/10'
                       }`}
                     >
@@ -139,7 +139,7 @@ export default function WizardAssociation() {
                       value={data.nom}
                       onChange={(e) => update({ nom: e.target.value })}
                       placeholder="Ex: Les Amis du Patrimoine"
-                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
                     />
                   </div>
                   <div>
@@ -149,7 +149,7 @@ export default function WizardAssociation() {
                       onChange={(e) => update({ objet: e.target.value })}
                       rows={4}
                       placeholder="L'association a pour objet…"
-                      className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+                      className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
                     />
                   </div>
                 </div>
@@ -166,7 +166,7 @@ export default function WizardAssociation() {
                   value={data.adresse}
                   onChange={(e) => update({ adresse: e.target.value })}
                   placeholder="Numéro, rue, code postal, ville"
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF6B35]/60 focus:ring-1 focus:ring-[#FF6B35]/30"
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
                 />
               </div>
             )}
@@ -186,20 +186,20 @@ export default function WizardAssociation() {
                           placeholder="Prénom"
                           value={data.bureau[role].prenom}
                           onChange={(e) => setMember(role, { prenom: e.target.value })}
-                          className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF6B35]/60"
+                          className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF3D00]/60"
                         />
                         <input
                           placeholder="Nom"
                           value={data.bureau[role].nom}
                           onChange={(e) => setMember(role, { nom: e.target.value })}
-                          className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF6B35]/60"
+                          className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF3D00]/60"
                         />
                         <input
                           type="email"
                           placeholder="Email"
                           value={data.bureau[role].email}
                           onChange={(e) => setMember(role, { email: e.target.value })}
-                          className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF6B35]/60"
+                          className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#FF3D00]/60"
                         />
                       </div>
                     </div>
@@ -225,11 +225,11 @@ export default function WizardAssociation() {
                     <div className="mt-3 text-white/50">Siège</div>
                     <div className="text-sm">{data.adresse || '—'}</div>
                   </section>
-                  <section className="rounded-2xl border border-[#FFD700]/20 bg-[#FFD700]/5 p-5">
+                  <section className="rounded-2xl border border-[#FFB300]/20 bg-[#FFB300]/5 p-5">
                     <h3 className="mb-2 text-sm font-semibold text-white">💰 Tarification</h3>
                     <div className="flex justify-between text-sm">
                       <span>Création association</span>
-                      <strong className="text-[#FFD700]">29 €</strong>
+                      <strong className="text-[#FFB300]">29 €</strong>
                     </div>
                     <p className="mt-2 text-xs text-white/50">
                       Gratuit pour une simple déclaration, MOKSHA génère statuts, PV AG, Cerfa préfecture et suit le dossier.
@@ -240,11 +240,11 @@ export default function WizardAssociation() {
                       type="checkbox"
                       checked={data.accept_cgv}
                       onChange={(e) => update({ accept_cgv: e.target.checked })}
-                      className="mt-0.5 h-4 w-4 accent-[#FF6B35]"
+                      className="mt-0.5 h-4 w-4 accent-[#FF3D00]"
                     />
                     <span className="text-white/80">
                       J&apos;accepte les{' '}
-                      <Link href="/cgv" target="_blank" className="text-[#FFD700] underline">CGV</Link>.
+                      <Link href="/cgv" target="_blank" className="text-[#FFB300] underline">CGV</Link>.
                     </span>
                   </label>
                 </div>
@@ -266,7 +266,7 @@ export default function WizardAssociation() {
             <button
               type="button"
               onClick={next}
-              className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 text-sm font-bold text-[#070B18]"
+              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18]"
             >
               Suivant →
             </button>
@@ -275,7 +275,7 @@ export default function WizardAssociation() {
               type="button"
               onClick={submit}
               disabled={submitting}
-              className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-6 py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
+              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
             >
               {submitting ? 'Envoi...' : '🏛️ Déposer mon dossier'}
             </button>

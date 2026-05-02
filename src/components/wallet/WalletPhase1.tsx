@@ -56,13 +56,13 @@ export default function WalletPhase1({ showPoints = true }: Props) {
         <div>
           <p className="text-xs uppercase tracking-wider text-white/50">Ton wallet Purama</p>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="font-display text-4xl font-extrabold text-[#FFD700]" style={{ fontFamily: 'var(--font-display)' }}>
+            <span className="font-display text-4xl font-extrabold text-[#FFB300]" style={{ fontFamily: 'var(--font-display)' }}>
               {euros.toFixed(2)}
             </span>
             <span className="text-xl text-white/70">€</span>
           </div>
         </div>
-        <WalletIcon className="h-6 w-6 text-[#FFD700]" />
+        <WalletIcon className="h-6 w-6 text-[#FFB300]" />
       </div>
 
       {showPoints && (

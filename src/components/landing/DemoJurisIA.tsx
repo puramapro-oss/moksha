@@ -16,7 +16,7 @@ export default function DemoJurisIA() {
       <div className="moksha-container grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
         <div>
           <p className="moksha-eyebrow mb-3 flex items-center gap-2">
-            <Bot className="h-3.5 w-3.5 text-[#FF6B35]" /> JurisIA
+            <Bot className="h-3.5 w-3.5 text-[#FF3D00]" /> JurisIA
           </p>
           <h2 className="moksha-h2">
             Ton agent juridique <span className="moksha-gradient-text">IA</span>, 24/7.
@@ -28,8 +28,8 @@ export default function DemoJurisIA() {
           <ul className="mt-7 space-y-3.5">
             {features.map((f) => (
               <li key={f.label} className="flex items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#FF6B35]/30 bg-[#FF6B35]/10">
-                  <f.icon className="h-4 w-4 text-[#FF6B35]" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#FF3D00]/30 bg-[#FF3D00]/10">
+                  <f.icon className="h-4 w-4 text-[#FF3D00]" />
                 </div>
                 <span className="text-[14px] text-white/80 sm:text-sm">{f.label}</span>
               </li>
@@ -41,7 +41,7 @@ export default function DemoJurisIA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="glass p-6 shadow-[0_0_50px_-15px_rgba(255,107,53,0.4)]"
+          className="glass p-6 shadow-[0_0_50px_-15px_rgba(255, 61, 0,0.4)]"
         >
           <div className="mb-4 flex items-center justify-between border-b border-white/5 pb-3">
             <div className="flex items-center gap-2">
@@ -56,7 +56,7 @@ export default function DemoJurisIA() {
             </div>
             <div className="max-w-[90%] rounded-2xl rounded-tl-sm border border-white/10 bg-white/5 px-4 py-3 text-sm">
               <p>
-                Tu peux créer ta <strong className="text-[#FFD700]">SASU avec 1 € de capital minimum</strong>. Il n&apos;y a
+                Tu peux créer ta <strong className="text-[#FFB300]">SASU avec 1 € de capital minimum</strong>. Il n&apos;y a
                 pas de capital légal imposé pour les SASU (art. L227-1 du Code de commerce).
               </p>
               <p className="mt-2 text-white/70">
@@ -64,10 +64,10 @@ export default function DemoJurisIA() {
                 (banque, clients, fournisseurs).
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
-                <span className="rounded-full border border-[#FF6B35]/30 bg-[#FF6B35]/10 px-2.5 py-0.5 text-[11px] text-[#FF6B35]">
+                <span className="rounded-full border border-[#FF3D00]/30 bg-[#FF3D00]/10 px-2.5 py-0.5 text-[11px] text-[#FF3D00]">
                   📖 Legifrance L227-1
                 </span>
-                <span className="rounded-full border border-[#FFD700]/30 bg-[#FFD700]/10 px-2.5 py-0.5 text-[11px] text-[#FFD700]">
+                <span className="rounded-full border border-[#FFB300]/30 bg-[#FFB300]/10 px-2.5 py-0.5 text-[11px] text-[#FFB300]">
                   📖 service-public.fr
                 </span>
               </div>

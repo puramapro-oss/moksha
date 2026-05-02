@@ -93,10 +93,10 @@ export default function FiscalBanner() {
   if (loading || !show) return null
 
   return (
-    <div className="sticky top-0 z-40 w-full border-b border-[#FFD700]/20 bg-gradient-to-r from-[#FFD700]/10 via-[#FF6B35]/10 to-[#FFD700]/10 backdrop-blur-xl">
+    <div className="sticky top-0 z-40 w-full border-b border-[#FFB300]/20 bg-gradient-to-r from-[#FFB300]/10 via-[#FF3D00]/10 to-[#FFB300]/10 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:gap-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#FFD700]/20 text-[#FFD700]">
+          <div className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-[#FFB300]/20 text-[#FFB300]">
             <FileText className="h-4 w-4" />
           </div>
           <div className="min-w-0">
@@ -111,7 +111,7 @@ export default function FiscalBanner() {
         <div className="flex items-center gap-2">
           <Link
             href="/fiscal"
-            className="whitespace-nowrap rounded-lg bg-[#FFD700] px-3 py-1.5 text-xs font-bold text-[#070B18] hover:opacity-90"
+            className="whitespace-nowrap rounded-lg bg-[#FFB300] px-3 py-1.5 text-xs font-bold text-[#070B18] hover:opacity-90"
           >
             En savoir plus
           </Link>

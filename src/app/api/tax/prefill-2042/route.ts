@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
     const pageWidth = doc.internal.pageSize.getWidth()
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(18)
-    doc.setTextColor(255, 107, 53)
+    doc.setTextColor(255, 61, 0)
     doc.text('MOKSHA', 15, 20)
     doc.setTextColor(60, 60, 60)
     doc.setFontSize(11)
@@ -120,7 +120,7 @@ export async function GET(req: NextRequest) {
     y += 7
 
     doc.setFont('helvetica', 'bold')
-    doc.setTextColor(255, 107, 53)
+    doc.setTextColor(255, 61, 0)
     doc.text('Revenu imposable à reporter (case 5KU/5NG)', 15, y)
     doc.text(`${imposable.toFixed(2)} €`, pageWidth - 15, y, { align: 'right' })
     y += 15

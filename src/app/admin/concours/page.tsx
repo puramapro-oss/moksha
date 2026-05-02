@@ -153,7 +153,7 @@ export default function AdminConcours() {
             </label>
           </div>
         </div>
-        <button className="rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]">
+        <button className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18]">
           Créer le concours
         </button>
       </form>

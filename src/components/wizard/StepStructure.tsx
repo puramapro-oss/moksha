@@ -26,7 +26,7 @@ export default function StepStructure({
             onClick={() => update({ forme: f.id })}
             className={`group flex items-start gap-3 rounded-2xl border p-5 text-left transition-all ${
               data.forme === f.id
-                ? 'border-[#FF6B35]/60 bg-[#FF6B35]/10 shadow-[0_0_30px_-10px_rgba(255,107,53,0.4)]'
+                ? 'border-[#FF3D00]/60 bg-[#FF3D00]/10 shadow-[0_0_30px_-10px_rgba(255, 61, 0,0.4)]'
                 : 'border-white/10 bg-white/5 hover:bg-white/10'
             }`}
           >
@@ -46,10 +46,10 @@ export default function StepStructure({
             type="button"
             onClick={() => update({ mode: 'standard' })}
             className={`flex items-start gap-3 rounded-2xl border p-5 text-left transition ${
-              data.mode === 'standard' ? 'border-[#FF6B35]/60 bg-[#FF6B35]/10' : 'border-white/10 bg-white/5 hover:bg-white/10'
+              data.mode === 'standard' ? 'border-[#FF3D00]/60 bg-[#FF3D00]/10' : 'border-white/10 bg-white/5 hover:bg-white/10'
             }`}
           >
-            <Clock className="h-5 w-5 text-[#FFD700]" />
+            <Clock className="h-5 w-5 text-[#FFB300]" />
             <div>
               <h4 className="font-semibold">Standard — 72h</h4>
               <p className="mt-1 text-xs text-white/55">Traitement classique, inclus dans le tarif.</p>
@@ -59,10 +59,10 @@ export default function StepStructure({
             type="button"
             onClick={() => update({ mode: 'express' })}
             className={`flex items-start gap-3 rounded-2xl border p-5 text-left transition ${
-              data.mode === 'express' ? 'border-[#FF6B35]/60 bg-[#FF6B35]/10' : 'border-white/10 bg-white/5 hover:bg-white/10'
+              data.mode === 'express' ? 'border-[#FF3D00]/60 bg-[#FF3D00]/10' : 'border-white/10 bg-white/5 hover:bg-white/10'
             }`}
           >
-            <Zap className="h-5 w-5 text-[#FFD700]" />
+            <Zap className="h-5 w-5 text-[#FFB300]" />
             <div>
               <h4 className="font-semibold">Express — 24h (+50€)</h4>
               <p className="mt-1 text-xs text-white/55">Priorité absolue, dépôt dans la journée.</p>

@@ -69,18 +69,18 @@ export async function GET(req: NextRequest) {
     const html = `
 <!DOCTYPE html>
 <html><body style="font-family:'DM Sans',Arial,sans-serif;background:#070B18;color:#F8FAFC;margin:0;padding:40px 20px;">
-  <div style="max-width:560px;margin:0 auto;background:#0D1225;border-radius:16px;padding:40px;border:1px solid rgba(255,107,53,0.2);">
-    <h1 style="background:linear-gradient(135deg,#FF6B35,#FFD700);-webkit-background-clip:text;background-clip:text;color:transparent;font-family:'Syne',sans-serif;font-weight:800;font-size:28px;margin:0 0 4px 0;">MOKSHA</h1>
+  <div style="max-width:560px;margin:0 auto;background:#0D1225;border-radius:16px;padding:40px;border:1px solid rgba(255, 61, 0,0.2);">
+    <h1 style="background:linear-gradient(135deg,#FF3D00,#FFB300);-webkit-background-clip:text;background-clip:text;color:transparent;font-family:'Syne',sans-serif;font-weight:800;font-size:28px;margin:0 0 4px 0;">MOKSHA</h1>
     <p style="color:#94A3B8;font-size:12px;margin:0 0 24px;">Ton récap de la semaine</p>
-    <h2 style="color:#FFD700;font-family:'Syne',sans-serif;font-size:20px;">Salut ${u.full_name?.split(' ')[0] || ''} 🔥</h2>
+    <h2 style="color:#FFB300;font-family:'Syne',sans-serif;font-size:20px;">Salut ${u.full_name?.split(' ')[0] || ''} 🔥</h2>
     <p>Voici où en est ton empire cette semaine :</p>
     <ul style="list-style:none;padding:0;margin:20px 0;">
-      <li style="background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;margin-bottom:8px;"><strong style="color:#FF6B35;">${demarchesCount}</strong> démarche(s) mise(s) à jour</li>
-      <li style="background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;margin-bottom:8px;"><strong style="color:#FFD700;">${docsCount}</strong> document(s) ajouté(s) à ton ProofVault</li>
+      <li style="background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;margin-bottom:8px;"><strong style="color:#FF3D00;">${demarchesCount}</strong> démarche(s) mise(s) à jour</li>
+      <li style="background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;margin-bottom:8px;"><strong style="color:#FFB300;">${docsCount}</strong> document(s) ajouté(s) à ton ProofVault</li>
     </ul>
     ${upcoming.length > 0 ? `<h3 style="color:#fff;font-size:16px;margin-top:24px;">📅 Prochaines échéances</h3><ul style="padding-left:20px;color:#94A3B8;font-size:14px;">${upcomingList}</ul>` : ''}
     <div style="text-align:center;margin:32px 0 16px;">
-      <a href="https://moksha.purama.dev/dashboard" style="display:inline-block;background:linear-gradient(135deg,#FF6B35,#FFD700);color:#070B18;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;">Ouvrir mon dashboard</a>
+      <a href="https://moksha.purama.dev/dashboard" style="display:inline-block;background:linear-gradient(135deg,#FF3D00,#FFB300);color:#070B18;padding:14px 32px;border-radius:12px;text-decoration:none;font-weight:700;">Ouvrir mon dashboard</a>
     </div>
     <p style="color:#64748B;font-size:11px;text-align:center;margin-top:32px;">© 2026 MOKSHA — SASU PURAMA</p>
   </div>

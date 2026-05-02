@@ -70,10 +70,10 @@ export default function AdminParrainages() {
                       <p className="text-white/90">{p.full_name || '—'}</p>
                       <p className="text-[11px] text-white/50">{p.email}</p>
                     </td>
-                    <td className="px-4 py-3 font-mono text-[11px] text-[#FFD700]">{p.referral_code}</td>
+                    <td className="px-4 py-3 font-mono text-[11px] text-[#FFB300]">{p.referral_code}</td>
                     <td className="px-4 py-3 font-semibold">{p.filleuls}</td>
                     <td className="px-4 py-3 text-[#5DCAA5]">{p.actifs}</td>
-                    <td className="px-4 py-3 text-right font-bold text-[#FFD700]">{p.gains.toFixed(2)} €</td>
+                    <td className="px-4 py-3 text-right font-bold text-[#FFB300]">{p.gains.toFixed(2)} €</td>
                   </tr>
                 ))}
               </tbody>
@@ -88,7 +88,7 @@ export default function AdminParrainages() {
 function Card({ label, value, icon, accent }: { label: string; value: string | number; icon: React.ReactNode; accent?: boolean }) {
   return (
     <div className="glass p-5">
-      <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ${accent ? 'bg-gradient-to-br from-[#FF6B35] to-[#FFD700] text-[#070B18]' : 'bg-white/5 text-white/60'}`}>
+      <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl ${accent ? 'bg-gradient-to-br from-[#FF3D00] to-[#FFB300] text-[#070B18]' : 'bg-white/5 text-white/60'}`}>
         {icon}
       </div>
       <div className="text-2xl font-extrabold">{value}</div>

@@ -93,7 +93,7 @@ export default async function BoursePage() {
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-white/10">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FFD700] transition-all"
+                  className="h-full rounded-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] transition-all"
                   style={{ width: `${Math.min(100, ((bourse.missions_completees ?? 0) / (bourse.missions_requises ?? 5)) * 100)}%` }}
                 />
               </div>
@@ -110,7 +110,7 @@ export default async function BoursePage() {
           </p>
           <Link
             href="/dashboard/bourse/eligibilite"
-            className="mt-4 inline-block rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-5 py-2.5 text-sm font-bold text-[#070B18]"
+            className="mt-4 inline-block rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-bold text-[#070B18]"
           >
             Vérifier mon éligibilité
           </Link>

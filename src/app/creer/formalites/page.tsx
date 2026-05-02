@@ -22,7 +22,7 @@ export default function Formalites() {
         </div>
       </header>
       <section className="mx-auto max-w-2xl px-6 pt-20 text-center">
-        <Sparkles className="mx-auto mb-6 h-14 w-14 text-[#FFD700]" />
+        <Sparkles className="mx-auto mb-6 h-14 w-14 text-[#FFB300]" />
         <h1 className="font-display text-4xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
           Ton dossier est <span className="moksha-gradient-text">presque prêt</span>
         </h1>
@@ -32,7 +32,7 @@ export default function Formalites() {
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/auth?next=/dashboard"
-            className="rounded-2xl bg-gradient-to-r from-[#FF6B35] to-[#FFD700] px-8 py-4 font-bold text-[#070B18] transition hover:scale-[1.03]"
+            className="rounded-2xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-8 py-4 font-bold text-[#070B18] transition hover:scale-[1.03]"
           >
             Créer mon compte
           </Link>
