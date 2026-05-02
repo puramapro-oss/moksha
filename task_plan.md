@@ -256,3 +256,66 @@ POST /api/connect/account-session → 401 "Non authentifié"
 4. ✅ Secondaires F4 + F5 + F6
 
 Chaque feature : code → tsc 0 → vitest si logique pure → Playwright si UI → commit atomique → next. **V7.1 / V4.1 COMPLET**.
+
+---
+
+## V8 DESIGN REFRESH — 2026-05-02 — Refonte premium + bugs + APIs ✅ DEPLOYED
+
+**Source of truth** : `~/purama/moksha/AUDIT.md` (audit factuel) + plan validé Tissma 2026-05-02
+**Triggers** : couleurs orange/rouge plus vives demandées + bugs landing 13 sections + Pappers quota + UX wizard fragile
+
+### ✅ Phase 1 — Audit factuel (AUDIT.md)
+- [x] tsc 0 / vitest 55-passed / 0 TODO/Lorem/console.log/any
+- [x] 26 routes publiques 200 + 23 routes auth 307
+- [x] APIs : Supabase (Google OAuth `true`) + INSEE Sirene live + Stripe + JurisIA
+- [x] Defects classés Critical / High / Medium / Polish
+
+### ✅ Phase 2 — Design system V2 (commit `397f892`)
+- [x] Migration palette `#FF6B35 → #FF3D00`, `#FFD700 → #FFB300`, +`#FF6B00` intermédiaire
+- [x] 9 utility classes ajoutées (mesh-bg, halo, btn-primary/secondary, card-featured/standard, trust-strip, badge-featured, eyebrow-chip)
+- [x] Shadows stratifiées `--shadow-fire-{sm,md,lg}`
+- [x] 122 fichiers patchés (sed hex + rgba) + public/manifest + favicon + icon SVG
+- [x] Light + OLED themes mis à jour
+- [x] tsc 0 / vitest 55-passed
+
+### ✅ Phase 3 — Refonte UI premium (commit `9ba1d28`)
+- [x] Home `/` → écran d'accueil app pur (CLAUDE.md "JAMAIS landing 13 sections")
+- [x] Composant `AppEntrance.tsx` (logo XL + eyebrow + H1 gradient + 2 CTAs + trust strip)
+- [x] Composant `FireParticles.tsx` (38 particules @tsparticles/slim lazy ssr:false)
+- [x] Footer minimal légal SASU sur home
+- [x] /demarrer asymétrique : Entreprise FEATURED 2 col + Asso/Conseil 1 col chacune
+- [x] Section "Pourquoi MOKSHA" 3 piliers (Liberté/Vitesse/Sécurité)
+- [x] /aide nouvelle page publique (FAQ + 3 channels) + ajout PUBLIC_PATHS
+- [x] LandingNav simplifié (anchors morts retirés)
+- [x] Footer corrigé (`/#pricing → /pricing`, `/#faq → /aide`)
+- [x] i18n fr + en hero copy alignée
+
+### ✅ Phase 4 — Bugs + APIs (commit `e0965a1`)
+- [x] WizardEntreprise + WizardAssociation : `isStepValid` validation par étape
+- [x] Bouton "Suivant" disabled si invalide + toast FR explicite
+- [x] Persistance sessionStorage par étape avec hydratation 1×
+- [x] Cleanup sessionStorage post-submit succès
+- [x] Boutons utilisent `.moksha-btn-primary`
+- [x] `checkDenominationAvailable` retourne `verified: boolean` (anti faux positif)
+- [x] StepDenomination affiche état neutre "Vérification limitée" si non vérifié
+- [x] /creer/formalites refonte client : auto-finalisation post-auth + 3 phases UI
+
+### ✅ Phase 5 — Tests + deploy (`dpl_3Mxd17Y3YdJqoEvHfdDRLPpgXX18`)
+- [x] N1 Statique : tsc 0 / build 0 / ESLint 0 / 0 TODO/Lorem/console.log/any
+- [x] N2 Unitaire : vitest 55-passed / 1 skipped (5 fichiers)
+- [x] N3 E2E : `landing-v2.spec.ts` 6/6 + `compte-pages` 8/8 + `reglement` 4/4 = 18/18
+- [x] N4 Smoke prod : 12 routes 200
+- [x] N5 Visual : confirmé via grep HTML live (mesh-bg, card-featured, badges, copy)
+- [x] Deploy Vercel `vercel --prod` → `dpl_3Mxd17Y3YdJqoEvHfdDRLPpgXX18`
+- [x] handoff progress.md + AUDIT.md + task_plan.md mis à jour
+
+### 🚨 Suivi non-bloquant
+- Pappers v2 quota épuisé → upgrade plan ou Pay-as-you-go (côté Tissma)
+- VPS SSH 22 unreachable (Supabase auth OK donc non-bloquant)
+- Rate-limit Upstash sur endpoints critiques (recommandé P1 future)
+- Push commits vers GitHub remote (4 commits locaux non pushés)
+
+### 📈 Stats
+- 4 commits atomiques : `397f892`, `9ba1d28`, `e0965a1` + AUDIT.md initial
+- 130+ fichiers touchés, ~1000 lignes ajoutées (V2 utility classes + AppEntrance + FireParticles + /aide + formalites)
+- 18 E2E tests passés contre prod en 60s
