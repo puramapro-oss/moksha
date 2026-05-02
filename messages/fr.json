@@ -14,17 +14,17 @@
     "language": "Langue"
   },
   "hero": {
-    "badge": "Création d'entreprise pilotée par IA",
-    "title_1": "Libère-toi.",
-    "title_highlight": "Crée ton empire",
-    "title_2": "en 10 minutes.",
-    "subtitle": "MOKSHA brise les chaînes administratives. Agent IA juridique, dépôt INPI automatique, coffre-fort sécurisé.",
+    "badge": "Libère-toi en 10 minutes",
+    "title_1": "Crée ton entreprise.",
+    "title_highlight": "Sans bureaucratie.",
+    "title_2": "",
+    "subtitle": "Statuts, dépôt INPI, Kbis, conformité. MOKSHA s'occupe de tout. Tu choisis. Tu signes. Tu reçois.",
     "subtitle_emphasis": "Zéro paperasse. Zéro friction.",
-    "cta_primary": "Se libérer maintenant",
-    "cta_secondary": "Voir comment ça marche",
-    "trust_1": "Garantie Zéro Refus",
-    "trust_2": "Express 24h disponible",
-    "trust_3": "Essai gratuit 14 jours"
+    "cta_primary": "Commencer",
+    "cta_secondary": "Se connecter",
+    "trust_1": "Kbis 5–10 jours",
+    "trust_2": "Garantie zéro refus",
+    "trust_3": "100 % en ligne"
   },
   "footer": {
     "description": "Libère-toi. Crée ton empire en 10 minutes. Agent IA juridique, coffre-fort sécurisé, dépôt INPI automatique.",

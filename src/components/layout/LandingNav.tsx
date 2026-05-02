@@ -6,6 +6,8 @@ import { useTranslations } from 'next-intl'
 import Logo from '@/components/shared/Logo'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 
+// Nav simplifié — pas d'ancres mortes (#features, #faq, etc.).
+// Liens vers vraies routes : /demarrer, /pricing, /aide, /auth.
 export default function LandingNav() {
   const t = useTranslations('nav')
   const [scrolled, setScrolled] = useState(false)
@@ -28,17 +30,16 @@ export default function LandingNav() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6">
         <Logo />
         <div className="hidden items-center gap-8 md:flex">
-          <a href="#features" className="text-sm text-white/70 transition hover:text-white">{t('features')}</a>
-          <a href="#comment" className="text-sm text-white/70 transition hover:text-white">{t('how')}</a>
-          <a href="#pricing" className="text-sm text-white/70 transition hover:text-white">{t('pricing')}</a>
-          <a href="#faq" className="text-sm text-white/70 transition hover:text-white">{t('faq')}</a>
+          <Link href="/demarrer" className="text-sm text-white/70 transition hover:text-white">{t('start')}</Link>
+          <Link href="/pricing" className="text-sm text-white/70 transition hover:text-white">{t('pricing')}</Link>
+          <Link href="/aide" className="text-sm text-white/70 transition hover:text-white">{t('faq')}</Link>
         </div>
         <div className="hidden items-center gap-3 md:flex">
           <LanguageSwitcher />
           <Link href="/auth" className="text-sm text-white/80 transition hover:text-white">{t('login')}</Link>
           <Link
             href="/demarrer"
-            className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-2.5 text-sm font-semibold text-[#070B18] transition hover:opacity-95"
+            className="rounded-xl bg-gradient-to-r from-[#FF3D00] via-[#FF6B00] to-[#FFB300] px-5 py-2.5 text-sm font-semibold text-[#070B18] shadow-[0_4px_18px_-6px_rgba(255,61,0,0.55)] transition hover:shadow-[0_6px_24px_-6px_rgba(255,107,0,0.6)]"
           >
             {t('start')} →
           </Link>
@@ -63,15 +64,14 @@ export default function LandingNav() {
       {open && (
         <div className="border-t border-white/5 bg-[#070B18] md:hidden">
           <div className="flex flex-col gap-4 p-6">
-            <a href="#features" onClick={() => setOpen(false)} className="text-white/80">{t('features')}</a>
-            <a href="#comment" onClick={() => setOpen(false)} className="text-white/80">{t('how')}</a>
-            <a href="#pricing" onClick={() => setOpen(false)} className="text-white/80">{t('pricing')}</a>
-            <a href="#faq" onClick={() => setOpen(false)} className="text-white/80">{t('faq')}</a>
+            <Link href="/demarrer" onClick={() => setOpen(false)} className="text-white/80">{t('start')}</Link>
+            <Link href="/pricing" onClick={() => setOpen(false)} className="text-white/80">{t('pricing')}</Link>
+            <Link href="/aide" onClick={() => setOpen(false)} className="text-white/80">{t('faq')}</Link>
             <Link href="/auth" onClick={() => setOpen(false)} className="text-white/80">{t('login')}</Link>
             <Link
               href="/demarrer"
               onClick={() => setOpen(false)}
-              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-5 py-3 text-center font-semibold text-[#070B18]"
+              className="rounded-xl bg-gradient-to-r from-[#FF3D00] via-[#FF6B00] to-[#FFB300] px-5 py-3 text-center font-semibold text-[#070B18]"
             >
               {t('start')} →
             </Link>
