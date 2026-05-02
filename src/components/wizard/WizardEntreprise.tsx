@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -47,36 +47,107 @@ const STEPS = [
   { id: 'recap', label: 'Récap' },
 ]
 
+const STORAGE_KEY = 'moksha_wizard_entreprise'
+
+const DEFAULT_DATA: WizardData = {
+  forme: 'sasu',
+  mode: 'standard',
+  denomination: '',
+  nom_commercial: '',
+  activite: '',
+  code_ape: '',
+  adresse: '',
+  type_local: 'domicile',
+  capital: 1000,
+  apport_type: 'numeraire',
+  dirigeant: {
+    prenom: '',
+    nom: '',
+    date_naissance: '',
+    nationalite: 'Française',
+    adresse: '',
+  },
+  optim_zfrr: false,
+  optim_jei: false,
+  accept_cgv: false,
+}
+
+// Validation par étape — bouton "Suivant" actif uniquement si l'étape courante
+// est cohérente. Évite les sauts d'étape avec champs vides + persistance fragile.
+function isStepValid(step: number, d: WizardData): boolean {
+  switch (step) {
+    case 0:
+      return ['sasu', 'sas', 'sarl', 'eurl', 'sci', 'micro'].includes(d.forme)
+    case 1:
+      return (
+        d.denomination.trim().length >= 3 &&
+        d.activite.trim().length >= 8 &&
+        d.code_ape.trim().length >= 4
+      )
+    case 2:
+      return d.adresse.trim().length >= 8
+    case 3:
+      // Micro-entreprise : pas de capital social
+      if (d.forme === 'micro') return true
+      return d.capital >= 1
+    case 4: {
+      const dr = d.dirigeant
+      return (
+        dr.prenom.trim().length >= 2 &&
+        dr.nom.trim().length >= 2 &&
+        dr.date_naissance.length === 10 &&
+        dr.adresse.trim().length >= 8
+      )
+    }
+    case 5:
+      return d.accept_cgv === true
+    default:
+      return false
+  }
+}
+
 export default function WizardEntreprise() {
   const router = useRouter()
   const { isAuthenticated } = useAuth()
   const [step, setStep] = useState(0)
   const [submitting, setSubmitting] = useState(false)
-  const [data, setData] = useState<WizardData>({
-    forme: 'sasu',
-    mode: 'standard',
-    denomination: '',
-    nom_commercial: '',
-    activite: '',
-    code_ape: '',
-    adresse: '',
-    type_local: 'domicile',
-    capital: 1000,
-    apport_type: 'numeraire',
-    dirigeant: {
-      prenom: '',
-      nom: '',
-      date_naissance: '',
-      nationalite: 'Française',
-      adresse: '',
-    },
-    optim_zfrr: false,
-    optim_jei: false,
-    accept_cgv: false,
-  })
+  const [hydrated, setHydrated] = useState(false)
+  const [data, setData] = useState<WizardData>(DEFAULT_DATA)
 
-  const update = (patch: Partial<WizardData>) => setData((d) => ({ ...d, ...patch }))
-  const next = () => setStep((s) => Math.min(s + 1, STEPS.length - 1))
+  // Restore depuis sessionStorage au mount (1×) — évite SSR mismatch
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY)
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<WizardData> & { __step?: number }
+        const { __step, ...rest } = parsed
+        setData((d) => ({ ...d, ...rest, dirigeant: { ...d.dirigeant, ...(rest.dirigeant ?? {}) } }))
+        if (typeof __step === 'number' && __step >= 0 && __step < STEPS.length) setStep(__step)
+      }
+    } catch {
+      // sessionStorage inaccessible (Safari privé) → on ignore et continue
+    } finally {
+      setHydrated(true)
+    }
+  }, [])
+
+  // Persiste data + step à chaque changement (après hydratation)
+  useEffect(() => {
+    if (!hydrated) return
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, __step: step }))
+    } catch {}
+  }, [data, step, hydrated])
+
+  const update = useCallback((patch: Partial<WizardData>) => setData((d) => ({ ...d, ...patch })), [])
+
+  const next = () => {
+    if (!isStepValid(step, data)) {
+      toast.error('Champs requis manquants ou invalides à cette étape')
+      return
+    }
+    setStep((s) => Math.min(s + 1, STEPS.length - 1))
+  }
   const prev = () => setStep((s) => Math.max(s - 1, 0))
 
   async function submit() {
@@ -85,10 +156,6 @@ export default function WizardEntreprise() {
       return
     }
     if (!isAuthenticated) {
-      // Stocker localement et renvoyer vers auth
-      try {
-        sessionStorage.setItem('moksha_wizard_entreprise', JSON.stringify(data))
-      } catch {}
       toast.info('Connecte-toi pour finaliser ton dossier')
       router.push('/auth?next=/creer/formalites')
       return
@@ -100,18 +167,25 @@ export default function WizardEntreprise() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'entreprise', wizard_data: data }),
       })
-      if (!res.ok) throw new Error('Création impossible')
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({ error: 'Création impossible' }))
+        throw new Error(errBody.error ?? 'Création impossible')
+      }
       const { id } = await res.json()
       toast.success('Dossier créé — génération des documents en cours')
+      // Vide le storage : dossier soumis avec succès
+      try { sessionStorage.removeItem(STORAGE_KEY) } catch {}
       // Lance la génération + signature en arrière-plan
       fetch(`/api/demarches/${id}/deposer`, { method: 'POST' }).catch(() => {})
       router.push(`/dashboard/demarches/${id}`)
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Erreur')
+      toast.error(e instanceof Error ? e.message : 'Erreur — réessaie dans un instant')
     } finally {
       setSubmitting(false)
     }
   }
+
+  const currentStepValid = isStepValid(step, data)
 
   return (
     <div>
@@ -147,18 +221,22 @@ export default function WizardEntreprise() {
             <button
               type="button"
               onClick={next}
-              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18] transition hover:opacity-95"
+              disabled={!currentStepValid}
+              className="moksha-btn-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:transform-none"
+              aria-disabled={!currentStepValid}
             >
-              Suivant →
+              <span>Suivant</span>
+              <span aria-hidden="true">→</span>
             </button>
           ) : (
             <button
               type="button"
               onClick={submit}
-              disabled={submitting}
-              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18] transition hover:opacity-95 disabled:opacity-50"
+              disabled={submitting || !currentStepValid}
+              className="moksha-btn-primary disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitting ? 'Envoi...' : '🔥 Déposer mon dossier'}
+              <span>{submitting ? 'Envoi…' : 'Déposer mon dossier'}</span>
+              {!submitting && <span aria-hidden="true">→</span>}
             </button>
           )}
         </div>

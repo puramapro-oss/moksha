@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -30,26 +30,85 @@ const STEPS = [
   { id: 'recap', label: 'Récap' },
 ]
 
+const STORAGE_KEY = 'moksha_wizard_assoc'
+
+const DEFAULT: AssocData = {
+  type: 'culturelle',
+  nom: '',
+  objet: '',
+  adresse: '',
+  bureau: {
+    president: { prenom: '', nom: '', email: '' },
+    secretaire: { prenom: '', nom: '', email: '' },
+    tresorier: { prenom: '', nom: '', email: '' },
+  },
+  accept_cgv: false,
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function isStepValid(step: number, d: AssocData): boolean {
+  switch (step) {
+    case 0:
+      return d.type.trim().length >= 2
+    case 1:
+      return d.nom.trim().length >= 3 && d.objet.trim().length >= 12
+    case 2:
+      return d.adresse.trim().length >= 8
+    case 3: {
+      const ok = (m: { prenom: string; nom: string; email: string }) =>
+        m.prenom.trim().length >= 2 && m.nom.trim().length >= 2 && EMAIL_RE.test(m.email.trim())
+      return ok(d.bureau.president) && ok(d.bureau.secretaire) && ok(d.bureau.tresorier)
+    }
+    case 4:
+      return d.accept_cgv === true
+    default:
+      return false
+  }
+}
+
 export default function WizardAssociation() {
   const router = useRouter()
   const { isAuthenticated } = useAuth()
   const [step, setStep] = useState(0)
   const [submitting, setSubmitting] = useState(false)
-  const [data, setData] = useState<AssocData>({
-    type: 'culturelle',
-    nom: '',
-    objet: '',
-    adresse: '',
-    bureau: {
-      president: { prenom: '', nom: '', email: '' },
-      secretaire: { prenom: '', nom: '', email: '' },
-      tresorier: { prenom: '', nom: '', email: '' },
-    },
-    accept_cgv: false,
-  })
+  const [hydrated, setHydrated] = useState(false)
+  const [data, setData] = useState<AssocData>(DEFAULT)
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY)
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<AssocData> & { __step?: number }
+        const { __step, ...rest } = parsed
+        setData((d) => ({
+          ...d,
+          ...rest,
+          bureau: {
+            president: { ...d.bureau.president, ...(rest.bureau?.president ?? {}) },
+            secretaire: { ...d.bureau.secretaire, ...(rest.bureau?.secretaire ?? {}) },
+            tresorier: { ...d.bureau.tresorier, ...(rest.bureau?.tresorier ?? {}) },
+          },
+        }))
+        if (typeof __step === 'number' && __step >= 0 && __step < STEPS.length) setStep(__step)
+      }
+    } catch {}
+    finally { setHydrated(true) }
+  }, [])
+
+  useEffect(() => {
+    if (!hydrated) return
+    try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, __step: step })) } catch {}
+  }, [data, step, hydrated])
 
   const update = (patch: Partial<AssocData>) => setData((d) => ({ ...d, ...patch }))
-  const next = () => setStep((s) => Math.min(s + 1, STEPS.length - 1))
+  const next = () => {
+    if (!isStepValid(step, data)) {
+      toast.error('Champs requis manquants ou invalides à cette étape')
+      return
+    }
+    setStep((s) => Math.min(s + 1, STEPS.length - 1))
+  }
   const prev = () => setStep((s) => Math.max(s - 1, 0))
 
   async function submit() {
@@ -58,7 +117,6 @@ export default function WizardAssociation() {
       return
     }
     if (!isAuthenticated) {
-      try { sessionStorage.setItem('moksha_wizard_assoc', JSON.stringify(data)) } catch {}
       router.push('/auth?next=/creer/formalites')
       return
     }
@@ -69,13 +127,17 @@ export default function WizardAssociation() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'association', wizard_data: data }),
       })
-      if (!res.ok) throw new Error('Création impossible')
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Création impossible' }))
+        throw new Error(err.error ?? 'Création impossible')
+      }
       const { id } = await res.json()
       toast.success('Dossier créé — génération en cours')
+      try { sessionStorage.removeItem(STORAGE_KEY) } catch {}
       fetch(`/api/demarches/${id}/deposer`, { method: 'POST' }).catch(() => {})
       router.push(`/dashboard/demarches/${id}`)
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Erreur')
+      toast.error(e instanceof Error ? e.message : 'Erreur — réessaie')
     } finally {
       setSubmitting(false)
     }
@@ -266,18 +328,22 @@ export default function WizardAssociation() {
             <button
               type="button"
               onClick={next}
-              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18]"
+              disabled={!isStepValid(step, data)}
+              className="moksha-btn-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:transform-none"
+              aria-disabled={!isStepValid(step, data)}
             >
-              Suivant →
+              <span>Suivant</span>
+              <span aria-hidden="true">→</span>
             </button>
           ) : (
             <button
               type="button"
               onClick={submit}
-              disabled={submitting}
-              className="rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] px-6 py-3 text-sm font-bold text-[#070B18] disabled:opacity-50"
+              disabled={submitting || !isStepValid(step, data)}
+              className="moksha-btn-primary disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitting ? 'Envoi...' : '🏛️ Déposer mon dossier'}
+              <span>{submitting ? 'Envoi…' : 'Déposer mon dossier'}</span>
+              {!submitting && <span aria-hidden="true">→</span>}
             </button>
           )}
         </div>

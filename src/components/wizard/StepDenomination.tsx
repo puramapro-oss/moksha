@@ -1,9 +1,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Loader2, Check, AlertCircle } from 'lucide-react'
+import { Loader2, Check, AlertCircle, Info } from 'lucide-react'
 import { CODES_APE } from '@/lib/constants'
 import type { WizardData } from './WizardEntreprise'
+
+type CheckResult = {
+  available: boolean
+  verified?: boolean
+  similar: { denomination: string; siren: string }[]
+}
 
 export default function StepDenomination({
   data,
@@ -13,7 +19,7 @@ export default function StepDenomination({
   update: (p: Partial<WizardData>) => void
 }) {
   const [checking, setChecking] = useState(false)
-  const [check, setCheck] = useState<{ available: boolean; similar: { denomination: string; siren: string }[] } | null>(null)
+  const [check, setCheck] = useState<CheckResult | null>(null)
 
   useEffect(() => {
     if (!data.denomination || data.denomination.length < 3) {
@@ -57,16 +63,26 @@ export default function StepDenomination({
           {check && !checking && data.denomination.length >= 3 && (
             <div
               className={`mt-2 flex items-start gap-2 rounded-lg border p-3 text-xs ${
-                check.available
-                  ? 'border-[#5DCAA5]/30 bg-[#5DCAA5]/10 text-[#5DCAA5]'
-                  : 'border-amber-500/30 bg-amber-500/10 text-amber-300'
+                check.verified === false
+                  ? 'border-white/15 bg-white/[0.03] text-white/70'
+                  : check.available
+                    ? 'border-[#5DCAA5]/30 bg-[#5DCAA5]/10 text-[#5DCAA5]'
+                    : 'border-amber-500/30 bg-amber-500/10 text-amber-300'
               }`}
             >
-              {check.available ? <Check className="h-4 w-4 shrink-0" /> : <AlertCircle className="h-4 w-4 shrink-0" />}
+              {check.verified === false ? (
+                <Info className="h-4 w-4 shrink-0" />
+              ) : check.available ? (
+                <Check className="h-4 w-4 shrink-0" />
+              ) : (
+                <AlertCircle className="h-4 w-4 shrink-0" />
+              )}
               <div>
-                {check.available
-                  ? 'Aucune entreprise active ne porte ce nom — tu peux y aller.'
-                  : "Des entreprises proches existent déjà. Vérifie à ne pas créer de confusion."}
+                {check.verified === false
+                  ? 'Vérification automatique limitée — saisis le nom complet (4 caractères ou plus) pour une recherche plus fiable, ou continue si tu es sûr.'
+                  : check.available
+                    ? 'Aucune entreprise active ne porte ce nom — tu peux y aller.'
+                    : "Des entreprises proches existent déjà. Vérifie à ne pas créer de confusion."}
                 {!check.available && check.similar && check.similar.length > 0 && (
                   <ul className="mt-2 list-disc pl-4 text-[11px]">
                     {check.similar.slice(0, 3).map((s) => (

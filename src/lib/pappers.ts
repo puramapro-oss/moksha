@@ -83,13 +83,23 @@ export async function searchEntrepriseGouv(query: string): Promise<EntrepriseRes
   }
 }
 
-// Vérifier si une dénomination est dispo : pas de match exact
-export async function checkDenominationAvailable(denomination: string): Promise<{ available: boolean; similar: EntrepriseResult[] }> {
-  const results = await searchEntrepriseGouv(denomination)
+// Vérifier si une dénomination est dispo
+// `verified` = true si la source publique a réellement renvoyé des candidats à comparer.
+// Si l'index gouv ne retourne aucun résultat (cas fréquent sur noms très courts ou
+// orthographes rares) on prévient le client : "à vérifier manuellement" au lieu de
+// faux positif "available".
+export async function checkDenominationAvailable(
+  denomination: string,
+): Promise<{ available: boolean; verified: boolean; similar: EntrepriseResult[] }> {
   const normalized = denomination.trim().toLowerCase()
+  const results = await searchEntrepriseGouv(denomination)
   const exactMatch = results.find((r) => r.denomination.trim().toLowerCase() === normalized)
+  // Si 0 résultat ET requête courte (<5 chars), considérer comme non vérifié.
+  // L'index gouv ne renvoie pas tout — on évite le faux "available:true" trompeur.
+  const unverified = results.length === 0 && normalized.length < 5
   return {
     available: !exactMatch,
+    verified: !unverified,
     similar: results.slice(0, 5),
   }
 }
