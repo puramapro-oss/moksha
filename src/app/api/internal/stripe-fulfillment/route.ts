@@ -17,7 +17,14 @@ function admin() {
 }
 
 export async function POST(req: NextRequest) {
-  const sig = req.headers.get('stripe-signature')
+  // Internal auth
+  const internalSecret = req.headers.get('x-internal-secret')
+  if (internalSecret !== process.env.INTERNAL_WEBHOOK_SECRET) {
+    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+  }
+
+  // Defense in depth: still verify Stripe signature
+  const sig = req.headers.get('x-stripe-signature')
   const body = await req.text()
   const secret = process.env.STRIPE_WEBHOOK_SECRET
   if (!sig || !secret) {

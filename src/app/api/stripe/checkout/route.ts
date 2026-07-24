@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
       customer_email: user.email ?? undefined,
       subscription_data: {
         trial_period_days: 14,
-        metadata: { user_id: user.id, plan: planSpec.plan, app: 'moksha' },
+        metadata: { user_id: user.id, plan: planSpec.plan, app: 'moksha', app_slug: 'moksha' },
       },
       success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moksha.purama.dev'}/merci?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moksha.purama.dev'}/paiement?plan=${plan}&interval=${interval}`,
@@ -137,6 +137,7 @@ export async function POST(req: NextRequest) {
         user_id: user.id,
         plan: planSpec.plan,
         app: 'moksha',
+        app_slug: 'moksha',
         ...(crossPromoId ? { cross_promo_id: crossPromoId } : {}),
         ...(promo ? { cross_promo_source: promo.source, cross_promo_coupon: promo.coupon } : {}),
       },
