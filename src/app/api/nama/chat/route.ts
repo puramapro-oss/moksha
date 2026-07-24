@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { z } from 'zod'
 import Anthropic from '@anthropic-ai/sdk'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { createServiceClient } from '@/lib/supabase'
@@ -18,10 +19,10 @@ function anthropic(): Anthropic {
   return _anthropic
 }
 
-interface ChatBody {
-  message: string
-  conversation_id?: string | null
-}
+const bodySchema = z.object({
+  message: z.string().min(2).max(4000),
+  conversation_id: z.string().uuid().optional().nullable(),
+})
 
 export async function POST(req: NextRequest) {
   try {
@@ -29,13 +30,11 @@ export async function POST(req: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
 
-    const body = (await req.json()) as ChatBody
-    if (!body.message || body.message.length < 2) {
-      return NextResponse.json({ error: 'Message vide' }, { status: 400 })
+    const parsed = bodySchema.safeParse(await req.json())
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Données invalides', details: parsed.error.flatten() }, { status: 400 })
     }
-    if (body.message.length > 4000) {
-      return NextResponse.json({ error: 'Message trop long (max 4000 caractères)' }, { status: 400 })
-    }
+    const body = parsed.data
 
     const svc = createServiceClient()
     const { data: profile } = await svc

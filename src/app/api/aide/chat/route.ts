@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import Anthropic from '@anthropic-ai/sdk'
 
@@ -20,16 +21,22 @@ Tu connais parfaitement :
 Si tu ne connais pas la réponse, dirige vers matiss.frasne@gmail.com.
 Réponds en français, de manière concise et utile. Maximum 200 mots.`
 
+const bodySchema = z.object({
+  message: z.string().min(1).max(1000),
+})
+
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createServerSupabaseClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
 
-    const { message } = await request.json()
-    if (!message || typeof message !== 'string' || message.length > 1000) {
+    const body = await request.json()
+    const parsed = bodySchema.safeParse(body)
+    if (!parsed.success) {
       return NextResponse.json({ error: 'Message invalide (max 1000 caractères)' }, { status: 400 })
     }
+    const { message } = parsed.data
 
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
