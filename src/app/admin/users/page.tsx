@@ -22,6 +22,28 @@ export default function AdminUsers() {
   const [loading, setLoading] = useState(true)
   const [q, setQ] = useState('')
 
+  useEffect(() => {
+    let cancelled = false
+    fetch(`/api/admin/users${q ? `?q=${encodeURIComponent(q)}` : ''}`)
+      .then(async (r) => {
+        if (cancelled) return
+        if (r.ok) {
+          const d = (await r.json()) as { users: User[] }
+          setUsers(d.users)
+        } else {
+          toast.error('Chargement impossible')
+        }
+        setLoading(false)
+      })
+      .catch(() => {
+        if (!cancelled) {
+          toast.error('Chargement impossible')
+          setLoading(false)
+        }
+      })
+    return () => { cancelled = true }
+  }, [q])
+
   const load = useCallback(async () => {
     setLoading(true)
     const r = await fetch(`/api/admin/users${q ? `?q=${encodeURIComponent(q)}` : ''}`)
@@ -33,10 +55,6 @@ export default function AdminUsers() {
     }
     setLoading(false)
   }, [q])
-
-  useEffect(() => {
-    load()
-  }, [load])
 
   async function updatePlan(id: string, plan: User['plan']) {
     const r = await fetch('/api/admin/users', {

@@ -30,9 +30,24 @@ export default function NotificationBell() {
   }
 
   useEffect(() => {
-    load()
-    const t = setInterval(load, 60_000)
-    return () => clearInterval(t)
+    let cancelled = false
+    const doLoad = () =>
+      fetch('/api/notifications')
+        .then(async (r) => {
+          if (cancelled) return
+          if (r.ok) {
+            const d = (await r.json()) as { notifications: Notif[]; unread: number }
+            setNotifs(d.notifications)
+            setUnread(d.unread)
+          }
+        })
+        .catch(() => {})
+    void doLoad()
+    const t = setInterval(() => void doLoad(), 60_000)
+    return () => {
+      cancelled = true
+      clearInterval(t)
+    }
   }, [])
 
   useEffect(() => {

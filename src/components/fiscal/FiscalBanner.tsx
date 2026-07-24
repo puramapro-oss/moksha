@@ -23,7 +23,7 @@ export default function FiscalBanner() {
       setLoading(false)
       return
     }
-    const load = async () => {
+    void (async () => {
       // Fenêtre d'affichage : seuil 3000€ atteint OU toujours visible jusqu'au 15 juin
       const now = new Date()
       const month = now.getMonth() + 1
@@ -61,8 +61,7 @@ export default function FiscalBanner() {
 
       setShow(!ack?.acknowledged)
       setLoading(false)
-    }
-    load()
+    })()
   }, [profile?.id, supabase])
 
   const dismiss = async () => {

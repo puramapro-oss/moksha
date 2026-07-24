@@ -4,17 +4,14 @@ import { useState, useEffect, useCallback } from 'react'
 import { getAwakeningLevel } from '@/lib/awakening'
 
 export function useAwakening() {
-  const [xp, setXp] = useState(0)
-  const [showAffirmation, setShowAffirmation] = useState(false)
-
-  useEffect(() => {
+  const [xp, setXp] = useState(() => {
     const stored = localStorage.getItem('moksha-awakening-xp')
-    if (stored) setXp(parseInt(stored, 10))
-
-    // Show affirmation once per session
+    return stored ? parseInt(stored, 10) : 0
+  })
+  const [showAffirmation, setShowAffirmation] = useState(() => {
     const seen = sessionStorage.getItem('moksha-affirmation-seen')
-    if (!seen) setShowAffirmation(true)
-  }, [])
+    return !seen
+  })
 
   const addXp = useCallback((amount: number) => {
     setXp((prev) => {

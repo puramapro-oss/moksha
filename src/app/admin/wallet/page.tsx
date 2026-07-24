@@ -29,6 +29,24 @@ export default function AdminWallet() {
   const [data, setData] = useState<Data | null>(null)
   const [loading, setLoading] = useState(true)
 
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/admin/wallet')
+      .then(async (r) => {
+        if (cancelled) return
+        if (r.ok) setData((await r.json()) as Data)
+        else toast.error('Chargement impossible')
+        setLoading(false)
+      })
+      .catch(() => {
+        if (!cancelled) {
+          toast.error('Chargement impossible')
+          setLoading(false)
+        }
+      })
+    return () => { cancelled = true }
+  }, [])
+
   const load = useCallback(async () => {
     setLoading(true)
     const r = await fetch('/api/admin/wallet')
@@ -36,10 +54,6 @@ export default function AdminWallet() {
     else toast.error('Chargement impossible')
     setLoading(false)
   }, [])
-
-  useEffect(() => {
-    load()
-  }, [load])
 
   async function updateTx(id: string, statut: 'completed' | 'failed') {
     const r = await fetch('/api/admin/wallet', {

@@ -4,10 +4,9 @@ import { useState, useEffect } from 'react'
 import { getWisdomQuote } from '@/lib/awakening'
 
 export default function WisdomFooter() {
-  const [quote, setQuote] = useState<{ text: string; author: string } | null>(null)
+  const [quote, setQuote] = useState<{ text: string; author: string } | null>(getWisdomQuote)
 
   useEffect(() => {
-    setQuote(getWisdomQuote())
     const interval = setInterval(() => setQuote(getWisdomQuote()), 30 * 60 * 1000) // 30min
     return () => clearInterval(interval)
   }, [])

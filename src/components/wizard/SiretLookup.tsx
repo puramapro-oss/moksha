@@ -71,11 +71,7 @@ export default function SiretLookup({
 
   useEffect(() => {
     const digits = formatSiret(raw)
-    if (!digits) {
-      setState({ kind: 'idle' })
-      return
-    }
-    if (digits.length < 14) {
+    if (!digits || digits.length < 14) {
       setState({ kind: 'idle' })
       return
     }
@@ -83,9 +79,7 @@ export default function SiretLookup({
       setState({ kind: 'invalid' })
       return
     }
-    const timeout = setTimeout(() => {
-      void lookup(digits)
-    }, 500)
+    const timeout = setTimeout(() => void lookup(digits), 500)
     return () => clearTimeout(timeout)
   }, [raw, lookup])
 

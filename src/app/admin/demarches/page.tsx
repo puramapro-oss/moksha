@@ -25,6 +25,26 @@ export default function AdminDemarches() {
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<string>('')
 
+  useEffect(() => {
+    let cancelled = false
+    fetch(`/api/admin/demarches${filter ? `?statut=${filter}` : ''}`)
+      .then(async (r) => {
+        if (cancelled) return
+        if (r.ok) {
+          const d = (await r.json()) as { demarches: AdminDemarche[] }
+          setList(d.demarches)
+        } else toast.error('Chargement impossible')
+        setLoading(false)
+      })
+      .catch(() => {
+        if (!cancelled) {
+          toast.error('Chargement impossible')
+          setLoading(false)
+        }
+      })
+    return () => { cancelled = true }
+  }, [filter])
+
   const load = useCallback(async () => {
     setLoading(true)
     const r = await fetch(`/api/admin/demarches${filter ? `?statut=${filter}` : ''}`)
@@ -34,10 +54,6 @@ export default function AdminDemarches() {
     } else toast.error('Chargement impossible')
     setLoading(false)
   }, [filter])
-
-  useEffect(() => {
-    load()
-  }, [load])
 
   async function setStatut(id: string, statut: string) {
     const r = await fetch('/api/admin/demarches', {

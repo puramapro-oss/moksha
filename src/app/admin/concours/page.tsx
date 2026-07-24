@@ -30,6 +30,26 @@ export default function AdminConcours() {
     prix3: 100,
   })
 
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/admin/concours')
+      .then(async (r) => {
+        if (cancelled) return
+        if (r.ok) {
+          const d = (await r.json()) as { concours: Concours[] }
+          setList(d.concours)
+        } else toast.error('Chargement impossible')
+        setLoading(false)
+      })
+      .catch(() => {
+        if (!cancelled) {
+          toast.error('Chargement impossible')
+          setLoading(false)
+        }
+      })
+    return () => { cancelled = true }
+  }, [])
+
   const load = useCallback(async () => {
     setLoading(true)
     const r = await fetch('/api/admin/concours')
@@ -39,10 +59,6 @@ export default function AdminConcours() {
     } else toast.error('Chargement impossible')
     setLoading(false)
   }, [])
-
-  useEffect(() => {
-    load()
-  }, [load])
 
   async function create(e: React.FormEvent) {
     e.preventDefault()

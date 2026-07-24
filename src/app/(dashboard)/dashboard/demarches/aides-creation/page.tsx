@@ -41,18 +41,17 @@ export default function AidesCreationPage() {
   const { profile } = useAuth()
   const supabase = createClient()
   const [demarches, setDemarches] = useState<Demarche[]>([])
-  const [state, setState] = useState<AideState>({
-    acre_demarche_fait: false,
-    arce_entretien_fait: false,
-    statuts_deposes: false,
-  })
-
-  useEffect(() => {
+  const [state, setState] = useState<AideState>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
-      if (raw) setState(JSON.parse(raw) as AideState)
+      if (raw) return JSON.parse(raw) as AideState
     } catch {}
-  }, [])
+    return {
+      acre_demarche_fait: false,
+      arce_entretien_fait: false,
+      statuts_deposes: false,
+    }
+  })
 
   useEffect(() => {
     if (!profile?.id) return

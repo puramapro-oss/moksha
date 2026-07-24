@@ -7,15 +7,16 @@ import { useAwakening } from '@/hooks/useAwakening'
 
 export default function SpiritualLayer() {
   const { showAffirmation, dismissAffirmation, addXp } = useAwakening()
-  const [affirmation, setAffirmation] = useState<{ text: string; category: string } | null>(null)
+  const [affirmation, setAffirmation] = useState<{ text: string; category: string } | null>(() =>
+    showAffirmation ? getAffirmation() : null
+  )
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
-    if (showAffirmation) {
-      setAffirmation(getAffirmation())
+    if (showAffirmation && affirmation) {
       requestAnimationFrame(() => setAnimate(true))
     }
-  }, [showAffirmation])
+  }, [showAffirmation, affirmation])
 
   if (!showAffirmation || !affirmation) return null
 

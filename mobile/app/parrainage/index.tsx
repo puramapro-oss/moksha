@@ -27,7 +27,15 @@ export default function ParrainageScreen() {
     setReferrals((data ?? []).map(r => ({ id: r.id, email: r.referred_email, created_at: r.created_at })))
   }, [user])
 
-  useEffect(() => { fetchReferrals() }, [fetchReferrals])
+  useEffect(() => {
+    if (!user) return
+    void supabase
+      .from('referrals')
+      .select('id, referred_email, created_at')
+      .eq('referrer_id', user.id)
+      .order('created_at', { ascending: false })
+      .then(({ data }) => setReferrals((data ?? []).map(r => ({ id: r.id, email: r.referred_email, created_at: r.created_at }))))
+  }, [user])
 
   const code = profile?.referral_code ?? 'MOKSHA-XXXXX'
   const link = `https://moksha.purama.dev/share/${code}`

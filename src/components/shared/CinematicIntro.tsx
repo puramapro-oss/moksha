@@ -11,20 +11,20 @@ const DURATION_MS = 3600
 export default function CinematicIntro() {
   const t = useTranslations('intro')
   const [mounted, setMounted] = useState(false)
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(() => {
+    try {
+      return !window.localStorage.getItem(STORAGE_KEY)
+    } catch {
+      return false
+    }
+  })
 
   useEffect(() => {
     setMounted(true)
-    try {
-      const seen = window.localStorage.getItem(STORAGE_KEY)
-      if (!seen) {
-        setVisible(true)
-        document.body.style.overflow = 'hidden'
-        const t = window.setTimeout(() => close(), DURATION_MS)
-        return () => window.clearTimeout(t)
-      }
-    } catch {
-      // SSR / private mode → skip
+    if (visible) {
+      document.body.style.overflow = 'hidden'
+      const t = window.setTimeout(() => close(), DURATION_MS)
+      return () => window.clearTimeout(t)
     }
   }, [])
 

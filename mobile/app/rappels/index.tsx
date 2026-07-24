@@ -28,7 +28,15 @@ export default function RappelsScreen() {
     setRappels(data ?? [])
   }, [user])
 
-  useEffect(() => { fetchRappels() }, [fetchRappels])
+  useEffect(() => {
+    if (!user) return
+    void supabase
+      .from('rappels')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('due_date', { ascending: true })
+      .then(({ data }) => setRappels(data ?? []))
+  }, [user])
 
   const toggleComplete = async (id: string, current: boolean) => {
     await supabase.from('rappels').update({ is_completed: !current }).eq('id', id)

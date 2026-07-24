@@ -5,18 +5,18 @@ import { COLORS } from '../../lib/constants'
 type Props = { width?: number | string; height?: number; borderRadius?: number; style?: ViewStyle }
 
 export function Skeleton({ width = '100%', height = 20, borderRadius = 8, style }: Props) {
-  const opacity = useRef(new Animated.Value(0.3)).current
+  const opacityRef = useRef(new Animated.Value(0.3))
 
   useEffect(() => {
     const anim = Animated.loop(
       Animated.sequence([
-        Animated.timing(opacity, { toValue: 0.7, duration: 800, useNativeDriver: true }),
-        Animated.timing(opacity, { toValue: 0.3, duration: 800, useNativeDriver: true }),
+        Animated.timing(opacityRef.current, { toValue: 0.7, duration: 800, useNativeDriver: true }),
+        Animated.timing(opacityRef.current, { toValue: 0.3, duration: 800, useNativeDriver: true }),
       ])
     )
     anim.start()
     return () => anim.stop()
-  }, [opacity])
+  }, [])
 
   return (
     <Animated.View
@@ -26,7 +26,7 @@ export function Skeleton({ width = '100%', height = 20, borderRadius = 8, style 
           height,
           borderRadius,
           backgroundColor: COLORS.surface,
-          opacity,
+          opacity: opacityRef.current,
         },
         style,
       ]}

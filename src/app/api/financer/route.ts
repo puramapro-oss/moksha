@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
     const supabase = createServiceClient()
 
-    let query = supabase
+    const query = supabase
       .from('moksha_aides')
       .select('*')
       .eq('active', true)
