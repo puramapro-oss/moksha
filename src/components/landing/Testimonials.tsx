@@ -40,7 +40,7 @@ export default function Testimonials() {
             Construit sur des <span className="moksha-gradient-text">principes clairs</span>.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-white/55">
-            MOKSHA est en lancement. Plutôt que d'inventer des avis, on te dit comment on travaille.
+            MOKSHA est en lancement. Plutôt que d&apos;inventer des avis, on te dit comment on travaille.
           </p>
         </div>
 
