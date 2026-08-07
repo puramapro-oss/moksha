@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { Calendar, Star, Heart, Wind, Banknote, Sparkles } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
@@ -19,12 +19,12 @@ type WrappedStats = {
 
 export default function WrappedPage() {
   const { profile } = useAuth()
-  const supabase = createClient()
   const [stats, setStats] = useState<WrappedStats | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const load = useCallback(async () => {
+  async function load() {
     if (!profile?.id) return
+    const supabase = createClient()
 
     const now = new Date()
     const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
@@ -84,9 +84,9 @@ export default function WrappedPage() {
       streak: gift.data?.streak_count ?? 0,
     })
     setLoading(false)
-  }, [profile?.id, supabase])
+  }
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => { queueMicrotask(() => load()) }, [profile?.id])
 
   if (loading) return <div className="skeleton h-96 rounded-2xl" />
   if (!stats) return <p className="text-center text-sm text-white/50">Pas encore de données ce mois-ci.</p>

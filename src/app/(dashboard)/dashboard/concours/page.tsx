@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { Trophy, Medal, Ticket, Calendar, Users } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
@@ -15,10 +15,10 @@ export default function ConcoursPage() {
   const [tickets, setTickets] = useState(0)
   const [pastDraws, setPastDraws] = useState<DrawResult[]>([])
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
 
-  const load = useCallback(async () => {
+  async function load() {
     if (!profile?.id) return
+    const supabase = createClient()
     try {
       const [lb, tk, draws] = await Promise.all([
         supabase.from('moksha_contest_leaderboard').select('*').order('score', { ascending: false }).limit(10),
@@ -30,9 +30,9 @@ export default function ConcoursPage() {
       setPastDraws((draws.data as DrawResult[]) ?? [])
     } catch { /* ignore */ }
     setLoading(false)
-  }, [profile?.id, supabase])
+  }
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => { queueMicrotask(() => load()) }, [profile?.id])
 
   if (loading) return <div className="skeleton h-96 rounded-2xl" />
 

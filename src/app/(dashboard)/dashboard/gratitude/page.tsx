@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { Heart, Send, Flame } from 'lucide-react'
 import { toast } from 'sonner'
 import { createClient } from '@/lib/supabase'
@@ -14,10 +14,10 @@ export default function GratitudePage() {
   const [text, setText] = useState('')
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
-  const supabase = createClient()
 
-  const fetchEntries = useCallback(async () => {
+  async function fetchEntries() {
     if (!profile?.id) return
+    const supabase = createClient()
     const { data } = await supabase
       .from('moksha_gratitude_entries')
       .select('id, content, created_at')
@@ -26,11 +26,11 @@ export default function GratitudePage() {
       .limit(30)
     setEntries(data || [])
     setLoading(false)
-  }, [profile?.id, supabase])
+  }
 
   useEffect(() => {
-    fetchEntries()
-  }, [fetchEntries])
+    queueMicrotask(() => fetchEntries())
+  }, [profile?.id])
 
   const todayCount = entries.filter(
     (e) => new Date(e.created_at).toDateString() === new Date().toDateString()

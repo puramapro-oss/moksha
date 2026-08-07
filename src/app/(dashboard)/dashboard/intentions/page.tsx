@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { Sparkles, Send, Check, Circle } from 'lucide-react'
 import { toast } from 'sonner'
 import { createClient } from '@/lib/supabase'
@@ -10,14 +10,14 @@ type Intention = { id: string; content: string; completed: boolean; created_at: 
 
 export default function IntentionsPage() {
   const { profile } = useAuth()
-  const supabase = createClient()
   const [intentions, setIntentions] = useState<Intention[]>([])
   const [text, setText] = useState('')
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
 
-  const fetchIntentions = useCallback(async () => {
+  async function fetchIntentions() {
     if (!profile?.id) return
+    const supabase = createClient()
     const { data } = await supabase
       .from('moksha_intentions')
       .select('id, content, completed, created_at')
@@ -26,11 +26,11 @@ export default function IntentionsPage() {
       .limit(30)
     setIntentions(data ?? [])
     setLoading(false)
-  }, [profile?.id, supabase])
+  }
 
   useEffect(() => {
-    fetchIntentions()
-  }, [fetchIntentions])
+    queueMicrotask(() => fetchIntentions())
+  }, [profile?.id])
 
   const todayIntention = intentions.find(
     (i) => new Date(i.created_at).toDateString() === new Date().toDateString(),

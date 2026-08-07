@@ -38,7 +38,7 @@ export default function CrossPromoBlock() {
   const [clicked, setClicked] = useState(false)
 
   useEffect(() => {
-    setClicked(false)
+    queueMicrotask(() => setClicked(false))
   }, [profile?.id])
 
   const href = `https://${target.domain}/go/moksha?coupon=WELCOME50`

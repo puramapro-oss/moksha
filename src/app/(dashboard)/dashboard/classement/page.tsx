@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { Medal, Users } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
@@ -13,9 +13,9 @@ export default function ClassementPage() {
   const [entries, setEntries] = useState<Entry[]>([])
   const [myScore, setMyScore] = useState(0)
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
 
-  const load = useCallback(async () => {
+  async function load() {
+    const supabase = createClient()
     const { data } = await supabase
       .from('moksha_contest_leaderboard')
       .select('user_id, full_name, score, rank')
@@ -30,9 +30,9 @@ export default function ClassementPage() {
       setMyScore(mine?.score ?? 0)
     }
     setLoading(false)
-  }, [profile?.id, supabase])
+  }
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => { queueMicrotask(() => load()) }, [profile?.id])
 
   const myLigue = getLigue(myScore)
   const next = nextLigue(myScore)

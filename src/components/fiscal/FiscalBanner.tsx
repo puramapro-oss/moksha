@@ -20,7 +20,7 @@ export default function FiscalBanner() {
 
   useEffect(() => {
     if (!profile?.id) {
-      setLoading(false)
+      queueMicrotask(() => setLoading(false))
       return
     }
     void (async () => {

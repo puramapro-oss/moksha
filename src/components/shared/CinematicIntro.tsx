@@ -19,15 +19,6 @@ export default function CinematicIntro() {
     }
   })
 
-  useEffect(() => {
-    setMounted(true)
-    if (visible) {
-      document.body.style.overflow = 'hidden'
-      const t = window.setTimeout(() => close(), DURATION_MS)
-      return () => window.clearTimeout(t)
-    }
-  }, [])
-
   function close() {
     setVisible(false)
     document.body.style.overflow = ''
@@ -35,6 +26,15 @@ export default function CinematicIntro() {
       window.localStorage.setItem(STORAGE_KEY, '1')
     } catch {}
   }
+
+  useEffect(() => {
+    queueMicrotask(() => setMounted(true))
+    if (visible) {
+      document.body.style.overflow = 'hidden'
+      const t = window.setTimeout(() => close(), DURATION_MS)
+      return () => window.clearTimeout(t)
+    }
+  }, [])
 
   if (!mounted) return null
 

@@ -72,11 +72,11 @@ export default function SiretLookup({
   useEffect(() => {
     const digits = formatSiret(raw)
     if (!digits || digits.length < 14) {
-      setState({ kind: 'idle' })
+      queueMicrotask(() => setState({ kind: 'idle' }))
       return
     }
     if (!isValidSiret(digits)) {
-      setState({ kind: 'invalid' })
+      queueMicrotask(() => setState({ kind: 'invalid' }))
       return
     }
     const timeout = setTimeout(() => void lookup(digits), 500)

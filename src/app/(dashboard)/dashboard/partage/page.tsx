@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { Share2, Building2, FileSignature, X, Copy, Check, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
@@ -16,14 +16,14 @@ type Share = {
 
 export default function PartagePage() {
   const { profile, plan } = useAuth()
-  const supabase = createClient()
   const [docs, setDocs] = useState<MokshaDocument[]>([])
   const [shares, setShares] = useState<Share[]>([])
   const [loading, setLoading] = useState(true)
   const [openModal, setOpenModal] = useState<null | 'banque' | 'auditeur' | 'partenaire'>(null)
 
-  const load = useCallback(async () => {
+  async function load() {
     if (!profile?.id) return
+    const supabase = createClient()
     const [docsRes, sharesRes] = await Promise.all([
       supabase.from('moksha_documents').select('*').eq('user_id', profile.id).order('created_at', { ascending: false }),
       fetch('/api/partage').then((r) => (r.ok ? r.json() : { shares: [] })),
@@ -31,11 +31,11 @@ export default function PartagePage() {
     setDocs((docsRes.data as MokshaDocument[]) || [])
     setShares(sharesRes.shares || [])
     setLoading(false)
-  }, [profile?.id, supabase])
+  }
 
   useEffect(() => {
-    load()
-  }, [load])
+    queueMicrotask(() => load())
+  }, [profile?.id])
 
   if (plan !== 'pro') {
     return (

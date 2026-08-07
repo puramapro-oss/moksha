@@ -71,7 +71,7 @@ export default function TutorialOverlay() {
     const force = typeof window !== 'undefined' && localStorage.getItem('moksha-relaunch-tutorial') === '1'
     if (force) {
       localStorage.removeItem('moksha-relaunch-tutorial')
-      setOpen(true)
+      queueMicrotask(() => setOpen(true))
       return
     }
     const t = setTimeout(() => setOpen(true), 1500)

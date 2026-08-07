@@ -8,7 +8,7 @@ export default function CookieBanner() {
 
   useEffect(() => {
     const consent = localStorage.getItem('moksha_cookie_consent')
-    if (!consent) setVisible(true)
+    if (!consent) queueMicrotask(() => setVisible(true))
   }, [])
 
   function accept() {

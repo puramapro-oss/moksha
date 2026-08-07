@@ -21,8 +21,10 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   useEffect(() => {
     const stored = localStorage.getItem('moksha-theme') as Theme | null
     if (stored && ['dark', 'light', 'oled'].includes(stored)) {
-      setThemeState(stored)
-      document.documentElement.setAttribute('data-theme', stored)
+      queueMicrotask(() => {
+        setThemeState(stored)
+        document.documentElement.setAttribute('data-theme', stored)
+      })
     }
   }, [])
 
