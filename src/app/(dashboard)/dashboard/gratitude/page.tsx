@@ -15,9 +15,10 @@ export default function GratitudePage() {
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
 
+  const supabase = createClient()
+
   async function fetchEntries() {
     if (!profile?.id) return
-    const supabase = createClient()
     const { data } = await supabase
       .from('moksha_gratitude_entries')
       .select('id, content, created_at')

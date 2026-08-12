@@ -15,9 +15,10 @@ export default function IntentionsPage() {
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
 
+  const supabase = createClient()
+
   async function fetchIntentions() {
     if (!profile?.id) return
-    const supabase = createClient()
     const { data } = await supabase
       .from('moksha_intentions')
       .select('id, content, completed, created_at')
