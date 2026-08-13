@@ -4,13 +4,15 @@ import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { createServiceClient } from '@/lib/supabase'
 import { WALLET_MIN_WITHDRAWAL } from '@/lib/constants'
 import { sendEmail } from '@/lib/resend'
+import { isValidIban } from '@/lib/iban'
 
 export const runtime = 'nodejs'
 
 const ibanRegex = /^FR\d{2}[A-Z0-9 ]{20,30}$/i
 
 const Schema = z.object({
-  iban: z.string().min(15).max(40).regex(ibanRegex, 'IBAN français invalide (FR…)'),
+  iban: z.string().min(15).max(40).regex(ibanRegex, 'IBAN français invalide (FR…)')
+    .refine(isValidIban, 'IBAN invalide (clé de contrôle incorrecte).'),
   bic: z.string().min(8).max(11),
   titulaire: z.string().min(2).max(120),
   amount: z.number().positive(),
