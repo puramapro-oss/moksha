@@ -187,6 +187,9 @@ CREATE INDEX IF NOT EXISTS idx_moksha_documents_user_id ON moksha.moksha_documen
 CREATE INDEX IF NOT EXISTS idx_moksha_jurisia_messages_conv ON moksha.moksha_jurisia_messages(conversation_id);
 CREATE INDEX IF NOT EXISTS idx_moksha_rappels_user_echeance ON moksha.moksha_rappels(user_id, date_echeance);
 CREATE INDEX IF NOT EXISTS idx_moksha_wallet_user ON moksha.moksha_wallet_transactions(user_id);
+-- Verrou atomique anti-course : empêche 2 retraits 'pending' simultanés pour
+-- le même user (mutex app-level seul insuffisant, cf task_plan.md P3).
+CREATE UNIQUE INDEX IF NOT EXISTS idx_moksha_wallet_one_pending_retrait ON moksha.moksha_wallet_transactions (user_id) WHERE type = 'retrait' AND statut = 'pending';
 CREATE INDEX IF NOT EXISTS idx_moksha_referrals_referrer ON moksha.moksha_referrals(referrer_id);
 
 -- ========== TRIGGERS ==========

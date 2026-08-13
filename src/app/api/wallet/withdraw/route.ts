@@ -58,7 +58,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `Solde insuffisant (${solde.toFixed(2)}€)` }, { status: 400 })
     }
 
-    // Mutex naïf : empêcher 2 demandes pending simultanées
+    // Anti-doublon rapide (UX) : le vrai verrou est l'index unique partiel
+    // ci-dessous côté DB (idx_moksha_wallet_one_pending_retrait), seul rempart
+    // atomique contre 2 requêtes quasi-simultanées passant toutes les deux ce
+    // check avant qu'aucune n'ait inséré (design ledger sans colonne solde
+    // verrouillable, cf task_plan.md P3).
     const { data: existingPending } = await svc
       .from('moksha_wallet_transactions')
       .select('id')
@@ -70,7 +74,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Une demande de retrait est déjà en attente' }, { status: 409 })
     }
 
-    // Insertion transaction pending (montant négatif)
+    // Insertion transaction pending (montant négatif) — protégée par
+    // idx_moksha_wallet_one_pending_retrait (index unique partiel sur
+    // user_id WHERE type='retrait' AND statut='pending') : 2 insertions
+    // concurrentes ne peuvent jamais réussir toutes les deux.
     const { error: insErr } = await svc.from('moksha_wallet_transactions').insert({
       user_id: user.id,
       type: 'retrait',
@@ -78,7 +85,12 @@ export async function POST(req: NextRequest) {
       description: `Retrait IBAN ${iban.slice(0, 4)}…${iban.slice(-4)} — ${titulaire}`,
       statut: 'pending',
     })
-    if (insErr) return NextResponse.json({ error: insErr.message }, { status: 500 })
+    if (insErr) {
+      if (insErr.code === '23505') {
+        return NextResponse.json({ error: 'Une demande de retrait est déjà en attente' }, { status: 409 })
+      }
+      return NextResponse.json({ error: insErr.message }, { status: 500 })
+    }
 
     // Notification user
     await svc.from('moksha_notifications').insert({
