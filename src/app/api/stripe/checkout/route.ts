@@ -28,7 +28,11 @@ function readPuramaPromo(req: NextRequest): PuramaPromo | null {
 
 export async function POST(req: NextRequest) {
   try {
-    const { plan, interval } = (await req.json()) as { plan?: string; interval?: string }
+    const { plan, interval, idempotencyKey } = (await req.json()) as {
+      plan?: string
+      interval?: string
+      idempotencyKey?: string
+    }
     const normalizedPlan = plan ?? 'premium'
     const normalizedInterval = interval ?? 'mensuel'
     const key = `${normalizedPlan}_${normalizedInterval}` as StripePlanKey
@@ -150,7 +154,9 @@ export async function POST(req: NextRequest) {
       sessionParams.allow_promotion_codes = true
     }
 
-    const session = await stripe.checkout.sessions.create(sessionParams)
+    const session = await stripe.checkout.sessions.create(sessionParams, {
+      idempotencyKey: idempotencyKey ?? crypto.randomUUID(),
+    })
 
     const res = NextResponse.json({ url: session.url })
     // Coupon consommé → on efface le cookie (évite double usage sur un autre checkout)
