@@ -21,7 +21,7 @@ export const COLORS = {
 export const REFERRAL_PREFIX = 'MOKSHA-'
 export const REFERRAL_FIRST_MONTH_DISCOUNT = 0.5 // 50%
 export const REFERRAL_RECURRING_PERCENT = 0.1 // 10%
-export const WALLET_MIN_WITHDRAWAL = 20
+export const WALLET_MIN_WITHDRAWAL = 5
 
 // Plans — V4 STRIPE_CONNECT_KARMA_V4
 // Premium = plan unique actif (29,99€/mois). Autopilote/Pro = legacy grandfather (anciens abonnés conservés).

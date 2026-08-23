@@ -21,7 +21,7 @@ const TOKEN_LIMITS: Record<Plan, number> = {
 
 const MODEL_FAST = process.env.ANTHROPIC_MODEL_FAST || 'claude-haiku-4-5-20251001'
 const MODEL_MAIN = process.env.ANTHROPIC_MODEL_MAIN || 'claude-sonnet-4-6'
-const MODEL_PRO = process.env.ANTHROPIC_MODEL_PRO || 'claude-opus-4-6'
+const MODEL_PRO = process.env.ANTHROPIC_MODEL_PRO || 'claude-opus-4-7'
 
 const MODEL_MAP: Record<Plan, string> = {
   gratuit: MODEL_FAST,

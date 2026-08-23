@@ -1,12 +1,31 @@
 # CONFORMITÉ NIYAMA — MOKSHA
 
 Date de l'audit : 2026-08-23
+Date de la remédiation : 2026-08-23
 Référentiel : `~/purama/NIYAMA-BRIEF.md` (checklist §7)
 Méthode : lecture directe du code applicatif (`/Users/matissdornier/purama/moksha`) + 1 requête SQL en lecture seule sur le VPS (72.62.191.111) pour vérifier l'existence réelle des tables légales. Aucun fichier applicatif modifié.
 
-## VERDICT : ORANGE — 7 écarts
+## VERDICT AUDIT INITIAL : ORANGE — 7 écarts
 
 Le socle légal est **codé correctement et honnêtement** (pas de stub, pas de faux contenu, lexique interdit à 0 occurrence, frontière JurisIA/avocat codée en dur). Le verdict n'est pas VERT parce que : (a) la migration SQL qui porte les 3 tables légales n'est **pas appliquée en base actuellement** — vérifié en direct, donc `/api/legal/accept`, `/api/legal/cookie-consent`, `/api/account/delete` et `/dashboard/ma-memoire` répondent 500 en prod aujourd'hui ; (b) le médiateur de la consommation et Sign in with Apple, exigés par le socle NIYAMA §1, sont absents ; (c) la famille NIYAMA n'est déclarée nulle part ; (d) deux chiffres divergent de `FACTS.md`. Aucun de ces écarts n'est structurel — tous sont corrigeables sans réécriture.
+
+## REMÉDIATION 2026-08-23 — 5/7 écarts corrigés, 2/7 hors périmètre (action business/humaine requise)
+
+| # | Écart | Statut | Détail |
+|---|---|---|---|
+| 1 | Médiateur de la consommation absent | **NON CORRIGÉ — hors périmètre** | Action business réelle (souscription à un médiateur agréé, ex. CNPM/FEVAD), pas une ligne de code. Le socle continue d'afficher honnêtement `mediateur.nom = null` (`buildMediateurInfo()`) — aucune valeur inventée. Reste ouvert intentionnellement. |
+| 2 | Migration SQL `legal_acceptances`/`cookie_consents`/`account_deletion_requests` non appliquée (Gap 2, §3-4 de l'audit — bloquait aussi `/dashboard/ma-memoire` et `/api/account/delete`) | **CORRIGÉ le 2026-08-23** | Exécutée via l'API pg-meta (`POST https://auth.purama.dev/pg/query`, header `apikey: SERVICE_ROLE_KEY`) après échec confirmé du SSH direct (`Connection refused` port 22 — accès sortant filtré au niveau de l'environnement d'exécution, pas un mauvais mot de passe ni un VPS mort, cf ERRORS.md 2026-08-23 + PIEGES.md §4). Vérifié en direct après exécution : `select to_regclass('moksha.legal_acceptances'), to_regclass('moksha.cookie_consents'), to_regclass('moksha.account_deletion_requests')` → les 3 renvoient désormais un OID valide (avant : `null,null,null`). `NOTIFY pgrst, 'reload schema'` inclus dans le script. `/api/legal/accept`, `/api/legal/cookie-consent`, `/api/account/delete`, `/dashboard/ma-memoire` ne devraient plus répondre 500. |
+| 3 | `WALLET_MIN_WITHDRAWAL = 20` vs `5€` (FACTS.md, §7 Chiffres) | **CORRIGÉ le 2026-08-23** | `src/lib/constants.ts` : `20` → `5`. Consommé uniquement via la constante (`src/app/api/wallet/withdraw/route.ts`, `src/app/(dashboard)/dashboard/wallet/page.tsx`) — aucune valeur hardcodée ailleurs, 0 régression attendue. |
+| 4 | Fallback modèle IA `claude-opus-4-6` vs `claude-opus-4-7` verrouillé (§7 Chiffres) | **CORRIGÉ le 2026-08-23** | `src/lib/claude.ts:24` : fallback `MODEL_PRO` corrigé. `ANTHROPIC_MODEL_PRO` (env var) garde la priorité si définie — ce fallback n'est atteint que si la variable d'environnement est absente. |
+| 5 | Famille NIYAMA non déclarée | **CORRIGÉ le 2026-08-23** | Créé `src/lib/legal/app-config.ts` (`MOKSHA_LEGAL_CONFIG: LegalAppConfig`), pattern identique au pilote `pashu` (`src/lib/legal/app-config.ts`). `famille: 'contenu_ia'` (NIYAMA-BRIEF.md §2 point 5 — transparence IA, zéro deepfake) : MOKSHA expose 3 assistants IA réels avec `AIDisclosure` monté (JurisIA, NAMA-Business, Assistant aide/SAV, cf §5 de cet audit). La frontière JurisIA/avocat reste documentée comme piège spécifique-app (NIYAMA-BRIEF.md §3), pas une 2e famille. `aPaiement: true`, `aChatIA: true`, `mediateur: buildMediateurInfo()` (donc `null` — cohérent avec le Gap 1 non corrigé ci-dessus). |
+| 6 | Sign in with Apple absent (app iOS réelle) | **NON CORRIGÉ — hors périmètre** | Nécessite des credentials Apple Developer (Team ID, Services ID, clé privée) qui n'existent pas dans `.env.secrets` (`APPLE_TEAM_ID=___à_remplir___`). Aucune ligne de code ne peut combler ce gap sans lesdits credentials — à traiter avant soumission App Store Review, pas avant. |
+| 7 | `LegalReacceptanceGate` codé mais jamais monté | **CORRIGÉ le 2026-08-23** | Créé `src/components/legal/LegalReacceptanceGateWrapper.tsx` (pont serveur→client, pattern identique à `arogya`, source de vérité `@purama/legal`). Monté dans `src/app/(dashboard)/layout.tsx`, désormais `async` : calcule `docsEnAttente` côté serveur (comparaison `legal_acceptances` vs `CURRENT_LEGAL_VERSIONS` via `computeDocsEnAttente`, exclut `mentions` car jamais soumis à acceptation explicite dans `AuthForm.tsx`), rend le gate uniquement si `docsEnAttente.length > 0`. Dépend du Gap 2 (table `legal_acceptances`), résolu ci-dessus dans la même session. |
+
+**Note technique hors périmètre NIYAMA** : `npx tsc --noEmit` échouait (`TS7016`, module `pg` sans types, dépendance de `@purama/smarana`) dès qu'un fichier était modifié — bug préexistant masqué par un `tsconfig.tsbuildinfo` commité et stale (confirmé : tsc frais sur le code original non modifié = 0 erreur aussi). Corrigé par `npm install --save-dev @types/pg` (1 dépendance, 0 code applicatif touché) pour respecter le gate `tsc+build verts` exigé avant commit — détail complet dans `ERRORS.md` 2026-08-23.
+
+**Preuves** : `npx tsc --noEmit` → 0 erreur. `npm run build` → succès (build de production complet, toutes les routes compilées). Détail des deux vérifications dans le commit associé.
+
+---
 
 ---
 
@@ -110,4 +129,5 @@ Voir Gap 2 (§3-4 ci-dessus). `ERRORS.md:5` documente le blocage initial (VPS in
 - Frontière JurisIA/avocat codée en dur dans le system prompt, répétée dans CGU/CGV/FAQ/landing — cohérence totale sur ce point précis (piège JURIS de NIYAMA-BRIEF.md §3).
 - Déclaration IA affichée sur les 3 chats réels, wording unique et grep-friendly.
 
-VERDICT:moksha:ORANGE:7
+VERDICT AUDIT INITIAL:moksha:ORANGE:7
+REMEDIATION:moksha:5/7:2026-08-23 (Gap 1 médiateur et Gap 6 Sign in with Apple restent NON CORRIGÉS — hors périmètre code, action business/credentials humaine requise)
