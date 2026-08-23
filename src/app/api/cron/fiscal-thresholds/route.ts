@@ -75,7 +75,9 @@ export async function GET(req: NextRequest) {
         try {
           await sendEmail({ to: profile.email, subject: msg.subject, html: msg.html })
           emailSent = true
-        } catch {}
+        } catch (err) {
+          console.error('[fiscal-thresholds] Erreur envoi email palier', palier, err)
+        }
       }
       await sb.from('moksha_fiscal_notifications').insert({
         user_id: userId,

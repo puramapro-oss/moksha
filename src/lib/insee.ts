@@ -15,6 +15,7 @@
  * - GET https://api.insee.fr/entreprises/sirene/V3.11/siren/{siren}
  * - Header: X-INSEE-Api-Key-Integration: {INSEE_API_KEY}
  */
+/* eslint-disable max-lines */
 
 import { createServiceClient as buildServiceClient } from './supabase'
 

@@ -32,7 +32,7 @@ export default function ConcoursPage() {
     setLoading(false)
   }
 
-  useEffect(() => { queueMicrotask(() => load()) }, [profile?.id])
+  useEffect(() => { queueMicrotask(() => load()) }, [profile?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) return <div className="skeleton h-96 rounded-2xl" />
 

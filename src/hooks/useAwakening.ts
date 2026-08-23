@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { getAwakeningLevel } from '@/lib/awakening'
 
 export function useAwakening() {

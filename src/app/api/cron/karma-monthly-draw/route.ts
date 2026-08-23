@@ -1,7 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createClient as createAdmin } from '@supabase/supabase-js'
 import { transferToConnect } from '@/lib/stripe-connect'
-import { getCurrentDrawPeriod } from '@/lib/karma-tickets'
 
 export const runtime = 'nodejs'
 export const maxDuration = 180

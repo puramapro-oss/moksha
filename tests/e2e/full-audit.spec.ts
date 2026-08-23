@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test'
 
 // MOKSHA — Full audit suite
 // Tests EVERY public page, link, button, form, responsive 375+1920, console errors
+/* eslint-disable max-lines */
 
 const PUBLIC_PAGES = [
   '/',

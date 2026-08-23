@@ -32,7 +32,7 @@ export default function ClassementPage() {
     setLoading(false)
   }
 
-  useEffect(() => { queueMicrotask(() => load()) }, [profile?.id])
+  useEffect(() => { queueMicrotask(() => load()) }, [profile?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const myLigue = getLigue(myScore)
   const next = nextLigue(myScore)

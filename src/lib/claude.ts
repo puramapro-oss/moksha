@@ -1,5 +1,8 @@
+import 'server-only'
 import Anthropic from '@anthropic-ai/sdk'
+import { smarana } from '@purama/smarana'
 import type { Plan } from './constants'
+import type { SmaranaTier } from '@purama/smarana'
 
 let _anthropic: Anthropic | null = null
 function anthropic(): Anthropic {
@@ -25,6 +28,13 @@ const MODEL_MAP: Record<Plan, string> = {
   premium: MODEL_PRO,
   autopilote: MODEL_MAIN, // legacy grandfather
   pro: MODEL_PRO,         // legacy grandfather
+}
+
+// Mapping MOKSHA plan → SMARANA tier (Loi 1 SMARANA-BRIEF.md)
+function planToTier(plan: Plan): SmaranaTier {
+  if (plan === 'gratuit') return 'fast'
+  if (plan === 'autopilote') return 'main'
+  return 'pro' // premium + pro
 }
 
 export function getJurisIASystemPrompt(): string {
@@ -92,17 +102,28 @@ Génère uniquement le document, sans préambule ni explication.`
 export async function askClaude(
   messages: { role: 'user' | 'assistant'; content: string }[],
   plan: Plan = 'gratuit',
-  systemPrompt?: string
+  systemPrompt?: string,
+  userId?: string
 ): Promise<string> {
-  const response = await anthropic().messages.create({
-    model: MODEL_MAP[plan],
-    max_tokens: TOKEN_LIMITS[plan],
+  // Loi 1 SMARANA-BRIEF.md : aucune app n'appelle l'API directement. Tout passe par smarana.ask().
+  // MOKSHA a un historique de messages complet dans `messages` — smarana.ask() prend le dernier message
+  // comme `message` et les N-1 précédents comme `recentMessages`.
+  const lastMessage = messages[messages.length - 1]
+  if (!lastMessage || lastMessage.role !== 'user') {
+    // Fallback si messages vide ou dernier n'est pas user
+    return ''
+  }
+  const recentMessages = messages.slice(0, -1)
+  const result = await smarana.ask({
+    appSlug: 'moksha',
+    userId,
     system: systemPrompt ?? getJurisIASystemPrompt(),
-    messages,
+    recentMessages,
+    message: lastMessage.content,
+    tier: planToTier(plan),
+    maxTokens: TOKEN_LIMITS[plan],
   })
-  const block = response.content[0]
-  if (block && block.type === 'text') return block.text
-  return ''
+  return result.text
 }
 
 export async function* streamClaude(

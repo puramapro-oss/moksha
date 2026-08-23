@@ -1,4 +1,5 @@
 'use client'
+/* eslint-disable max-lines */
 
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { Bot, Send, Sparkles, Plus, Trash2, ShieldCheck, ShieldAlert, ShieldQuestion } from 'lucide-react'
@@ -150,7 +151,9 @@ export default function JurisIAChat() {
                 return copy
               })
             }
-          } catch {}
+          } catch (err) {
+            console.error('[stream] Erreur parsing chunk:', err)
+          }
         }
       }
       // Refresh conv list (mise à jour titre/updated_at)

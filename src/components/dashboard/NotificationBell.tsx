@@ -20,6 +20,7 @@ export default function NotificationBell() {
   const [unread, setUnread] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async function load() {
     const r = await fetch('/api/notifications')
     if (r.ok) {

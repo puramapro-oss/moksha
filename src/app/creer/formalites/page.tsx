@@ -53,7 +53,12 @@ export default function Formalites() {
         }
         const { id } = (await res.json()) as { id: string }
         // Cleanup storage
-        try { sessionStorage.removeItem(ENT_KEY); sessionStorage.removeItem(ASSOC_KEY) } catch {}
+        try {
+          sessionStorage.removeItem(ENT_KEY)
+          sessionStorage.removeItem(ASSOC_KEY)
+        } catch (err) {
+          console.error('[sessionStorage] Erreur cleanup:', err)
+        }
         // Lance dépôt en arrière-plan
         fetch(`/api/demarches/${id}/deposer`, { method: 'POST' }).catch(() => {})
         if (!cancelled) {

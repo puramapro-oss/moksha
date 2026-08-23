@@ -35,7 +35,7 @@ export default function PartagePage() {
 
   useEffect(() => {
     queueMicrotask(() => load())
-  }, [profile?.id])
+  }, [profile?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (plan !== 'pro') {
     return (

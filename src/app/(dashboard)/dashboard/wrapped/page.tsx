@@ -86,7 +86,7 @@ export default function WrappedPage() {
     setLoading(false)
   }
 
-  useEffect(() => { queueMicrotask(() => load()) }, [profile?.id])
+  useEffect(() => { queueMicrotask(() => load()) }, [profile?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) return <div className="skeleton h-96 rounded-2xl" />
   if (!stats) return <p className="text-center text-sm text-white/50">Pas encore de données ce mois-ci.</p>

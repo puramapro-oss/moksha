@@ -31,7 +31,9 @@ export default function StepDenomination({
       try {
         const res = await fetch(`/api/check-denomination?q=${encodeURIComponent(data.denomination)}`)
         if (res.ok) setCheck(await res.json())
-      } catch {} finally {
+      } catch (err) {
+        console.error('[check-denomination] Erreur API:', err)
+      } finally {
         setChecking(false)
       }
     }, 500)

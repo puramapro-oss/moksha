@@ -45,7 +45,9 @@ export default function AidesCreationPage() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
       if (raw) return JSON.parse(raw) as AideState
-    } catch {}
+    } catch (err) {
+      console.error('[localStorage] Erreur lecture état aides:', err)
+    }
     return {
       acre_demarche_fait: false,
       arce_entretien_fait: false,
@@ -79,7 +81,9 @@ export default function AidesCreationPage() {
       const next = { ...s, [k]: !s[k] }
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-      } catch {}
+      } catch (err) {
+        console.error('[localStorage] Erreur sauvegarde état aides:', err)
+      }
       return next
     })
   }

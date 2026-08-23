@@ -136,7 +136,9 @@ export default function WizardEntreprise() {
     if (!hydrated) return
     try {
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, __step: step }))
-    } catch {}
+    } catch (err) {
+      console.error('[sessionStorage] Erreur sauvegarde wizard entreprise:', err)
+    }
   }, [data, step, hydrated])
 
   const update = useCallback((patch: Partial<WizardData>) => setData((d) => ({ ...d, ...patch })), [])
@@ -174,7 +176,11 @@ export default function WizardEntreprise() {
       const { id } = await res.json()
       toast.success('Dossier créé — génération des documents en cours')
       // Vide le storage : dossier soumis avec succès
-      try { sessionStorage.removeItem(STORAGE_KEY) } catch {}
+      try {
+        sessionStorage.removeItem(STORAGE_KEY)
+      } catch (err) {
+        console.error('[sessionStorage] Erreur suppression wizard entreprise:', err)
+      }
       // Lance la génération + signature en arrière-plan
       fetch(`/api/demarches/${id}/deposer`, { method: 'POST' }).catch(() => {})
       router.push(`/dashboard/demarches/${id}`)

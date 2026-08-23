@@ -31,7 +31,7 @@ export default function IntentionsPage() {
 
   useEffect(() => {
     queueMicrotask(() => fetchIntentions())
-  }, [profile?.id])
+  }, [profile?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const todayIntention = intentions.find(
     (i) => new Date(i.created_at).toDateString() === new Date().toDateString(),

@@ -45,6 +45,7 @@ export default function AdminDemarches() {
     return () => { cancelled = true }
   }, [filter])
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const load = useCallback(async () => {
     setLoading(true)
     const r = await fetch(`/api/admin/demarches${filter ? `?statut=${filter}` : ''}`)

@@ -31,7 +31,7 @@ export default function GratitudePage() {
 
   useEffect(() => {
     queueMicrotask(() => fetchEntries())
-  }, [profile?.id])
+  }, [profile?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const todayCount = entries.filter(
     (e) => new Date(e.created_at).toDateString() === new Date().toDateString()

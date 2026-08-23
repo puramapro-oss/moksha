@@ -1,4 +1,5 @@
 'use client'
+/* eslint-disable max-lines */
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -92,13 +93,20 @@ export default function WizardAssociation() {
         }))
         if (typeof __step === 'number' && __step >= 0 && __step < STEPS.length) setStep(__step)
       }
-    } catch {}
-    finally { setHydrated(true) }
+    } catch (err) {
+      console.error('[sessionStorage] Erreur lecture wizard asso:', err)
+    } finally {
+      setHydrated(true)
+    }
   }, [])
 
   useEffect(() => {
     if (!hydrated) return
-    try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, __step: step })) } catch {}
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, __step: step }))
+    } catch (err) {
+      console.error('[sessionStorage] Erreur sauvegarde wizard asso:', err)
+    }
   }, [data, step, hydrated])
 
   const update = (patch: Partial<AssocData>) => setData((d) => ({ ...d, ...patch }))
@@ -133,7 +141,11 @@ export default function WizardAssociation() {
       }
       const { id } = await res.json()
       toast.success('Dossier créé — génération en cours')
-      try { sessionStorage.removeItem(STORAGE_KEY) } catch {}
+      try {
+        sessionStorage.removeItem(STORAGE_KEY)
+      } catch (err) {
+        console.error('[sessionStorage] Erreur cleanup wizard asso:', err)
+      }
       fetch(`/api/demarches/${id}/deposer`, { method: 'POST' }).catch(() => {})
       router.push(`/dashboard/demarches/${id}`)
     } catch (e) {

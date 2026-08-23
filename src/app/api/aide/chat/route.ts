@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
-import Anthropic from '@anthropic-ai/sdk'
+import { smarana } from '@purama/smarana'
 
 const SYSTEM_PROMPT = `Tu es l'assistant d'aide MOKSHA — plateforme de création d'entreprise et d'association en France.
 Tu tutoies l'utilisateur, tu es chaleureux et empathique. Tu utilises des emojis avec parcimonie.
@@ -38,16 +38,17 @@ export async function POST(request: NextRequest) {
     }
     const { message } = parsed.data
 
-    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
-    const response = await anthropic.messages.create({
-      model: process.env.ANTHROPIC_MODEL_FAST || 'claude-haiku-4-5-20251001',
-      max_tokens: 512,
+    // Loi 1 SMARANA-BRIEF.md : aucune app n'appelle l'API directement.
+    const result = await smarana.ask({
+      appSlug: 'moksha',
+      userId: user.id,
       system: SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: message }],
+      message,
+      tier: 'fast',
+      maxTokens: 512,
     })
 
-    const reply = response.content[0]?.type === 'text' ? response.content[0].text : 'Je n\'ai pas pu générer de réponse. Contacte matiss.frasne@gmail.com.'
+    const reply = result.text || 'Je n\'ai pas pu générer de réponse. Contacte matiss.frasne@gmail.com.'
 
     return NextResponse.json({ reply })
   } catch {

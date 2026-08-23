@@ -7,6 +7,7 @@ import { useAwakening } from '@/hooks/useAwakening'
 
 export default function SpiritualLayer() {
   const { showAffirmation, dismissAffirmation, addXp } = useAwakening()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [affirmation, setAffirmation] = useState<{ text: string; category: string } | null>(() =>
     showAffirmation ? getAffirmation() : null
   )

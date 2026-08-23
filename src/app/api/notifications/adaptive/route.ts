@@ -21,7 +21,6 @@ export async function GET() {
 
     const today = new Date()
     const dayStart = new Date(today).setHours(0, 0, 0, 0)
-    const yesterday = new Date(Date.now() - 86400000).toISOString()
     const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString()
 
     const [gratRes, intRes, breathRes, giftRes, dossRes, ptsRes] = await Promise.all([

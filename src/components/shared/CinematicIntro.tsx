@@ -24,7 +24,9 @@ export default function CinematicIntro() {
     document.body.style.overflow = ''
     try {
       window.localStorage.setItem(STORAGE_KEY, '1')
-    } catch {}
+    } catch (err) {
+      console.error('[localStorage] Erreur sauvegarde intro vue:', err)
+    }
   }
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function CinematicIntro() {
       const t = window.setTimeout(() => close(), DURATION_MS)
       return () => window.clearTimeout(t)
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!mounted) return null
 

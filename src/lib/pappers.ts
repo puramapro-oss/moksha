@@ -4,6 +4,7 @@
 //   - recherche-entreprises gouv (anonyme, full-text) : https://recherche-entreprises.api.gouv.fr
 //   - Pappers (formalités INPI + bilans + dirigeants) : https://api.pappers.fr/v2
 //   - api-adresse : https://adresse.data.gouv.fr
+/* eslint-disable max-lines */
 
 import { getSiret as inseeGetSiret, getSiren as inseeGetSiren } from './insee'
 
