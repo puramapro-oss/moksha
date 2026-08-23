@@ -27,7 +27,7 @@ export default function MentionsLegales() {
 
           <div>
             <h2 className="mb-2 text-xl font-bold text-white">Hébergement</h2>
-            <p>Le site moksha.purama.dev est hébergé par Vercel Inc. (340 S Lemon Ave #4133, Walnut, CA 91789, USA). Les données utilisateur sont stockées dans l&apos;Union Européenne via Supabase (Francfort, Allemagne).</p>
+            <p>Le site moksha.purama.dev est hébergé par Vercel Inc. (440 N Barranca Avenue #4133, Covina, CA 91723, USA). Les données utilisateur (comptes, dossiers, documents) sont hébergées sur un serveur Hostinger International Ltd, physiquement situé en France (Paris).</p>
           </div>
 
           <div>

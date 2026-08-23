@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
+import AIDisclosure from '@/lib/legal/components/AIDisclosure'
 
 const faqs = [
   { q: "Comment créer ma première entreprise avec MOKSHA ?", r: "Clique sur « Démarrer » en haut à droite, choisis « Créer mon entreprise », renseigne les informations demandées puis valide le récapitulatif. MOKSHA génère, signe, dépose et te livre ton Kbis." },
@@ -185,6 +186,7 @@ function AideChatbot({ onClose }: { onClose: () => void }) {
           <X className="h-4 w-4 text-white/50" />
         </button>
       </div>
+      <AIDisclosure appName="MOKSHA" className="px-4 pt-2 block text-[10px] text-white/35" />
 
       <div className="flex-1 space-y-3 overflow-y-auto p-4">
         {messages.length === 0 && (

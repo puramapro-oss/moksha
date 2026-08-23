@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Settings, LogOut, Bell, Download, Trash2, Sun, Moon, Monitor } from 'lucide-react'
+import Link from 'next/link'
+import { Settings, LogOut, Bell, Download, Sun, Moon, Monitor } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
 import { createClient } from '@/lib/supabase'
@@ -141,16 +142,14 @@ export default function Parametres() {
       <div className="glass p-6 space-y-4">
         <h2 className="font-semibold">Données personnelles (RGPD)</h2>
         <p className="text-xs text-white/50">
-          Conformément au RGPD, tu peux exporter ou supprimer tes données à tout moment. DPO : matiss.frasne@gmail.com
+          Conformément au RGPD, tu peux consulter, exporter ou supprimer tes données à tout moment. DPO : matiss.frasne@gmail.com
         </p>
-        <div className="flex gap-3">
-          <button className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/60 hover:bg-white/10">
-            <Download className="h-3.5 w-3.5" /> Exporter mes données
-          </button>
-          <button className="flex items-center gap-2 rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-2 text-xs text-red-400 hover:bg-red-500/10">
-            <Trash2 className="h-3.5 w-3.5" /> Supprimer mon compte
-          </button>
-        </div>
+        <Link
+          href="/dashboard/ma-memoire"
+          className="flex w-fit items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/60 hover:bg-white/10"
+        >
+          <Download className="h-3.5 w-3.5" /> Voir « Ma mémoire » (export & suppression)
+        </Link>
       </div>
 
       <div className="glass p-6">

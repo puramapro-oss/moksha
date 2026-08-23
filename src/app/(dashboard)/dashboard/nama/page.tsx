@@ -1,4 +1,5 @@
 import NamaChat from '@/components/nama/NamaChat'
+import AIDisclosure from '@/lib/legal/components/AIDisclosure'
 
 export const metadata = { title: 'NAMA-Business — Coach IA MOKSHA' }
 export const dynamic = 'force-dynamic'
@@ -13,6 +14,7 @@ export default function NamaPage() {
         <p className="mt-0.5 text-xs text-white/55">
           Coach IA entrepreneur senior — 15 ans d&apos;expérience · Action concrète à chaque message · FR
         </p>
+        <AIDisclosure appName="MOKSHA" className="mt-1 block text-xs text-white/40" />
       </div>
       <NamaChat />
     </main>

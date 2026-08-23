@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
 import Logo from '@/components/shared/Logo'
+import LegalAcceptanceNotice from '@/lib/legal/components/LegalAcceptanceNotice'
 
 export default function AuthForm() {
   const router = useRouter()
@@ -45,6 +46,16 @@ export default function AuthForm() {
         }
         // Lier parrainage si cookie ?ref= présent (le trigger SQL a déjà créé le profil)
         await fetch('/api/referral/apply', { method: 'POST' }).catch(() => null)
+        // Preuve d'acceptation CGU/CGV/politique de confidentialité (LegalAcceptanceNotice ci-dessous)
+        await Promise.all(
+          (['cgu', 'cgv', 'confidentialite'] as const).map((docType) =>
+            fetch('/api/legal/accept', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ docType }),
+            }).catch(() => null)
+          )
+        )
         toast.success('Compte créé — bienvenue sur MOKSHA 🔥')
         router.push(next)
       }
@@ -140,6 +151,9 @@ export default function AuthForm() {
           autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
           className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none transition focus:border-[#FF3D00]/60 focus:ring-1 focus:ring-[#FF3D00]/30"
         />
+        {mode === 'signup' && (
+          <LegalAcceptanceNotice actionLabel="Créer mon compte" cgvHref="/cgv" />
+        )}
         <button
           type="submit"
           disabled={loading}

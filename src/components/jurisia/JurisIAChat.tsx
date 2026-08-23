@@ -5,6 +5,7 @@ import { Bot, Send, Sparkles, Plus, Trash2, ShieldCheck, ShieldAlert, ShieldQues
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { toast } from 'sonner'
+import AIDisclosure from '@/lib/legal/components/AIDisclosure'
 
 type Msg = { role: 'user' | 'assistant'; content: string }
 type Conv = { id: string; titre: string; updated_at: string }
@@ -230,6 +231,11 @@ export default function JurisIAChat() {
             <Plus className="h-4 w-4" />
           </button>
         </div>
+        <AIDisclosure
+          appName="MOKSHA"
+          extra="Ses réponses ont valeur informative et ne remplacent pas un avis d'avocat."
+          className="mb-4 -mt-2 block text-xs text-white/40"
+        />
 
         {/* Messages */}
         <div className="flex-1 space-y-4 overflow-y-auto rounded-3xl border border-white/5 bg-white/[0.02] p-5 md:p-8">

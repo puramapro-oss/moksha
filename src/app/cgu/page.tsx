@@ -24,8 +24,8 @@ export default function CGU() {
             <p>Tu es seul responsable de l&apos;exactitude des informations que tu renseignes. Toute déclaration fausse peut entraîner des sanctions légales et le refus ou l&apos;annulation de tes démarches.</p>
           </section>
           <section>
-            <h2 className="mb-2 text-xl font-bold text-white">Art. 4 — JurisIA</h2>
-            <p>JurisIA est un assistant juridique basé sur l&apos;IA. Ses réponses ont valeur informative et ne constituent pas un avis juridique personnalisé. Pour toute situation complexe, consulte un avocat.</p>
+            <h2 className="mb-2 text-xl font-bold text-white">Art. 4 — Assistants IA (JurisIA, NAMA-Business, Assistant MOKSHA)</h2>
+            <p>MOKSHA expose trois assistants conversationnels basés sur l&apos;intelligence artificielle : JurisIA (juridique), NAMA-Business (coaching entrepreneurial) et l&apos;Assistant MOKSHA (support). Tu échanges avec une IA, jamais avec un humain — cette information est rappelée visiblement dans chaque interface de conversation. Leurs réponses ont valeur informative et ne constituent pas un avis juridique, comptable ou financier personnalisé. Pour toute situation complexe, consulte un avocat ou un expert-comptable.</p>
           </section>
           <section>
             <h2 className="mb-2 text-xl font-bold text-white">Art. 5 — Suspension / résiliation</h2>

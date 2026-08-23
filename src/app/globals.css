@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+/* Mappe les tokens sémantiques du socle légal @purama/legal (bg-background, text-foreground,
+   bg-primary, border-border, text-destructive, rounded-pill...) sur les vars MOKSHA existantes.
+   Sans ce bloc ces classes ne génèrent aucune règle CSS (0 @theme dans ce fichier avant NIYAMA,
+   piège déjà rencontré sur PASHU — PIEGES.md §16, 2026-08-07). */
+@theme {
+  --color-background: var(--bg-void);
+  --color-background-soft: var(--bg-nebula);
+  --color-foreground: var(--text-primary);
+  --color-muted-foreground: var(--text-secondary);
+  --color-primary: var(--primary);
+  --color-primary-on-dark: var(--secondary);
+  --color-border: var(--border);
+  --color-destructive: var(--primary);
+  --radius-pill: 9999px;
+}
+
 :root {
   --bg-void: #070B18;
   --bg-nebula: #0D1225;
