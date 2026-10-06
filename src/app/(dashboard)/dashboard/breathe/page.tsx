@@ -29,6 +29,7 @@ export default function BreathePage() {
   const [cycles, setCycles] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
   const [saved, setSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [pastSessions, setPastSessions] = useState<PastSession[]>([])
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -84,17 +85,22 @@ export default function BreathePage() {
   }, [totalTime, saved, profile?.id])
 
   async function saveSession() {
-    if (!profile?.id || saved) return
-    setSaved(true)
+    if (!profile?.id || saved || saving) return
+    setSaving(true)
     const { error } = await supabase.from('moksha_breath_sessions').insert({
       user_id: profile.id,
       cycles,
       duration_seconds: totalTime,
       points_earned: POINTS_PER_SESSION,
     })
-    if (!error) {
-      toast.success(`+${POINTS_PER_SESSION} points — Tu vois ? Tu es capable de tout.`)
+    if (error) {
+      setSaving(false)
+      toast.error('Impossible de sauvegarder la séance. Ta progression reste affichée : réessaie.')
+      return
     }
+    setSaved(true)
+    setSaving(false)
+    toast.success('Séance enregistrée.')
   }
 
   function reset() {
@@ -104,6 +110,7 @@ export default function BreathePage() {
     setCycles(0)
     setTotalTime(0)
     setSaved(false)
+    setSaving(false)
     clearTimer()
   }
 
@@ -133,8 +140,7 @@ export default function BreathePage() {
         </h1>
       </div>
       <p className="mb-10 max-w-md text-center text-sm text-[var(--text-secondary)]">
-        Cette technique de respiration calme le mental et recentre l&apos;énergie. Idéal avant une
-        décision importante.
+        Une pratique guidée de respiration 4-7-8. Arrête si elle provoque un inconfort et reprends une respiration naturelle.
       </p>
 
       {/* Breath circle */}
@@ -160,12 +166,14 @@ export default function BreathePage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => setRunning(!running)}
+          aria-label={running ? 'Mettre la respiration en pause' : 'Démarrer la respiration'}
           className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18] shadow-lg transition-all active:scale-95"
         >
           {running ? <Pause className="h-6 w-6" /> : <Play className="ml-0.5 h-6 w-6" />}
         </button>
         <button
           onClick={reset}
+          aria-label="Réinitialiser la séance"
           className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition hover:bg-white/10"
         >
           <RotateCcw className="h-4 w-4" />
@@ -190,12 +198,12 @@ export default function BreathePage() {
         <div className="mt-6 flex items-center gap-2 rounded-xl bg-[#5DCAA5]/10 px-4 py-2">
           <Trophy className="h-4 w-4 text-[#5DCAA5]" />
           <span className="text-sm font-medium text-[#5DCAA5]">
-            +{POINTS_PER_SESSION} points enregistrés
+            Séance enregistrée
           </span>
         </div>
       ) : (
         <p className="mt-8 text-center text-xs text-[var(--text-muted)]">
-          +{POINTS_PER_SESSION} points après 3 minutes de pratique
+          La séance sera enregistrée après 3 minutes de pratique
         </p>
       )}
 
@@ -225,7 +233,7 @@ export default function BreathePage() {
                   })}
                 </p>
               </div>
-              <span className="text-xs font-medium text-[#5DCAA5]">+50 pts</span>
+              <span className="text-xs font-medium text-[#5DCAA5]">Enregistrée</span>
             </div>
           ))}
         </div>
