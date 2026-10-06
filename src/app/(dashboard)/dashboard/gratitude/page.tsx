@@ -13,18 +13,29 @@ export default function GratitudePage() {
   const [entries, setEntries] = useState<Entry[]>([])
   const [text, setText] = useState('')
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
   const [sending, setSending] = useState(false)
 
   const supabase = createClient()
 
   async function fetchEntries() {
-    if (!profile?.id) return
-    const { data } = await supabase
+    if (!profile?.id) {
+      setLoading(false)
+      return
+    }
+    setLoading(true)
+    setLoadError(false)
+    const { data, error } = await supabase
       .from('moksha_gratitude_entries')
       .select('id, content, created_at')
       .eq('user_id', profile.id)
       .order('created_at', { ascending: false })
       .limit(30)
+    if (error) {
+      setLoadError(true)
+      setLoading(false)
+      return
+    }
     setEntries(data || [])
     setLoading(false)
   }
@@ -61,7 +72,7 @@ export default function GratitudePage() {
     if (error) {
       toast.error('Impossible de sauvegarder. Réessaie.')
     } else {
-      toast.success('Gratitude enregistrée +100 pts')
+      toast.success('Gratitude enregistrée')
       setText('')
       await fetchEntries()
     }
@@ -78,7 +89,7 @@ export default function GratitudePage() {
       </div>
 
       <p className="text-sm text-[var(--text-secondary)]">
-        3 gratitudes par jour transforment ta perception. Chaque entrée = +100 points.
+        Note jusqu’à 3 gratitudes par jour si cette pratique te convient. Tu peux arrêter à tout moment.
       </p>
 
       {/* Stats */}
@@ -109,10 +120,12 @@ export default function GratitudePage() {
               onKeyDown={(e) => e.key === 'Enter' && submit()}
               className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[#FF3D00]/60"
               maxLength={280}
+              aria-label="Gratitude du jour"
             />
             <button
               onClick={submit}
               disabled={!text.trim() || sending}
+              aria-label="Enregistrer la gratitude"
               className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18] disabled:opacity-40"
             >
               <Send className="h-4 w-4" />
@@ -135,6 +148,12 @@ export default function GratitudePage() {
             {[1, 2, 3].map((i) => (
               <div key={i} className="skeleton h-16 w-full" />
             ))}
+          </div>
+        ) : loadError ? (
+          <div className="glass rounded-xl p-8 text-center">
+            <p className="text-sm text-[var(--text-muted)]">
+              Impossible de charger l&apos;historique pour le moment. Les entrées ne sont pas présentées comme absentes.
+            </p>
           </div>
         ) : entries.length === 0 ? (
           <div className="glass rounded-xl p-8 text-center">
