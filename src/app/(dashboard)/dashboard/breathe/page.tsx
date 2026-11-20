@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { createClient } from '@/lib/supabase'
 import { useAuth } from '@/hooks/useAuth'
 
+type SaveState = 'idle' | 'saving' | 'saved' | 'rejected' | 'unconfirmed'
 type Phase = 'inhale' | 'hold' | 'exhale'
 
 const PHASES: { phase: Phase; duration: number; label: string }[] = [
@@ -21,6 +22,10 @@ type PastSession = { id: string; cycles: number; duration_seconds: number; creat
 
 export default function BreathePage() {
   const { profile } = useAuth()
+  return <BreathingSession key={profile?.id} userId={profile?.id} />
+}
+
+function BreathingSession({ userId }: { userId?: string }) {
   const supabase = createClient()
 
   const [running, setRunning] = useState(false)
@@ -28,7 +33,9 @@ export default function BreathePage() {
   const [countdown, setCountdown] = useState(4)
   const [cycles, setCycles] = useState(0)
   const [totalTime, setTotalTime] = useState(0)
-  const [saved, setSaved] = useState(false)
+  const [saveState, setSaveState] = useState<SaveState>('idle')
+  const activeSave = useRef<symbol | null>(null)
+  const saved = saveState === 'saved'
   const [pastSessions, setPastSessions] = useState<PastSession[]>([])
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -40,15 +47,21 @@ export default function BreathePage() {
 
   // Fetch past sessions
   useEffect(() => {
-    if (!profile?.id) return
+    if (!userId) return
+    let currentRequest = true
     supabase
       .from('moksha_breath_sessions')
       .select('id, cycles, duration_seconds, created_at')
-      .eq('user_id', profile.id)
+      .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(10)
-      .then(({ data }) => setPastSessions(data ?? []))
-  }, [profile?.id, supabase, saved])
+      .then(({ data }) => {
+        if (currentRequest) setPastSessions(data ?? [])
+      })
+    return () => { currentRequest = false }
+  }, [userId, supabase, saved])
+
+  useEffect(() => () => { activeSave.current = null }, [])
 
   useEffect(() => {
     if (!running) {
@@ -75,27 +88,38 @@ export default function BreathePage() {
     return clearTimer
   }, [running, phaseIndex, clearTimer])
 
-  // Auto-save when reaching 3 minutes
-  useEffect(() => {
-    if (totalTime >= MIN_SECONDS_FOR_POINTS && !saved && profile?.id) {
-      saveSession()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalTime, saved, profile?.id])
+  const saveSession = useCallback(async () => {
+    if (!userId || activeSave.current || (saveState !== 'idle' && saveState !== 'rejected')) return
 
-  async function saveSession() {
-    if (!profile?.id || saved) return
-    setSaved(true)
-    const { error } = await supabase.from('moksha_breath_sessions').insert({
-      user_id: profile.id,
-      cycles,
-      duration_seconds: totalTime,
-      points_earned: POINTS_PER_SESSION,
-    })
-    if (!error) {
-      toast.success(`+${POINTS_PER_SESSION} points — Tu vois ? Tu es capable de tout.`)
+    const attempt = Symbol()
+    activeSave.current = attempt
+    setSaveState('saving')
+    try {
+      const { error, status } = await supabase.from('moksha_breath_sessions').insert({
+        user_id: userId,
+        cycles,
+        duration_seconds: totalTime,
+        points_earned: POINTS_PER_SESSION,
+      })
+      if (activeSave.current !== attempt) return
+      if (error) {
+        // A lost acknowledgement may follow a successful insert.
+        const definitivelyRejected = [400, 401, 403, 404, 406, 415, 422].includes(status)
+        setSaveState(definitivelyRejected ? 'rejected' : 'unconfirmed')
+        return
+      }
+      setSaveState('saved')
+      toast.success('Séance enregistrée.')
+    } catch {
+      if (activeSave.current === attempt) setSaveState('unconfirmed')
+    } finally {
+      if (activeSave.current === attempt) activeSave.current = null
     }
-  }
+  }, [userId, saveState, supabase, cycles, totalTime])
+
+  useEffect(() => {
+    if (totalTime >= MIN_SECONDS_FOR_POINTS && saveState === 'idle') void saveSession()
+  }, [totalTime, saveState, saveSession])
 
   function reset() {
     setRunning(false)
@@ -103,7 +127,8 @@ export default function BreathePage() {
     setCountdown(4)
     setCycles(0)
     setTotalTime(0)
-    setSaved(false)
+    activeSave.current = null
+    setSaveState('idle')
     clearTimer()
   }
 
@@ -133,8 +158,7 @@ export default function BreathePage() {
         </h1>
       </div>
       <p className="mb-10 max-w-md text-center text-sm text-[var(--text-secondary)]">
-        Cette technique de respiration calme le mental et recentre l&apos;énergie. Idéal avant une
-        décision importante.
+        Une pratique guidée de respiration 4-7-8. Arrête si elle provoque un inconfort et reprends une respiration naturelle.
       </p>
 
       {/* Breath circle */}
@@ -160,12 +184,14 @@ export default function BreathePage() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => setRunning(!running)}
+          aria-label={running ? 'Mettre la respiration en pause' : 'Démarrer la respiration'}
           className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-[#FF3D00] to-[#FFB300] text-[#070B18] shadow-lg transition-all active:scale-95"
         >
           {running ? <Pause className="h-6 w-6" /> : <Play className="ml-0.5 h-6 w-6" />}
         </button>
         <button
           onClick={reset}
+          aria-label="Réinitialiser la séance"
           className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition hover:bg-white/10"
         >
           <RotateCcw className="h-4 w-4" />
@@ -190,12 +216,23 @@ export default function BreathePage() {
         <div className="mt-6 flex items-center gap-2 rounded-xl bg-[#5DCAA5]/10 px-4 py-2">
           <Trophy className="h-4 w-4 text-[#5DCAA5]" />
           <span className="text-sm font-medium text-[#5DCAA5]">
-            +{POINTS_PER_SESSION} points enregistrés
+            Séance enregistrée
           </span>
         </div>
+      ) : saveState === 'rejected' ? (
+        <div role="status" className="mt-8 text-center text-sm">
+          <p>La séance n’a pas pu être enregistrée.</p>
+          <button type="button" className="mt-2 underline" onClick={() => void saveSession()}>
+            Réessayer l’enregistrement
+          </button>
+        </div>
       ) : (
-        <p className="mt-8 text-center text-xs text-[var(--text-muted)]">
-          +{POINTS_PER_SESSION} points après 3 minutes de pratique
+        <p role="status" className="mt-8 text-center text-xs text-[var(--text-muted)]">
+          {saveState === 'unconfirmed'
+            ? 'Enregistrement non confirmé. Actualise la page pour vérifier ton historique.'
+            : saveState === 'saving'
+              ? 'Enregistrement en cours…'
+              : 'La séance sera enregistrée après 3 minutes de pratique'}
         </p>
       )}
 
@@ -225,7 +262,7 @@ export default function BreathePage() {
                   })}
                 </p>
               </div>
-              <span className="text-xs font-medium text-[#5DCAA5]">+50 pts</span>
+              <span className="text-xs font-medium text-[#5DCAA5]">Enregistrée</span>
             </div>
           ))}
         </div>
