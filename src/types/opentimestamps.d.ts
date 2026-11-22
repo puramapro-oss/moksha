@@ -1,10 +1,10 @@
 /**
- * MOKSHA V7.1 — Types locaux pour javascript-opentimestamps (V4.1 §36.2)
+ * MOKSHA V7.1 — Types locaux pour opentimestamps (V4.1 §36.2)
  * La lib upstream n'expose pas de .d.ts. Définition minimale couvrant
  * les usages MOKSHA : stamp / verify / DetachedTimestampFile / Ops.OpSHA256.
  */
 
-declare module 'javascript-opentimestamps' {
+declare module 'opentimestamps' {
   export class OpSHA256 {}
 
   export const Ops: {
@@ -15,7 +15,7 @@ declare module 'javascript-opentimestamps' {
     static fromHash(op: OpSHA256, hash: Buffer | Uint8Array): DetachedTimestampFile
     static deserialize(bytes: Buffer | Uint8Array): DetachedTimestampFile
     serializeToBytes(): Uint8Array
-    fileHash(): Uint8Array
+    fileDigest(): Uint8Array
   }
 
   export interface VerifyResult {

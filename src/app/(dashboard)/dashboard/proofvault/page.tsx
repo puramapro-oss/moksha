@@ -1,39 +1,39 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useCallback, useState, useRef } from 'react'
 import { Upload, FileText, Lock, Check, AlertTriangle, Download, Share2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
+import { useAsyncData } from '@/hooks/useAsyncData'
 import { createClient } from '@/lib/supabase'
 import type { MokshaDocument } from '@/types'
 
 export default function ProofVault() {
-  const { profile } = useAuth()
-  const [docs, setDocs] = useState<MokshaDocument[]>([])
-  const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
+  return <ProofVaultForUser key={user?.id} userId={user?.id} />
+}
+
+function ProofVaultForUser({ userId }: { userId?: string }) {
   const [uploading, setUploading] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
   const supabase = createClient()
 
-  const load = async () => {
-    if (!profile?.id) return
-    const { data } = await supabase
+  const read = useCallback(async () => {
+    if (!userId) return []
+    const { data, error } = await supabase
       .from('moksha_documents')
       .select('*')
-      .eq('user_id', profile.id)
+      .eq('user_id', userId)
       .order('created_at', { ascending: false })
-    setDocs((data as MokshaDocument[]) || [])
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    load()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile?.id])
+    if (error) throw error
+    return (data as MokshaDocument[]) || []
+  }, [userId, supabase])
+  const { data, loading, error, refresh: load } = useAsyncData(read)
+  const docs = data ?? []
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
-    if (!file || !profile?.id) return
+    if (!file || !userId) return
     setUploading(true)
 
     try {
@@ -50,14 +50,14 @@ export default function ProofVault() {
 
       const scanner_score = file.size < 100_000 ? 'attention' : 'parfait'
 
-      const path = `${profile.id}/${Date.now()}_${file.name}`
+      const path = `${userId}/${Date.now()}_${file.name}`
       const { error: upErr } = await supabase.storage.from('moksha_documents').upload(path, file)
       if (upErr) throw upErr
 
       const { data: { publicUrl } } = supabase.storage.from('moksha_documents').getPublicUrl(path)
 
       const { error: insErr } = await supabase.from('moksha_documents').insert({
-        user_id: profile.id,
+        user_id: userId,
         nom: file.name,
         type: 'autre',
         file_url: publicUrl,
@@ -79,6 +79,7 @@ export default function ProofVault() {
 
   return (
     <div className="space-y-6">
+      {error !== null && <p role="alert" className="text-sm text-amber-300">Chargement impossible. <button onClick={() => void load()} className="underline">Réessayer</button></p>}
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>

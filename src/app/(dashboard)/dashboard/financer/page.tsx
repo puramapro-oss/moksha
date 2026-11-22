@@ -1,7 +1,7 @@
 'use client'
 /* eslint-disable max-lines */
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import {
   Banknote,
   ArrowRight,
@@ -101,9 +101,15 @@ export default function FinancerPage() {
   // Step 4 — dossiers from DB
   const [dossiers, setDossiers] = useState<Dossier[]>([])
 
+  const aidesRequest = useRef(0)
+  useEffect(() => () => { aidesRequest.current++ }, [])
+
   const fetchAides = useCallback(async () => {
     if (!profil || !situation) return
+    const request = ++aidesRequest.current
     setLoading(true)
+    setAides([])
+    setCumul(0)
     try {
       const params = new URLSearchParams({
         profil,
@@ -112,6 +118,7 @@ export default function FinancerPage() {
       })
       const res = await fetch(`/api/financer?${params}`)
       const data = await res.json()
+      if (request !== aidesRequest.current) return
       if (res.ok) {
         setAides(data.aides ?? [])
         setCumul(data.cumul ?? 0)
@@ -119,16 +126,16 @@ export default function FinancerPage() {
         toast.error(data.error ?? 'Erreur chargement des aides')
       }
     } catch {
-      toast.error('Impossible de charger les aides')
+      if (request === aidesRequest.current) toast.error('Impossible de charger les aides')
     } finally {
-      setLoading(false)
+      if (request === aidesRequest.current) setLoading(false)
     }
   }, [profil, situation, handicap])
 
-  // Fetch aides when moving to step 2
-  useEffect(() => {
-    if (step === 2) fetchAides()
-  }, [step, fetchAides])
+  function goToStep(nextStep: number) {
+    if (nextStep === 2) void fetchAides()
+    setStep(nextStep)
+  }
 
   // Fetch dossiers when moving to step 4
   useEffect(() => {
@@ -275,7 +282,7 @@ export default function FinancerPage() {
     if (step === 3) {
       saveDossiers()
     }
-    setStep((s) => s + 1)
+    goToStep(step + 1)
   }
 
   return (
@@ -578,7 +585,7 @@ export default function FinancerPage() {
       <div className="flex items-center justify-between">
         {step > 1 ? (
           <button
-            onClick={() => setStep((s) => s - 1)}
+            onClick={() => goToStep(step - 1)}
             className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm transition hover:bg-white/10"
           >
             <ArrowLeft className="h-4 w-4" /> Retour

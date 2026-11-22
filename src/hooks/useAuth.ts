@@ -4,56 +4,115 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase'
 import { SUPER_ADMIN_EMAIL } from '@/lib/constants'
 import type { Profile } from '@/types'
-import type { User, Session } from '@supabase/supabase-js'
+import type { Session } from '@supabase/supabase-js'
+
+type AuthState = {
+  session: Session | null
+  profile: Profile | null
+  loading: boolean
+}
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null)
-  const [profile, setProfile] = useState<Profile | null>(null)
-  const [session, setSession] = useState<Session | null>(null)
-  const [loading, setLoading] = useState(true)
-  const profileIdRef = useRef<string | null>(null)
+  const [state, setState] = useState<AuthState>({ session: null, profile: null, loading: true })
+  const stateRef = useRef(state)
+  const activeRef = useRef(false)
+  const generationRef = useRef(0)
+  const profileRequestRef = useRef<symbol | null>(null)
+  const profileTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const supabase = createClient()
 
-  const fetchProfile = useCallback(async (userId: string) => {
-    if (profileIdRef.current === userId && profile) return
-    profileIdRef.current = userId
+  const publish = useCallback((next: AuthState) => {
+    // Auth events can arrive several times before React commits a render.
+    stateRef.current = next
+    setState(next)
+  }, [])
 
-    const { data } = await supabase
-      .from('moksha_profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
+  const invalidateProfile = useCallback(() => {
+    const generation = ++generationRef.current
+    profileRequestRef.current = null
+    if (profileTimerRef.current !== null) clearTimeout(profileTimerRef.current)
+    profileTimerRef.current = null
+    return generation
+  }, [])
 
-    if (data) setProfile(data as Profile)
-  }, [supabase, profile])
+  const fetchProfile = useCallback(async (userId: string, generation: number) => {
+    if (!activeRef.current || generationRef.current !== generation || stateRef.current.session?.user.id !== userId) return
+    if (profileTimerRef.current !== null) {
+      clearTimeout(profileTimerRef.current)
+      profileTimerRef.current = null
+    }
+    const request = Symbol()
+    profileRequestRef.current = request
+    publish({ ...stateRef.current, profile: null, loading: true })
+
+    let nextProfile: Profile | null = null
+    try {
+      const { data, error } = await supabase
+        .from('moksha_profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
+      if (!error && data?.id === userId) nextProfile = data as Profile
+    } catch {
+      // A failed profile read must release loading without retaining old roles.
+    }
+    if (!activeRef.current || generationRef.current !== generation || profileRequestRef.current !== request) return
+    profileRequestRef.current = null
+    publish({ ...stateRef.current, profile: nextProfile, loading: false })
+  }, [supabase, publish])
 
   useEffect(() => {
-    const getSession = async () => {
-      const { data: { session: s } } = await supabase.auth.getSession()
-      setSession(s)
-      setUser(s?.user ?? null)
-      if (s?.user) await fetchProfile(s.user.id)
-      setLoading(false)
+    let active = true
+    let receivedAuthEvent = false
+    let receivedUserEvent = false
+    activeRef.current = true
+
+    const applySession = (nextSession: Session | null, refreshProfile = false) => {
+      const session = nextSession?.user?.id ? nextSession : null
+      const current = stateRef.current
+      const sameSession = current.session?.user.id === session?.user.id && current.session?.access_token === session?.access_token
+      if (session && sameSession && !refreshProfile && (current.profile || profileRequestRef.current || profileTimerRef.current !== null)) {
+        publish({ ...current, session })
+        return
+      }
+
+      const generation = invalidateProfile()
+      publish({ session, profile: null, loading: !!session })
+      if (session) {
+        // Supabase awaits auth callbacks under a lock: defer other client calls.
+        profileTimerRef.current = setTimeout(() => {
+          profileTimerRef.current = null
+          void fetchProfile(session.user.id, generation)
+        }, 0)
+      }
     }
 
-    getSession()
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, s) => {
-        if (event === 'TOKEN_REFRESHED') return
-        setSession(s)
-        setUser(s?.user ?? null)
-        if (s?.user) await fetchProfile(s.user.id)
-        else {
-          setProfile(null)
-          profileIdRef.current = null
-        }
-        setLoading(false)
+      (event, session) => {
+        if (!active || (event === 'INITIAL_SESSION' && receivedUserEvent)) return
+        receivedAuthEvent = true
+        if (event !== 'INITIAL_SESSION') receivedUserEvent = true
+        applySession(session, event === 'USER_UPDATED')
       }
     )
 
-    return () => subscription.unsubscribe()
-  }, [supabase, fetchProfile])
+    const getSession = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession()
+        if (active && !receivedAuthEvent) applySession(error ? null : data.session)
+      } catch {
+        if (active && !receivedAuthEvent) applySession(null)
+      }
+    }
+    void getSession()
+
+    return () => {
+      active = false
+      activeRef.current = false
+      invalidateProfile()
+      subscription.unsubscribe()
+    }
+  }, [supabase, fetchProfile, publish, invalidateProfile])
 
   const signIn = useCallback(async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
@@ -83,7 +142,8 @@ export function useAuth() {
     document.cookie.split(';').forEach((c) => {
       document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
     })
-    window.location.href = '/auth'
+    // A document navigation clears authenticated state and caches held in memory.
+    window.location.assign(new URL('/auth', window.location.origin).toString())
   }, [supabase])
 
   const resetPassword = useCallback(async (email: string) => {
@@ -94,11 +154,12 @@ export function useAuth() {
   }, [supabase])
 
   const refetch = useCallback(async () => {
-    if (user) {
-      profileIdRef.current = null
-      await fetchProfile(user.id)
-    }
-  }, [user, fetchProfile])
+    const userId = stateRef.current.session?.user.id
+    if (userId) await fetchProfile(userId, generationRef.current)
+  }, [fetchProfile])
+
+  const { session, profile, loading } = state
+  const user = session?.user ?? null
 
   return {
     user, profile, session, loading,

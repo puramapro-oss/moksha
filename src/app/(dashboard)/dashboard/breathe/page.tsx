@@ -8,6 +8,8 @@ import { useAuth } from '@/hooks/useAuth'
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'rejected' | 'unconfirmed'
 type Phase = 'inhale' | 'hold' | 'exhale'
+type Clock = { phaseIndex: number; countdown: number; cycles: number; totalTime: number }
+const INITIAL_CLOCK: Clock = { phaseIndex: 0, countdown: 4, cycles: 0, totalTime: 0 }
 
 const PHASES: { phase: Phase; duration: number; label: string }[] = [
   { phase: 'inhale', duration: 4, label: 'Inspire' },
@@ -21,19 +23,23 @@ const POINTS_PER_SESSION = 50
 type PastSession = { id: string; cycles: number; duration_seconds: number; created_at: string }
 
 export default function BreathePage() {
-  const { profile } = useAuth()
-  return <BreathingSession key={profile?.id} userId={profile?.id} />
+  const { user } = useAuth()
+  return <BreathingSession key={user?.id} userId={user?.id} />
 }
 
 function BreathingSession({ userId }: { userId?: string }) {
   const supabase = createClient()
 
   const [running, setRunning] = useState(false)
-  const [phaseIndex, setPhaseIndex] = useState(0)
-  const [countdown, setCountdown] = useState(4)
-  const [cycles, setCycles] = useState(0)
-  const [totalTime, setTotalTime] = useState(0)
+  const [clock, setClock] = useState(INITIAL_CLOCK)
+  const clockRef = useRef(INITIAL_CLOCK)
+  const { phaseIndex, countdown, cycles, totalTime } = clock
   const [saveState, setSaveState] = useState<SaveState>('idle')
+  const saveStateRef = useRef<SaveState>('idle')
+  const publishSaveState = useCallback((next: SaveState) => {
+    saveStateRef.current = next
+    setSaveState(next)
+  }, [])
   const activeSave = useRef<symbol | null>(null)
   const saved = saveState === 'saved'
   const [pastSessions, setPastSessions] = useState<PastSession[]>([])
@@ -63,72 +69,61 @@ function BreathingSession({ userId }: { userId?: string }) {
 
   useEffect(() => () => { activeSave.current = null }, [])
 
-  useEffect(() => {
-    if (!running) {
-      clearTimer()
-      return
-    }
-
-    intervalRef.current = setInterval(() => {
-      setCountdown((c) => {
-        if (c <= 1) {
-          setPhaseIndex((pi) => {
-            const next = (pi + 1) % 3
-            if (next === 0) setCycles((cy) => cy + 1)
-            return next
-          })
-          const nextPhase = PHASES[(phaseIndex + 1) % 3]
-          return nextPhase.duration
-        }
-        return c - 1
-      })
-      setTotalTime((t) => t + 1)
-    }, 1000)
-
-    return clearTimer
-  }, [running, phaseIndex, clearTimer])
-
-  const saveSession = useCallback(async () => {
-    if (!userId || activeSave.current || (saveState !== 'idle' && saveState !== 'rejected')) return
+  const saveSession = useCallback(async (elapsed = clockRef.current) => {
+    const status = saveStateRef.current
+    if (!userId || activeSave.current || (status !== 'idle' && status !== 'rejected')) return
 
     const attempt = Symbol()
     activeSave.current = attempt
-    setSaveState('saving')
+    publishSaveState('saving')
     try {
       const { error, status } = await supabase.from('moksha_breath_sessions').insert({
         user_id: userId,
-        cycles,
-        duration_seconds: totalTime,
+        cycles: elapsed.cycles,
+        duration_seconds: elapsed.totalTime,
         points_earned: POINTS_PER_SESSION,
       })
       if (activeSave.current !== attempt) return
       if (error) {
         // A lost acknowledgement may follow a successful insert.
         const definitivelyRejected = [400, 401, 403, 404, 406, 415, 422].includes(status)
-        setSaveState(definitivelyRejected ? 'rejected' : 'unconfirmed')
+        publishSaveState(definitivelyRejected ? 'rejected' : 'unconfirmed')
         return
       }
-      setSaveState('saved')
+      publishSaveState('saved')
       toast.success('Séance enregistrée.')
     } catch {
-      if (activeSave.current === attempt) setSaveState('unconfirmed')
+      if (activeSave.current === attempt) publishSaveState('unconfirmed')
     } finally {
       if (activeSave.current === attempt) activeSave.current = null
     }
-  }, [userId, saveState, supabase, cycles, totalTime])
+  }, [userId, supabase, publishSaveState])
 
   useEffect(() => {
-    if (totalTime >= MIN_SECONDS_FOR_POINTS && saveState === 'idle') void saveSession()
-  }, [totalTime, saveState, saveSession])
+    if (!running) return
+    intervalRef.current = setInterval(() => {
+      const previous = clockRef.current
+      const phaseEnded = previous.countdown <= 1
+      const nextPhase = phaseEnded ? (previous.phaseIndex + 1) % PHASES.length : previous.phaseIndex
+      const next: Clock = {
+        phaseIndex: nextPhase,
+        countdown: phaseEnded ? PHASES[nextPhase].duration : previous.countdown - 1,
+        cycles: previous.cycles + (phaseEnded && nextPhase === 0 ? 1 : 0),
+        totalTime: previous.totalTime + 1,
+      }
+      clockRef.current = next
+      setClock(next)
+      if (next.totalTime >= MIN_SECONDS_FOR_POINTS && saveStateRef.current === 'idle') void saveSession(next)
+    }, 1000)
+    return clearTimer
+  }, [running, clearTimer, saveSession])
 
   function reset() {
     setRunning(false)
-    setPhaseIndex(0)
-    setCountdown(4)
-    setCycles(0)
-    setTotalTime(0)
+    clockRef.current = INITIAL_CLOCK
+    setClock(INITIAL_CLOCK)
     activeSave.current = null
-    setSaveState('idle')
+    publishSaveState('idle')
     clearTimer()
   }
 

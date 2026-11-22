@@ -13,6 +13,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServiceClient } from '@/lib/supabase'
 import { verifyContent, hashContent, upgradeProof } from '@/lib/opentimestamps'
+import { readReglementContent } from '@/lib/reglement-content'
 
 export const runtime = 'nodejs'
 
@@ -23,6 +24,10 @@ export async function GET(
   const { id } = await params
   if (!id) {
     return NextResponse.json({ error: 'ID règlement requis' }, { status: 400 })
+  }
+  // A public verifier must never let its caller select a server-side URL.
+  if (req.nextUrl.searchParams.has('content_url')) {
+    return NextResponse.json({ error: 'La source du règlement est définie lors de sa publication.' }, { status: 400 })
   }
 
   const svc = createServiceClient()
@@ -37,30 +42,21 @@ export async function GET(
 
   // Cas 1 : OpenTimestamps preuve disponible → vérification cryptographique live
   if (reglement.opentimestamps_proof) {
-    const url = req.nextUrl.searchParams.get('content_url') ?? reglement.content_url
-    let content: string | null = null
-    if (url) {
-      try {
-        const baseUrl = `${req.nextUrl.protocol}//${req.nextUrl.host}`
-        const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`
-        const res = await fetch(fullUrl)
-        if (res.ok) content = await res.text()
-      } catch {
-        content = null
-      }
-    }
+    const content = await readReglementContent(reglement.content_url)
 
     if (!content) {
       return NextResponse.json(
         {
           ok: true,
+          verified: false,
           version: reglement.version,
           content_hash: reglement.content_hash,
           blockchain: reglement.blockchain,
-          stamp_status: reglement.bitcoin_block_height ? 'confirmed' : 'pending_anchor',
+          stamp_status: 'unavailable',
+          recorded_stamp_status: reglement.bitcoin_block_height ? 'confirmed' : 'pending_anchor',
           bitcoin_block_height: reglement.bitcoin_block_height,
           bitcoin_block_timestamp: reglement.bitcoin_block_timestamp,
-          message: 'Contenu original indisponible — vérification via hash uniquement.',
+          message: 'Contenu original indisponible — preuve non vérifiée.',
           note: 'Pour vérifier, hash SHA-256 du règlement original doit égaler content_hash.',
         },
         { headers: { 'Cache-Control': 'public, max-age=300' } },

@@ -1,40 +1,41 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Bell, Plus, CheckCircle2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
+import { useAsyncData } from '@/hooks/useAsyncData'
 import { createClient } from '@/lib/supabase'
 import type { Rappel } from '@/types'
 
 export default function Rappels() {
-  const { profile } = useAuth()
-  const [rappels, setRappels] = useState<Rappel[]>([])
-  const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
+  return <RappelsForUser key={user?.id} userId={user?.id} />
+}
+
+function RappelsForUser({ userId }: { userId?: string }) {
   const [showForm, setShowForm] = useState(false)
   const [newTitre, setNewTitre] = useState('')
   const [newDate, setNewDate] = useState('')
   const supabase = createClient()
 
-  const load = async () => {
-    if (!profile?.id) return
-    const { data } = await supabase
+  const read = useCallback(async () => {
+    if (!userId) return []
+    const { data, error } = await supabase
       .from('moksha_rappels')
       .select('*')
-      .eq('user_id', profile.id)
+      .eq('user_id', userId)
       .order('date_echeance', { ascending: true })
-    setRappels((data as Rappel[]) || [])
-    setLoading(false)
-  }
-  useEffect(() => {
-    load()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile?.id])
+    if (error) throw error
+    return (data as Rappel[]) || []
+  }, [userId, supabase])
+  const { data, loading, error, refresh: load } = useAsyncData(read)
+  const rappels = data ?? []
 
   async function add() {
-    if (!newTitre || !newDate || !profile?.id) return
+    if (!newTitre || !newDate || !userId) return
     const { error } = await supabase.from('moksha_rappels').insert({
-      user_id: profile.id,
+      user_id: userId,
       type: 'echance_custom',
       titre: newTitre,
       date_echeance: newDate,
@@ -56,6 +57,7 @@ export default function Rappels() {
 
   return (
     <div className="space-y-6">
+      {error !== null && <p role="alert" className="text-sm text-amber-300">Chargement impossible. <button onClick={() => void load()} className="underline">Réessayer</button></p>}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>

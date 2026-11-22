@@ -2,14 +2,14 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import BreathePage from './page'
+import BreathePage from '@/app/(dashboard)/dashboard/breathe/page'
 
 type Reply = { error: { message: string } | null; status: number }
 
 const { insert, notify, auth } = vi.hoisted(() => ({
   insert: vi.fn<(row: unknown) => Promise<Reply>>(),
   notify: vi.fn(),
-  auth: { profile: { id: 'test-member' } },
+  auth: { user: { id: 'test-member' }, profile: { id: 'test-member' } as { id: string } | null },
 }))
 
 vi.mock('@/hooks/useAuth', () => ({ useAuth: () => auth }))
@@ -54,8 +54,9 @@ function holdReply() {
 }
 
 beforeEach(async () => {
-  vi.clearAllMocks()
-  auth.profile.id = 'test-member'
+  vi.resetAllMocks()
+  auth.user.id = 'test-member'
+  auth.profile = { id: 'test-member' }
   vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
   vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   host = document.createElement('div')
@@ -72,6 +73,46 @@ afterEach(async () => {
 })
 
 describe('sauvegarde de la séance de respiration', () => {
+  it('enregistre exactement 180 secondes et 9 cycles sans effet intermédiaire', async () => {
+    const confirm = holdReply()
+    await clickButton('Démarrer la respiration')
+    await tick(179)
+    expect(insert).not.toHaveBeenCalled()
+    await tick(1)
+    expect(insert).toHaveBeenCalledExactlyOnceWith({
+      user_id: 'test-member', cycles: 9, duration_seconds: 180, points_earned: 50,
+    })
+    await confirm()
+  })
+
+  it('conserve la séance lorsque seul le profil du même membre se recharge', async () => {
+    const confirm = holdReply()
+    await clickButton('Démarrer la respiration')
+    await tick(100)
+    auth.profile = null
+    await act(async () => { root.render(<BreathePage />) })
+    auth.profile = { id: 'test-member' }
+    await act(async () => { root.render(<BreathePage />) })
+    await tick(80)
+    expect(insert).toHaveBeenCalledExactlyOnceWith({
+      user_id: 'test-member', cycles: 9, duration_seconds: 180, points_earned: 50,
+    })
+    await confirm()
+  })
+
+  it('ne compte pas le temps passé en pause', async () => {
+    await clickButton('Démarrer la respiration')
+    await tick(100)
+    await clickButton('Mettre la respiration en pause')
+    await tick(100)
+    expect(insert).not.toHaveBeenCalled()
+    await clickButton('Démarrer la respiration')
+    const confirm = holdReply()
+    await tick(80)
+    expect(insert).toHaveBeenCalledOnce()
+    await confirm()
+  })
+
   it('attend la réponse et ne duplique pas la sauvegarde en cours', async () => {
     const confirm = holdReply()
     await reachSaveThreshold()
@@ -102,7 +143,8 @@ describe('sauvegarde de la séance de respiration', () => {
   it('ignore une réponse après un changement de membre', async () => {
     const confirm = holdReply()
     await reachSaveThreshold()
-    auth.profile.id = 'second-test-member'
+    auth.user.id = 'second-test-member'
+    auth.profile = { id: 'second-test-member' }
     await act(async () => { root.render(<BreathePage />) })
     await confirm()
     expect(host.textContent).not.toContain('Séance enregistrée')
