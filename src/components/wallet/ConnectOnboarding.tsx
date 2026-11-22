@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
+import { useAsyncData } from '@/hooks/useAsyncData'
 import { loadConnectAndInitialize } from '@stripe/connect-js'
 import type { StripeConnectInstance } from '@stripe/connect-js'
 import {
@@ -22,10 +23,15 @@ type ConnectStatus = {
   charges_enabled?: boolean
 }
 
+async function readConnectStatus(): Promise<ConnectStatus> {
+  const response = await fetch('/api/connect/status', { cache: 'no-store' })
+  if (!response.ok) throw new Error('Statut Stripe Connect indisponible')
+  return response.json()
+}
+
 export default function ConnectOnboarding({ publishableKey }: Props) {
   const [instance, setInstance] = useState<StripeConnectInstance | null>(null)
-  const [status, setStatus] = useState<ConnectStatus | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { data: status, loading, error, refresh: loadStatus } = useAsyncData(readConnectStatus)
   const [starting, setStarting] = useState(false)
 
   const fetchClientSecret = useCallback(async (): Promise<string> => {
@@ -37,23 +43,6 @@ export default function ConnectOnboarding({ publishableKey }: Props) {
     const data = (await res.json()) as { client_secret: string }
     return data.client_secret
   }, [])
-
-  const loadStatus = useCallback(async () => {
-    try {
-      const res = await fetch('/api/connect/status', { cache: 'no-store' })
-      if (!res.ok) throw new Error('status error')
-      const data = (await res.json()) as ConnectStatus
-      setStatus(data)
-    } catch {
-      setStatus({ exists: false, onboarding_completed: false, payouts_enabled: false })
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    void loadStatus()
-  }, [loadStatus])
 
   const startOnboarding = useCallback(async () => {
     setStarting(true)
@@ -89,6 +78,10 @@ export default function ConnectOnboarding({ publishableKey }: Props) {
         <Loader2 className="h-6 w-6 animate-spin text-white/40" />
       </div>
     )
+  }
+
+  if (error !== null) {
+    return <div role="alert" className="glass p-8 text-center">Statut Stripe Connect indisponible. <button onClick={() => void loadStatus()} className="underline">Réessayer</button></div>
   }
 
   if (status?.onboarding_completed) {

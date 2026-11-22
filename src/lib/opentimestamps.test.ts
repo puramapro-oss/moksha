@@ -6,7 +6,10 @@
  * (nécessitent réseau + ~30s).
  */
 
-import { describe, it, expect } from 'vitest'
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
+import http from 'node:http'
+import https from 'node:https'
+import OpenTimestamps from 'opentimestamps'
 import { hashContent, verifyContent, upgradeProof } from './opentimestamps'
 
 describe('hashContent', () => {
@@ -73,6 +76,48 @@ describe('upgradeProof — gestion erreurs', () => {
   it('preuve vide → upgraded=false', async () => {
     const result = await upgradeProof('hello', '')
     expect(result.upgraded).toBe(false)
+  })
+})
+
+describe('OpenTimestamps — compatibilité des preuves SDK sans réseau', () => {
+  const content = 'MOKSHA offline package compatibility'
+  // Canonical SDK serialization with an unknown attestation, never a verified chain.
+  const proof = 'AE9wZW5UaW1lc3RhbXBzAABQcm9vZgC/ieLohOiSlAEIfemIb9+YxdntbGv+ZLcxZJD6kyWyq/NuGj2LalUuBZ8AAQIDBAUGBwgCERI='
+
+  beforeEach(() => {
+    const rejectNetwork = () => { throw new Error('Unexpected network access in offline proof test') }
+    vi.spyOn(http, 'request').mockImplementation(rejectNetwork)
+    vi.spyOn(http, 'get').mockImplementation(rejectNetwork)
+    vi.spyOn(https, 'request').mockImplementation(rejectNetwork)
+    vi.spyOn(https, 'get').mockImplementation(rejectNetwork)
+  })
+
+  afterEach(() => {
+    try {
+      for (const call of [http.request, http.get, https.request, https.get]) expect(call).not.toHaveBeenCalled()
+    } finally {
+      vi.restoreAllMocks()
+    }
+  })
+
+  it('conserve le digest et la sérialisation du format historique', () => {
+    const detached = OpenTimestamps.DetachedTimestampFile.deserialize(Buffer.from(proof, 'base64'))
+    expect(Buffer.from(detached.fileDigest()).toString('hex')).toBe(hashContent(content))
+    expect(Buffer.from(detached.serializeToBytes()).toString('base64')).toBe(proof)
+  })
+
+  it('la preuve décodable sans calendrier ne provoque pas une erreur de méthode SDK', async () => {
+    expect(await upgradeProof(content, proof)).toEqual({ upgraded: false })
+  })
+
+  it('refuse un contenu différent avant toute tentative de récupération', async () => {
+    expect(await upgradeProof('different-content', proof)).toEqual({
+      upgraded: false, error: 'Hash mismatch entre contenu et preuve',
+    })
+  })
+
+  it('une attestation inconnue ne devient pas une preuve de chaîne vérifiée', async () => {
+    expect((await verifyContent(content, proof)).verified).toBe(false)
   })
 })
 

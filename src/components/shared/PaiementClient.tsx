@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Check, Flame } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
@@ -26,6 +26,7 @@ const PREMIUM_FEATURES = [
 
 export default function PaiementClient() {
   const params = useSearchParams()
+  const router = useRouter()
   const legacyPlan = params.get('plan') // autopilote/pro = legacy grandfather
   const intervalParam = (params.get('interval') || 'mensuel') as Interval
   const [interval, setIntervalState] = useState<Interval>(
@@ -42,7 +43,7 @@ export default function PaiementClient() {
 
   async function checkout() {
     if (!isAuthenticated) {
-      window.location.href = `/auth?next=${encodeURIComponent(`/paiement?plan=${plan}&interval=${interval}`)}`
+      router.push(`/auth?next=${encodeURIComponent(`/paiement?plan=${plan}&interval=${interval}`)}`)
       return
     }
     setRedirecting(true)

@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useState } from 'react'
+import { useAsyncData } from '@/hooks/useAsyncData'
 import { Star, Gift, Trophy, TrendingUp, ShoppingBag } from 'lucide-react'
 import { toast } from 'sonner'
 import { POINTS_SHOP, POINTS_VALUE } from '@/lib/constants'
@@ -13,22 +14,17 @@ type PointsData = {
   transactions: PointTransaction[]
 }
 
+async function readPoints(): Promise<PointsData> {
+  const response = await fetch('/api/points')
+  if (!response.ok) throw new Error('Chargement des points impossible')
+  return response.json()
+}
+
 export default function PointsPage() {
-  const [data, setData] = useState<PointsData | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { data, loading, error, refresh: load } = useAsyncData(readPoints)
   const [giftLoading, setGiftLoading] = useState(false)
   const [giftResult, setGiftResult] = useState<{ gift: { type: string; value: string }; streak: number } | null>(null)
   const [tab, setTab] = useState<'historique' | 'boutique'>('historique')
-
-  const load = useCallback(async () => {
-    try {
-      const r = await fetch('/api/points')
-      if (r.ok) setData(await r.json())
-    } catch { /* ignore */ }
-    setLoading(false)
-  }, [])
-
-  useEffect(() => { load() }, [load])
 
   async function openGift() {
     setGiftLoading(true)
@@ -53,6 +49,7 @@ export default function PointsPage() {
 
   return (
     <div className="space-y-6">
+      {error !== null && <p role="alert" className="text-sm text-amber-300">Chargement impossible. <button onClick={() => void load()} className="underline">Réessayer</button></p>}
       <div>
         <h1 className="flex items-center gap-3 font-display text-3xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
           <Star className="h-6 w-6 text-[#FFB300]" /> Points Purama

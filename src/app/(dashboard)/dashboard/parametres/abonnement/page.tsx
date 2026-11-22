@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useAsyncData } from '@/hooks/useAsyncData'
+import type { Profile } from '@/types'
 import { CreditCard, Pause, X, ArrowRight, AlertTriangle } from 'lucide-react'
 import { toast } from 'sonner'
 import Link from 'next/link'
@@ -18,26 +20,36 @@ type Sub = {
 }
 
 export default function AbonnementPage() {
-  const { profile, isAuthenticated } = useAuth()
-  const [sub, setSub] = useState<Sub | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { profile, user } = useAuth()
+  return <Subscription key={user?.id} userId={user?.id} profile={profile} />
+}
+
+function Subscription({ userId, profile }: { userId?: string; profile: Profile | null }) {
+  const [now, setNow] = useState(Date.now)
   const [cancelStep, setCancelStep] = useState<0 | 1 | 2 | 3>(0)
   const [cancelReason, setCancelReason] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  useEffect(() => {
-    if (!isAuthenticated) return
-    const sb = createClient()
-    sb.from('moksha_subscriptions')
+  const read = useCallback(async () => {
+    if (!userId) return null
+    const { data, error } = await createClient().from('moksha_subscriptions')
       .select('id, plan, status, started_at, ends_at, cancelled_at, stripe_subscription_id')
       .order('started_at', { ascending: false })
       .limit(1)
       .maybeSingle()
-      .then(({ data }) => {
-        setSub(data as Sub | null)
-        setLoading(false)
-      })
-  }, [isAuthenticated])
+    if (error) throw error
+    return data as Sub | null
+  }, [userId])
+  const { data: sub, loading, error, refresh } = useAsyncData(read)
+  const startedAt = sub?.started_at ? new Date(sub.started_at).getTime() : null
+  const daysActive = startedAt === null ? 0 : Math.floor((now - startedAt) / (24 * 3600 * 1000))
+
+  useEffect(() => {
+    if (startedAt === null || !Number.isFinite(startedAt)) return
+    const nextDay = startedAt + (daysActive + 1) * 24 * 3600 * 1000
+    const timer = setTimeout(() => setNow(Date.now()), Math.max(0, nextDay - Date.now()))
+    return () => clearTimeout(timer)
+  }, [startedAt, daysActive])
 
   async function confirmCancel() {
     if (!sub?.stripe_subscription_id) return
@@ -61,12 +73,11 @@ export default function AbonnementPage() {
   if (loading) return <div className="p-8 text-white/60">Chargement...</div>
 
   const isPremium = profile?.plan && profile.plan !== 'gratuit'
-  const startedAt = sub?.started_at ? new Date(sub.started_at) : null
-  const daysActive = startedAt ? Math.floor((Date.now() - startedAt.getTime()) / (24 * 3600 * 1000)) : 0
   const canWithdraw = daysActive >= 30
 
   return (
     <div className="mx-auto max-w-2xl space-y-6 p-6">
+      {error !== null && <p role="alert" className="text-sm text-amber-300">Abonnement indisponible. <button onClick={() => void refresh()} className="underline">Réessayer</button></p>}
       <header>
         <h1 className="text-2xl font-bold">Mon abonnement</h1>
         <p className="text-sm text-white/60">Gère ton plan, pause ou résilie.</p>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -12,6 +12,8 @@ import StepCapital from './StepCapital'
 import StepDirigeant from './StepDirigeant'
 import StepRecap from './StepRecap'
 import { useAuth } from '@/hooks/useAuth'
+import { useStoredDraft } from '@/hooks/useStoredDraft'
+import { draftOwner } from '@/lib/wizard-draft'
 
 export type WizardData = {
   forme: string
@@ -106,40 +108,47 @@ function isStepValid(step: number, d: WizardData): boolean {
   }
 }
 
-export default function WizardEntreprise() {
-  const router = useRouter()
-  const { isAuthenticated } = useAuth()
-  const [step, setStep] = useState(0)
-  const [submitting, setSubmitting] = useState(false)
-  const [hydrated, setHydrated] = useState(false)
-  const [data, setData] = useState<WizardData>(DEFAULT_DATA)
-
-  // Restore depuis sessionStorage au mount (1×) — évite SSR mismatch
-  useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem(STORAGE_KEY)
-      if (raw) {
-        const parsed = JSON.parse(raw) as Partial<WizardData> & { __step?: number }
-        const { __step, ...rest } = parsed
-        setData((d) => ({ ...d, ...rest, dirigeant: { ...d.dirigeant, ...(rest.dirigeant ?? {}) } }))
-        if (typeof __step === 'number' && __step >= 0 && __step < STEPS.length) setStep(__step)
-      }
-    } catch {
-      // sessionStorage inaccessible (Safari privé) → on ignore et continue
-    } finally {
-      setHydrated(true)
+function restoreDraft(raw: string | null): { data: WizardData; step: number } {
+  try {
+    const parsed = raw ? JSON.parse(raw) as Partial<WizardData> & { __step?: number; __ownerId?: string } : null
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+      const { __step, ...rest } = parsed
+      delete rest.__ownerId
+      const data = { ...DEFAULT_DATA, ...rest, dirigeant: { ...DEFAULT_DATA.dirigeant, ...(rest.dirigeant ?? {}) } }
+      const step = typeof __step === 'number' && Number.isInteger(__step) && __step >= 0 && __step < STEPS.length ? __step : 0
+      return { data, step }
     }
-  }, [])
+  } catch {
+    // An unreadable draft must not prevent starting a new form.
+  }
+  return { data: DEFAULT_DATA, step: 0 }
+}
 
-  // Persiste data + step à chaque changement (après hydratation)
+export default function WizardEntreprise() {
+  const { user, isAuthenticated, loading } = useAuth()
+  const initialDraft = useStoredDraft(STORAGE_KEY)
+  if (initialDraft === undefined || (!user && loading)) return <div className="glass p-6 md:p-10" aria-busy="true">Chargement du formulaire…</div>
+  const owner = draftOwner(initialDraft)
+  if (owner && owner !== user?.id) return <div role="alert" className="glass p-6 md:p-10">Ce brouillon appartient à un autre compte. Reconnecte-toi à ce compte pour le reprendre.</div>
+  return <WizardEntrepriseForm key={user?.id ?? 'anonymous'} initialDraft={initialDraft} ownerId={user?.id} isAuthenticated={isAuthenticated} />
+}
+
+function WizardEntrepriseForm({ initialDraft, ownerId, isAuthenticated }: { initialDraft: string | null; ownerId?: string; isAuthenticated: boolean }) {
+  const router = useRouter()
+  const [initial] = useState(() => restoreDraft(initialDraft))
+  const [step, setStep] = useState(initial.step)
+  const [submitting, setSubmitting] = useState(false)
+  const activeSubmission = useRef<symbol | null>(null)
+  useEffect(() => () => { activeSubmission.current = null }, [])
+  const [data, setData] = useState<WizardData>(initial.data)
+
   useEffect(() => {
-    if (!hydrated) return
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, __step: step }))
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, __step: step, ...(ownerId ? { __ownerId: ownerId } : {}) }))
     } catch (err) {
       console.error('[sessionStorage] Erreur sauvegarde wizard entreprise:', err)
     }
-  }, [data, step, hydrated])
+  }, [data, step, ownerId])
 
   const update = useCallback((patch: Partial<WizardData>) => setData((d) => ({ ...d, ...patch })), [])
 
@@ -162,7 +171,16 @@ export default function WizardEntreprise() {
       router.push('/auth?next=/creer/formalites')
       return
     }
+    if (activeSubmission.current) return
+    const attempt = Symbol()
+    activeSubmission.current = attempt
     setSubmitting(true)
+    let submittedDraft: string | null = null
+    try {
+      submittedDraft = sessionStorage.getItem(STORAGE_KEY)
+    } catch {
+      // An in-memory form remains usable when storage is unavailable.
+    }
     try {
       const res = await fetch('/api/demarches/create', {
         method: 'POST',
@@ -174,10 +192,11 @@ export default function WizardEntreprise() {
         throw new Error(errBody.error ?? 'Création impossible')
       }
       const { id } = await res.json()
+      if (activeSubmission.current !== attempt) return
       toast.success('Dossier créé — génération des documents en cours')
       // Vide le storage : dossier soumis avec succès
       try {
-        sessionStorage.removeItem(STORAGE_KEY)
+        if (submittedDraft !== null && sessionStorage.getItem(STORAGE_KEY) === submittedDraft) sessionStorage.removeItem(STORAGE_KEY)
       } catch (err) {
         console.error('[sessionStorage] Erreur suppression wizard entreprise:', err)
       }
@@ -185,9 +204,13 @@ export default function WizardEntreprise() {
       fetch(`/api/demarches/${id}/deposer`, { method: 'POST' }).catch(() => {})
       router.push(`/dashboard/demarches/${id}`)
     } catch (e) {
+      if (activeSubmission.current !== attempt) return
       toast.error(e instanceof Error ? e.message : 'Erreur — réessaie dans un instant')
     } finally {
-      setSubmitting(false)
+      if (activeSubmission.current === attempt) {
+        activeSubmission.current = null
+        setSubmitting(false)
+      }
     }
   }
 

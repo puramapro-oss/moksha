@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useAsyncData } from '@/hooks/useAsyncData'
 import { Check, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { TAX_PROFILES, type TaxProfileType } from '@/lib/tax'
@@ -14,8 +15,17 @@ interface Props {
 
 type Step = 'choose' | 'details' | 'confirm'
 
+async function readTaxProfile(): Promise<boolean> {
+  const response = await fetch('/api/tax/profile', { cache: 'no-store' })
+  if (!response.ok) throw new Error('Profil fiscal indisponible')
+  const data = (await response.json()) as { profile?: { profile_type?: string } | null }
+  return Boolean(data.profile?.profile_type)
+}
+
 export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
-  const [open, setOpen] = useState(forceOpen ?? false)
+  const [dismissed, setDismissed] = useState(false)
+  const { data: hasProfile, loading } = useAsyncData(readTaxProfile)
+  const open = !dismissed && (forceOpen || hasProfile === false)
   const [step, setStep] = useState<Step>('choose')
   const [chosen, setChosen] = useState<TaxProfileType | null>(null)
   const [siret, setSiret] = useState('')
@@ -23,24 +33,6 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
   const [legalForm, setLegalForm] = useState('')
   const [activity, setActivity] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [hasProfile, setHasProfile] = useState<boolean | null>(null)
-
-  const checkProfile = useCallback(async () => {
-    try {
-      const res = await fetch('/api/tax/profile', { cache: 'no-store' })
-      if (!res.ok) throw new Error('network')
-      const data = (await res.json()) as { profile?: { profile_type?: string } | null }
-      setHasProfile(Boolean(data.profile?.profile_type))
-      if (!data.profile?.profile_type && !forceOpen) setOpen(true)
-    } catch {
-      setHasProfile(false)
-    }
-  }, [forceOpen])
-
-  useEffect(() => {
-    void checkProfile()
-  }, [checkProfile])
-
   const submit = async () => {
     if (!chosen) return
     setSubmitting(true)
@@ -69,7 +61,7 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
         throw new Error(body.error ?? 'Erreur enregistrement')
       }
       toast.success('Profil fiscal enregistré')
-      setOpen(false)
+      setDismissed(true)
       onComplete?.(chosen)
     } catch (e) {
       toast.error(e instanceof Error ? e.message : 'Erreur')
@@ -78,7 +70,7 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
     }
   }
 
-  if (hasProfile === null) return null
+  if (loading) return null
   if (!open) return null
 
   return (
@@ -119,7 +111,7 @@ export default function TaxProfileOnboarding({ onComplete, forceOpen }: Props) {
             </div>
             <div className="mt-6 flex justify-between gap-3">
               <button
-                onClick={() => setOpen(false)}
+                onClick={() => setDismissed(true)}
                 className="rounded-xl border border-white/10 px-4 py-2.5 text-sm text-white/60 hover:bg-white/5"
               >
                 Plus tard

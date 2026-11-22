@@ -18,27 +18,35 @@ export default function StepDenomination({
   data: WizardData
   update: (p: Partial<WizardData>) => void
 }) {
-  const [checking, setChecking] = useState(false)
-  const [check, setCheck] = useState<CheckResult | null>(null)
+  const term = data.denomination
+  const [response, setResponse] = useState<{ term: string; checking: boolean; value: CheckResult | null; error: boolean } | null>(null)
+  const current = term.length >= 3 && response?.term === term ? response : null
+  const checking = current?.checking ?? false
+  const check = current?.value ?? null
 
   useEffect(() => {
-    if (!data.denomination || data.denomination.length < 3) {
-      setCheck(null)
-      return
-    }
-    const t = setTimeout(async () => {
-      setChecking(true)
+    if (term.length < 3) return
+    let active = true
+    const controller = new AbortController()
+    const timer = setTimeout(async () => {
+      setResponse({ term, checking: true, value: null, error: false })
       try {
-        const res = await fetch(`/api/check-denomination?q=${encodeURIComponent(data.denomination)}`)
-        if (res.ok) setCheck(await res.json())
+        const res = await fetch(`/api/check-denomination?q=${encodeURIComponent(term)}`, { signal: controller.signal })
+        if (!res.ok) throw new Error('Vérification indisponible')
+        const value = (await res.json()) as CheckResult
+        if (active) setResponse({ term, checking: false, value, error: false })
       } catch (err) {
+        if (!active) return
         console.error('[check-denomination] Erreur API:', err)
-      } finally {
-        setChecking(false)
+        setResponse({ term, checking: false, value: null, error: true })
       }
     }, 500)
-    return () => clearTimeout(t)
-  }, [data.denomination])
+    return () => {
+      active = false
+      controller.abort()
+      clearTimeout(timer)
+    }
+  }, [term])
 
   return (
     <div>
@@ -62,6 +70,7 @@ export default function StepDenomination({
               <Loader2 className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-white/40" />
             )}
           </div>
+          {current?.error && <p role="alert" className="mt-2 text-xs text-amber-300">Vérification indisponible pour ce nom.</p>}
           {check && !checking && data.denomination.length >= 3 && (
             <div
               className={`mt-2 flex items-start gap-2 rounded-lg border p-3 text-xs ${

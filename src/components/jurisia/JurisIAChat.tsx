@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { toast } from 'sonner'
 import AIDisclosure from '@/lib/legal/components/AIDisclosure'
+import { useAsyncData } from '@/hooks/useAsyncData'
 
 type Msg = { role: 'user' | 'assistant'; content: string }
 type Conv = { id: string; titre: string; updated_at: string }
@@ -30,8 +31,16 @@ function extractConfiance(text: string): 'eleve' | 'moyen' | 'faible' | null {
   return 'faible'
 }
 
+async function readConversations(): Promise<Conv[]> {
+  const response = await fetch('/api/jurisia/conversations')
+  if (!response.ok) throw new Error('Chargement des conversations impossible')
+  const data = (await response.json()) as { conversations: Conv[] }
+  return data.conversations
+}
+
 export default function JurisIAChat() {
-  const [convs, setConvs] = useState<Conv[]>([])
+  const { data: conversations, error: historyError, refresh: loadConvs } = useAsyncData(readConversations)
+  const convs = conversations ?? []
   const [activeId, setActiveId] = useState<string | null>(null)
   const [messages, setMessages] = useState<Msg[]>([])
   const [input, setInput] = useState('')
@@ -43,18 +52,6 @@ export default function JurisIAChat() {
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
-
-  // Charger conversations
-  async function loadConvs() {
-    const r = await fetch('/api/jurisia/conversations')
-    if (r.ok) {
-      const d = (await r.json()) as { conversations: Conv[] }
-      setConvs(d.conversations)
-    }
-  }
-  useEffect(() => {
-    loadConvs()
-  }, [])
 
   async function openConversation(id: string) {
     setLoadingConv(true)
@@ -188,6 +185,7 @@ export default function JurisIAChat() {
           <Plus className="h-3.5 w-3.5" /> Nouvelle conversation
         </button>
         <div className="flex-1 space-y-1 overflow-y-auto">
+          {historyError !== null && <p role="alert" className="text-xs text-amber-300">Historique indisponible. <button onClick={() => void loadConvs()} className="underline">Réessayer</button></p>}
           {convs.length === 0 ? (
             <p className="px-2 py-4 text-center text-[10px] text-white/40">Pas encore de conversation.</p>
           ) : (

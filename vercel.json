@@ -147,5 +147,10 @@
       ]
     }
   ],
-  "installCommand": "git config --global url.\"https://${SMARANA_GIT_TOKEN}@github.com/\".insteadOf \"ssh://git@github.com/\" && npm install"
+  "installCommand": "git config --global url.\"https://${SMARANA_GIT_TOKEN}@github.com/\".insteadOf \"ssh://git@github.com/\" && npm install",
+  "git": {
+    "deploymentEnabled": {
+      "fix/formation-known-defects-20261006": false
+    }
+  }
 }

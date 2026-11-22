@@ -14,28 +14,35 @@ export default function StepSiege({
   update: (p: Partial<WizardData>) => void
 }) {
   const [query, setQuery] = useState(data.adresse)
-  const [results, setResults] = useState<AdresseResult[]>([])
-  const [loading, setLoading] = useState(false)
+  const [response, setResponse] = useState<{ query: string; results: AdresseResult[]; error: boolean } | null>(null)
+  const [pendingQuery, setPendingQuery] = useState<string | null>(null)
+  const current = query.length >= 3 && response?.query === query ? response : null
+  const results = current?.results ?? []
+  const loading = query.length >= 3 && pendingQuery === query
   const [focused, setFocused] = useState(false)
 
   useEffect(() => {
-    if (query.length < 3) {
-      setResults([])
-      return
-    }
-    const t = setTimeout(async () => {
-      setLoading(true)
+    if (query.length < 3) return
+    let active = true
+    const controller = new AbortController()
+    const timer = setTimeout(async () => {
+      setPendingQuery(query)
       try {
-        const res = await fetch(`/api/adresse?q=${encodeURIComponent(query)}`)
-        if (res.ok) {
-          const json = await res.json()
-          setResults(json.results || [])
-        }
+        const res = await fetch(`/api/adresse?q=${encodeURIComponent(query)}`, { signal: controller.signal })
+        if (!res.ok) throw new Error('Recherche indisponible')
+        const json = (await res.json()) as { results?: AdresseResult[] }
+        if (active) setResponse({ query, results: json.results ?? [], error: false })
+      } catch {
+        if (active) setResponse({ query, results: [], error: true })
       } finally {
-        setLoading(false)
+        if (active) setPendingQuery(null)
       }
     }, 350)
-    return () => clearTimeout(t)
+    return () => {
+      active = false
+      controller.abort()
+      clearTimeout(timer)
+    }
   }, [query])
 
   return (
@@ -64,6 +71,7 @@ export default function StepSiege({
             />
             {loading && <Loader2 className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-white/40" />}
           </div>
+          {current?.error && <p role="alert" className="mt-2 text-xs text-amber-300">Recherche indisponible. Tu peux saisir ton adresse complète.</p>}
           {focused && results.length > 0 && (
             <div className="absolute left-0 right-0 top-full z-20 mt-2 max-h-64 overflow-y-auto rounded-xl border border-white/10 bg-[#0D1225] shadow-2xl">
               {results.map((r, i) => (
@@ -73,7 +81,7 @@ export default function StepSiege({
                   onClick={() => {
                     setQuery(r.label)
                     update({ adresse: r.label })
-                    setResults([])
+                    setResponse(null)
                     setFocused(false)
                   }}
                   className="block w-full border-b border-white/5 px-4 py-3 text-left text-sm transition hover:bg-white/5 last:border-0"

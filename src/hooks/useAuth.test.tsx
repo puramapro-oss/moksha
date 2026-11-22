@@ -1,0 +1,326 @@
+// @vitest-environment jsdom
+import { act } from 'react'
+import { describe, expect, it } from 'vitest'
+import { SUPER_ADMIN_EMAIL } from '@/lib/constants'
+import { getSession, readProfile, subscribe, source, listeners, callbackResults, lock,
+  session, profile, deferred, latest, snapshots, mount, drain, dispatch, emit, rerender, unmount,
+  type SessionReply, type ProfileReply,
+} from './useAuth.test-support'
+
+describe('useAuth — sessions, profils et concurrence', () => {
+  it('résout une session absente sans lire de profil', async () => {
+    await mount()
+    await drain()
+    expect(latest.user).toBeNull()
+    expect(latest.profile).toBeNull()
+    expect(latest.session).toBeNull()
+    expect(latest.loading).toBe(false)
+    expect(latest.isAuthenticated).toBe(false)
+    expect(latest.plan).toBe('gratuit')
+    expect(readProfile).not.toHaveBeenCalled()
+  })
+
+  it('conserve un seul abonnement après la réception du profil et les nouveaux rendus', async () => {
+    source.session = session('member-a')
+    await mount()
+    await drain()
+    await rerender()
+    expect(latest.profile?.id).toBe('member-a')
+    expect(subscribe).toHaveBeenCalledTimes(1)
+    expect(getSession).toHaveBeenCalledTimes(1)
+    expect(readProfile).toHaveBeenCalledTimes(1)
+  })
+
+  it('renvoie immédiatement le callback Auth sans API Supabase sous son verrou', async () => {
+    await mount()
+    await emit('SIGNED_IN', session('member-a'))
+    expect(callbackResults.at(-1)).toBeUndefined()
+    expect(lock.readsDuringCallback).toBe(0)
+    expect(readProfile).not.toHaveBeenCalled()
+    await drain()
+    expect(readProfile).toHaveBeenCalledWith('member-a')
+  })
+
+  it('un getSession ancien ne remplace pas un événement de connexion récent', async () => {
+    const boot = deferred<SessionReply>()
+    getSession.mockReturnValueOnce(boot.promise)
+    await mount()
+    await emit('SIGNED_IN', session('member-b'))
+    await drain()
+    await act(async () => { boot.resolve({ data: { session: session('member-a') }, error: null }) })
+    await drain()
+    expect(latest.user?.id).toBe('member-b')
+    expect(latest.profile?.id).toBe('member-b')
+    expect(readProfile.mock.calls.map(([id]) => id)).not.toContain('member-a')
+  })
+
+  it('un getSession tardif ne rétablit pas une session après déconnexion', async () => {
+    const boot = deferred<SessionReply>()
+    getSession.mockReturnValueOnce(boot.promise)
+    await mount()
+    await emit('SIGNED_OUT', null)
+    await act(async () => { boot.resolve({ data: { session: session('member-a') }, error: null }) })
+    await drain()
+    expect(latest.user).toBeNull()
+    expect(latest.profile).toBeNull()
+    expect(latest.isAdmin).toBe(false)
+    expect(readProfile).not.toHaveBeenCalled()
+  })
+
+  it('une erreur getSession tardive ne supprime pas une session plus récente', async () => {
+    const boot = deferred<SessionReply>()
+    getSession.mockReturnValueOnce(boot.promise)
+    await mount()
+    await emit('SIGNED_IN', session('member-b'))
+    await drain()
+    await act(async () => { boot.reject(new Error('ancienne lecture interrompue')) })
+    expect(latest.user?.id).toBe('member-b')
+    expect(latest.profile?.id).toBe('member-b')
+    expect(latest.loading).toBe(false)
+  })
+
+  it('un INITIAL_SESSION tardif ne remplace pas un événement utilisateur déjà reçu', async () => {
+    await mount()
+    await emit('SIGNED_IN', session('member-b'))
+    await drain()
+    await emit('INITIAL_SESSION', session('member-a'))
+    await drain()
+    expect(latest.user?.id).toBe('member-b')
+    expect(latest.profile?.id).toBe('member-b')
+  })
+
+  it('retire les anciens rôles et le forfait dès le changement de compte', async () => {
+    source.session = session('member-a')
+    readProfile.mockResolvedValueOnce({ data: profile('member-a', { is_admin: true, is_super_admin: true, plan: 'pro' }), error: null })
+    await mount()
+    await drain()
+    expect(latest.isAdmin).toBe(true)
+    expect(latest.plan).toBe('pro')
+    readProfile.mockReturnValueOnce(new Promise(() => {}))
+    await emit('SIGNED_IN', session('member-b'))
+    expect(latest.user?.id).toBe('member-b')
+    expect(latest.profile).toBeNull()
+    expect(latest.isAdmin).toBe(false)
+    expect(latest.isSuperAdmin).toBe(false)
+    expect(latest.plan).toBe('gratuit')
+    expect(latest.loading).toBe(true)
+    expect(snapshots.filter((state) => state.user?.id === 'member-b').every((state) => state.profile?.id !== 'member-a')).toBe(true)
+  })
+
+  it('ignore un profil reçu après déconnexion', async () => {
+    const first = deferred<ProfileReply>()
+    source.session = session('member-a')
+    readProfile.mockReturnValueOnce(first.promise)
+    await mount()
+    await drain()
+    await emit('SIGNED_OUT', null)
+    await act(async () => { first.resolve({ data: profile('member-a', { is_super_admin: true, plan: 'pro' }), error: null }) })
+    expect(latest.user).toBeNull()
+    expect(latest.profile).toBeNull()
+    expect(latest.isAdmin).toBe(false)
+    expect(latest.isSuperAdmin).toBe(false)
+    expect(latest.plan).toBe('gratuit')
+  })
+
+  it('ignore le profil A reçu après le profil B', async () => {
+    const first = deferred<ProfileReply>()
+    source.session = session('member-a')
+    readProfile.mockReturnValueOnce(first.promise)
+    await mount()
+    await drain()
+    await emit('SIGNED_IN', session('member-b'))
+    await drain()
+    await act(async () => { first.resolve({ data: profile('member-a', { is_admin: true }), error: null }) })
+    expect(latest.user?.id).toBe('member-b')
+    expect(latest.profile?.id).toBe('member-b')
+    expect(latest.isAdmin).toBe(false)
+  })
+
+  it('ignore le profil de la première session A après sortie puis retour A avant rendu', async () => {
+    const first = deferred<ProfileReply>()
+    source.session = session('member-a', 'old-token')
+    readProfile.mockReturnValueOnce(first.promise)
+    await mount()
+    await drain()
+    await act(async () => {
+      dispatch('SIGNED_OUT', null)
+      dispatch('SIGNED_IN', session('member-a', 'new-token'))
+    })
+    await drain()
+    await act(async () => { first.resolve({ data: profile('member-a', { is_admin: true, plan: 'pro' }), error: null }) })
+    expect(latest.session?.access_token).toBe('new-token')
+    expect(latest.isAdmin).toBe(false)
+    expect(latest.plan).toBe('gratuit')
+  })
+
+  it('actualise la session renouvelée et qualifie son profil avant de réexposer les rôles', async () => {
+    source.session = session('member-a', 'old-token')
+    readProfile.mockResolvedValueOnce({ data: profile('member-a', { is_admin: true, plan: 'pro' }), error: null })
+    await mount()
+    await drain()
+    await emit('TOKEN_REFRESHED', session('member-a', 'new-token'))
+    expect(latest.session?.access_token).toBe('new-token')
+    expect(latest.isAdmin).toBe(false)
+    await drain()
+    expect(latest.profile?.id).toBe('member-a')
+    expect(latest.plan).toBe('gratuit')
+  })
+
+  it('ne duplique pas la lecture du même profil encore en cours', async () => {
+    const pending = deferred<ProfileReply>()
+    source.session = session('member-a')
+    readProfile.mockReturnValueOnce(pending.promise)
+    await mount()
+    await drain()
+    await emit('SIGNED_IN', source.session)
+    await emit('SIGNED_IN', source.session)
+    await drain()
+    expect(readProfile).toHaveBeenCalledTimes(1)
+    await act(async () => { pending.resolve({ data: profile('member-a'), error: null }) })
+    expect(latest.loading).toBe(false)
+  })
+
+  it('réutilise le profil reçu quand la même session est confirmée', async () => {
+    source.session = session('member-a')
+    await mount()
+    await drain()
+    await emit('SIGNED_IN', session('member-a'))
+    await drain()
+    expect(readProfile).toHaveBeenCalledTimes(1)
+    expect(subscribe).toHaveBeenCalledTimes(1)
+  })
+
+  it('recharge le profil après USER_UPDATED même pour une session inchangée', async () => {
+    source.session = session('member-a')
+    readProfile.mockResolvedValueOnce({ data: profile('member-a', { is_admin: true }), error: null })
+    await mount()
+    await drain()
+    await emit('USER_UPDATED', source.session)
+    expect(latest.profile).toBeNull()
+    await drain()
+    expect(latest.isAdmin).toBe(false)
+    expect(readProfile).toHaveBeenCalledTimes(2)
+  })
+
+  it('ignore une réponse de profil dont l’identité ne correspond pas à la session', async () => {
+    source.session = session('member-a')
+    readProfile.mockResolvedValueOnce({ data: profile('member-b', { is_super_admin: true, plan: 'pro' }), error: null })
+    await mount()
+    await drain()
+    expect(latest.profile).toBeNull()
+    expect(latest.isAdmin).toBe(false)
+    expect(latest.isSuperAdmin).toBe(false)
+    expect(latest.plan).toBe('gratuit')
+    expect(latest.loading).toBe(false)
+  })
+
+  it.each(['response', 'transport'])('termine le chargement en cas d’erreur de profil %s', async (kind) => {
+    source.session = session('member-a')
+    if (kind === 'response') readProfile.mockResolvedValueOnce({ data: null, error: { message: 'refusé' } })
+    else readProfile.mockRejectedValueOnce(new Error('profil interrompu'))
+    await mount()
+    await drain()
+    expect(latest.user?.id).toBe('member-a')
+    expect(latest.profile).toBeNull()
+    expect(latest.loading).toBe(false)
+    expect(latest.isAdmin).toBe(false)
+  })
+
+  it.each(['response', 'transport'])('termine sans session en cas d’erreur initiale %s', async (kind) => {
+    if (kind === 'response') getSession.mockResolvedValueOnce({ data: { session: session('member-a') }, error: { message: 'refusé' } })
+    else getSession.mockRejectedValueOnce(new Error('session interrompue'))
+    await mount()
+    await drain()
+    expect(latest.session).toBeNull()
+    expect(latest.profile).toBeNull()
+    expect(latest.loading).toBe(false)
+    expect(latest.isAuthenticated).toBe(false)
+    expect(readProfile).not.toHaveBeenCalled()
+  })
+
+  it('donne priorité au dernier refetch sans réexposer les anciens rôles', async () => {
+    source.session = session('member-a')
+    await mount()
+    await drain()
+    const first = deferred<ProfileReply>()
+    const second = deferred<ProfileReply>()
+    readProfile.mockReturnValueOnce(first.promise).mockReturnValueOnce(second.promise)
+    let firstCall!: Promise<void>
+    let secondCall!: Promise<void>
+    await act(async () => { firstCall = latest.refetch(); secondCall = latest.refetch() })
+    await act(async () => { second.resolve({ data: profile('member-a'), error: null }); await secondCall })
+    await act(async () => { first.resolve({ data: profile('member-a', { is_super_admin: true, plan: 'pro' }), error: null }); await firstCall })
+    expect(latest.isAdmin).toBe(false)
+    expect(latest.isSuperAdmin).toBe(false)
+    expect(latest.plan).toBe('gratuit')
+    expect(subscribe).toHaveBeenCalledTimes(1)
+  })
+
+  it('un ancien callback refetch utilise la session courante', async () => {
+    source.session = session('member-a')
+    await mount()
+    await drain()
+    const oldRefetch = latest.refetch
+    await emit('SIGNED_IN', session('member-b'))
+    await drain()
+    await act(async () => { await oldRefetch() })
+    expect(readProfile).toHaveBeenLastCalledWith('member-b')
+    expect(latest.profile?.id).toBe('member-b')
+  })
+
+  it('ne termine pas le nouveau chargement quand une ancienne lecture échoue', async () => {
+    const first = deferred<ProfileReply>()
+    const current = deferred<ProfileReply>()
+    source.session = session('member-a')
+    readProfile.mockReturnValueOnce(first.promise).mockReturnValueOnce(current.promise)
+    await mount()
+    await drain()
+    await emit('SIGNED_IN', session('member-b'))
+    await drain()
+    await act(async () => { first.reject(new Error('ancienne lecture interrompue')) })
+    expect(latest.user?.id).toBe('member-b')
+    expect(latest.profile).toBeNull()
+    expect(latest.loading).toBe(true)
+    await act(async () => { current.resolve({ data: profile('member-b'), error: null }) })
+    expect(latest.loading).toBe(false)
+  })
+
+  it('annule les tâches différées au démontage et ignore les anciens événements', async () => {
+    source.session = session('member-a')
+    await mount()
+    const oldListener = [...listeners][0]
+    await unmount()
+    await act(async () => { oldListener('SIGNED_IN', session('member-b')) })
+    await drain()
+    expect(listeners.size).toBe(0)
+    expect(readProfile).not.toHaveBeenCalled()
+  })
+
+  it('ne conserve qu’un abonnement actif et une lecture utile en StrictMode', async () => {
+    source.session = session('member-a')
+    await mount(true)
+    await drain()
+    expect(listeners.size).toBe(1)
+    expect(readProfile).toHaveBeenCalledTimes(1)
+    expect(latest.profile?.id).toBe('member-a')
+  })
+
+  it('préserve les règles existantes de rôle et de forfait du profil courant', async () => {
+    source.session = session('member-a')
+    readProfile.mockResolvedValueOnce({ data: profile('member-a', { is_admin: true, plan: 'premium' }), error: null })
+    await mount()
+    await drain()
+    expect(latest.isAdmin).toBe(true)
+    expect(latest.isSuperAdmin).toBe(false)
+    expect(latest.plan).toBe('premium')
+    expect(latest.isAuthenticated).toBe(true)
+  })
+
+  it('préserve la règle du compte super-administrateur courant', async () => {
+    source.session = session('owner', 'token-owner', SUPER_ADMIN_EMAIL)
+    await mount()
+    await drain()
+    expect(latest.isSuperAdmin).toBe(true)
+    expect(latest.isAdmin).toBe(false)
+  })
+})

@@ -13,7 +13,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.82.0",
+    "@anthropic-ai/sdk": "0.91.1",
     "@purama/smarana": "github:puramapro-oss/purama-smarana#main",
     "@stripe/connect-js": "^3.3.35",
     "@stripe/react-connect-js": "^3.3.34",
@@ -27,11 +27,11 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.38.0",
-    "javascript-opentimestamps": "^0.4.5",
     "jspdf": "^4.2.1",
     "lucide-react": "^1.7.0",
-    "next": "^16.2.4",
+    "next": "16.4.6",
     "next-intl": "^4.9.0",
+    "opentimestamps": "0.4.9",
     "pg": "^8.22.0",
     "qrcode.react": "^4.2.0",
     "react": "19.2.4",
@@ -42,10 +42,10 @@
     "sonner": "^2.0.7",
     "stripe": "^22.0.0",
     "tailwind-merge": "^3.5.0",
-    "zod": "^4.3.6"
+    "zod": "4.6.7"
   },
   "devDependencies": {
-    "@lhci/cli": "^0.15.1",
+    "@lhci/cli": "0.16.1",
     "@playwright/test": "^1.59.1",
     "@purama/eslint-config": "file:../packages/eslint-config-purama",
     "@tailwindcss/postcss": "^4",
@@ -53,17 +53,24 @@
     "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitest/ui": "^4.1.5",
+    "@vitest/ui": "4.1.12",
     "eslint": "^9",
-    "eslint-config-next": "16.2.2",
+    "eslint-config-next": "16.4.6",
     "jsdom": "^29.0.2",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.1.5"
+    "vitest": "4.1.12"
   },
   "overrides": {
     "crypto-js": "^4.2.0",
     "form-data": "^4.0.4",
-    "tough-cookie": "^4.1.3"
+    "tough-cookie": "^4.1.3",
+    "next": {
+      "postcss": "8.5.33"
+    },
+    "bitcore-lib": {
+      "bn.js": "^4.12.5"
+    },
+    "qs": "^6.17.1"
   }
 }

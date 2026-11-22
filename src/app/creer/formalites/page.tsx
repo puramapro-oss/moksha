@@ -1,80 +1,80 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import Logo from '@/components/shared/Logo'
 import { Sparkles, Loader2 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
+import { claimDraft } from '@/lib/wizard-draft'
 
 const ENT_KEY = 'moksha_wizard_entreprise'
 const ASSOC_KEY = 'moksha_wizard_assoc'
 
-type Phase = 'idle' | 'auth-pending' | 'submitting' | 'error'
+type CreatedDraft = { id: string; storageKey: string; raw: string }
+type Creation = { promise: Promise<CreatedDraft | null>; handled: boolean }
+
+async function createStoredDraft(userId: string): Promise<CreatedDraft | null> {
+  const entreprise = sessionStorage.getItem(ENT_KEY)
+  const association = sessionStorage.getItem(ASSOC_KEY)
+  if (!entreprise && !association) return null
+  const storageKey = entreprise ? ENT_KEY : ASSOC_KEY
+  const draft = claimDraft(storageKey, entreprise ?? association!, userId)
+  const response = await fetch('/api/demarches/create', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: entreprise ? 'entreprise' : 'association', wizard_data: draft.data }),
+  })
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Création impossible' }))
+    throw new Error(error.error ?? 'Création impossible')
+  }
+  const { id } = (await response.json()) as { id: string }
+  return { id, storageKey, raw: draft.raw }
+}
 
 export default function Formalites() {
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
-  const [phase, setPhase] = useState<Phase>('idle')
-  const [errMsg, setErrMsg] = useState<string | null>(null)
+  const userId = user?.id
+  const [failure, setFailure] = useState<{ userId: string; message: string } | null>(null)
+  const creations = useRef(new Map<string, Creation>())
+  const errMsg = failure?.userId === userId ? failure?.message : null
+  const phase = errMsg ? 'error' : userId ? 'submitting' : 'idle'
 
-  // Auto-finalisation : si l'user est authentifié + wizard data en sessionStorage,
-  // on appelle /api/demarches/create + /deposer puis on route vers le dossier.
+  // Keep one creation per account during this visit, including Strict Mode and
+  // token refreshes. Only the currently subscribed account handles its result.
   useEffect(() => {
-    if (authLoading) return
-    if (!user) {
-      setPhase('auth-pending')
-      return
+    if (authLoading || !userId) return
+    let current = true
+    let creation = creations.current.get(userId)
+    if (!creation) {
+      creation = { promise: createStoredDraft(userId), handled: false }
+      creations.current.set(userId, creation)
     }
-    let cancelled = false
-    const run = async () => {
-      try {
-        const entRaw = sessionStorage.getItem(ENT_KEY)
-        const assocRaw = sessionStorage.getItem(ASSOC_KEY)
-        if (!entRaw && !assocRaw) {
-          // Rien à finaliser → dashboard
-          router.replace('/dashboard')
-          return
-        }
-        setPhase('submitting')
-        const type = entRaw ? 'entreprise' : 'association'
-        const raw = entRaw ?? assocRaw!
-        const parsed = JSON.parse(raw) as Record<string, unknown> & { __step?: number }
-        delete parsed.__step
-        const res = await fetch('/api/demarches/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type, wizard_data: parsed }),
-        })
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({ error: 'Création impossible' }))
-          throw new Error(err.error ?? 'Création impossible')
-        }
-        const { id } = (await res.json()) as { id: string }
-        // Cleanup storage
-        try {
-          sessionStorage.removeItem(ENT_KEY)
-          sessionStorage.removeItem(ASSOC_KEY)
-        } catch (err) {
-          console.error('[sessionStorage] Erreur cleanup:', err)
-        }
-        // Lance dépôt en arrière-plan
-        fetch(`/api/demarches/${id}/deposer`, { method: 'POST' }).catch(() => {})
-        if (!cancelled) {
-          toast.success('Dossier créé — génération en cours')
-          router.replace(`/dashboard/demarches/${id}`)
-        }
-      } catch (e) {
-        if (cancelled) return
-        const msg = e instanceof Error ? e.message : 'Erreur — réessaie'
-        setErrMsg(msg)
-        setPhase('error')
+    const request = creation
+    void request.promise.then((draft) => {
+      if (!current || request.handled) return
+      request.handled = true
+      if (!draft) {
+        router.replace('/dashboard')
+        return
       }
-    }
-    run()
-    return () => { cancelled = true }
-  }, [user, authLoading, router])
+      try {
+        // A later edit must not be erased by an older submission's response.
+        if (sessionStorage.getItem(draft.storageKey) === draft.raw) sessionStorage.removeItem(draft.storageKey)
+      } catch (error) {
+        console.error('[sessionStorage] Erreur cleanup:', error)
+      }
+      fetch(`/api/demarches/${draft.id}/deposer`, { method: 'POST' }).catch(() => {})
+      toast.success('Dossier créé — génération en cours')
+      router.replace(`/dashboard/demarches/${draft.id}`)
+    }, (error: unknown) => {
+      if (current) setFailure({ userId, message: error instanceof Error ? error.message : 'Erreur — réessaie' })
+    })
+    return () => { current = false }
+  }, [userId, authLoading, router])
 
   return (
     <main className="relative z-10 min-h-screen">

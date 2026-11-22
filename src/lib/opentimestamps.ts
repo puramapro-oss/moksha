@@ -12,12 +12,9 @@
  * - Audit & terme UI : "Preuve blockchain Purama" (jamais "OpenTimestamps" ni "Bitcoin")
  *
  * Aucune clé API — protocole décentralisé, calendar servers publics gratuits.
- * Vulnérabilités transitives connues (crypto-js PBKDF2 weak, bn.js infinite loop,
- * web3<=1.5.2 dompurify) — usage server-side admin-only sur du contenu maîtrisé,
- * impact écarté. À surveiller pour upgrade quand fork TS-first dispo.
  */
 
-import OpenTimestamps from 'javascript-opentimestamps'
+import OpenTimestamps from 'opentimestamps'
 import crypto from 'crypto'
 
 export interface StampResult {
@@ -152,7 +149,7 @@ export async function upgradeProof(
       new OpenTimestamps.Ops.OpSHA256(),
       hash,
     )
-    if (Buffer.compare(Buffer.from(detached.fileHash()), Buffer.from(expectedHash.fileHash())) !== 0) {
+    if (Buffer.compare(Buffer.from(detached.fileDigest()), Buffer.from(expectedHash.fileDigest())) !== 0) {
       return { upgraded: false, error: 'Hash mismatch entre contenu et preuve' }
     }
     const changed = await OpenTimestamps.upgrade(detached)

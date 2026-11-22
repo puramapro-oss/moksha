@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "node_modules/**",
     "mobile/**",
     ".vercel/**",
+    "dist/**",
+    "**/*.config.js",
     // Default ignores of eslint-config-next:
     ".next/**",
     "out/**",
